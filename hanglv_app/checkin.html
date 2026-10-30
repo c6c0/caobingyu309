@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<!--
+  航旅纵横仿站 - 在线值机页
+  作者：caobingyu   学号：[请在此处填写你的学号]
+  页面：其他自选页面
+-->
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>在线值机 - 航旅纵横 | caobingyu</title>
+  <link rel="stylesheet" href="css/cao_style.css">
+</head>
+<body>
+  <div class="cao_page">
+
+    <header class="cao_nav">
+      <div class="cao_nav__left">
+        <a class="cao_nav__icon" href="index.html">
+          <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+        </a>
+        <span class="cao_nav__title">在线值机</span>
+      </div>
+    </header>
+
+    <div class="cao_card">
+      <img src="images/window-view.jpg" alt="值机" style="border-radius:8px;width:100%;height:120px;object-fit:cover">
+      <h3 style="margin:12px 0 4px">CA1501 北京 → 上海</h3>
+      <p class="cao_sub">2026-10-15 08:00 起飞 · 已开放值机</p>
+    </div>
+
+    <div class="cao_card">
+      <div class="cao_card__title">选择座位</div>
+      <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:8px;text-align:center">
+        <!-- 由 JS 生成座位图 -->
+        <div id="cao_seat_map" style="grid-column:1/-1;display:grid;grid-template-columns:repeat(6,1fr);gap:8px"></div>
+      </div>
+      <p class="cao_sub cao_mt16">
+        <span style="color:#16a34a">●</span> 可选
+        &nbsp;&nbsp;<span style="color:#ef4444">●</span> 已占
+        &nbsp;&nbsp;<span style="color:#1677ff">●</span> 已选
+      </p>
+    </div>
+
+    <div style="padding:0 16px">
+      <button class="cao_btn cao_btn--primary cao_btn--block cao_btn--lg" id="cao_confirm_seat">确认选座并值机</button>
+    </div>
+
+    <nav class="cao_tabbar">
+      <a class="cao_tabbar__item" href="index.html">
+        <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span>首页</span>
+      </a>
+      <a class="cao_tabbar__item" href="flight_list.html">
+        <svg viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg><span>航班</span>
+      </a>
+      <a class="cao_tabbar__item cao_tabbar__item--active" href="checkin.html">
+        <svg viewBox="0 0 24 24"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1S9.6 1.84 9.18 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2z"/></svg><span>值机</span>
+      </a>
+      <a class="cao_tabbar__item" href="mine.html">
+        <svg viewBox="0 0 24 24"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5zm0 2c-4.42 0-8 2.24-8 5v1h16v-1c0-2.76-3.58-5-8-5z"/></svg><span>我的</span>
+      </a>
+    </nav>
+  </div>
+
+  <script src="js/cao_common.js"></script>
+  <script>
+    // 座位图交互
+    document.addEventListener('DOMContentLoaded', function () {
+      var map = document.getElementById('cao_seat_map');
+      var chosen = null;
+      var occupied = [3, 4, 9, 12, 18, 21, 25, 30];
+      var html = '';
+      for (var i = 1; i <= 36; i++) {
+        var isOcc = occupied.indexOf(i) >= 0;
+        html += '<div class="cao_seat' + (isOcc ? ' cao_seat--occ' : '') + '" data-i="' + i + '" ' +
+                'style="height:36px;border-radius:6px;background:' + (isOcc ? '#fecaca' : '#dcfce7') +
+                ';display:flex;align-items:center;justify-content:center;font-size:11px;color:' +
+                (isOcc ? '#ef4444' : '#16a34a') + ';cursor:pointer">' + i + '</div>';
+      }
+      map.innerHTML = html;
+      map.querySelectorAll('.cao_seat').forEach(function (s) {
+        s.addEventListener('click', function () {
+          if (s.classList.contains('cao_seat--occ')) { caoToast('该座位已被占用'); return; }
+          if (chosen) { chosen.style.background = '#dcfce7'; chosen.style.color = '#16a34a'; }
+          s.style.background = '#1677ff'; s.style.color = '#fff';
+          chosen = s;
+        });
+      });
+      document.getElementById('cao_confirm_seat').addEventListener('click', function () {
+        if (!chosen) { caoToast('请先选择一个座位'); return; }
+        caoToast('值机成功！座位 ' + chosen.dataset.i + 'A');
+      });
+    });
+  </script>
+</body>
+</html>

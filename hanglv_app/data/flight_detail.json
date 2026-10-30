@@ -1,0 +1,33 @@
+{
+  "code": 0,
+  "msg": "ok",
+  "data": {
+    "id": "CA1501",
+    "airline": "中国国际航空",
+    "aircraft": "空客 A330-300",
+    "fromCity": "北京",
+    "fromAirport": "首都国际机场",
+    "fromTerminal": "T3",
+    "fromTime": "2026-10-15 08:00",
+    "toCity": "上海",
+    "toAirport": "虹桥国际机场",
+    "toTerminal": "T2",
+    "toTime": "2026-10-15 10:25",
+    "duration": "2小时25分钟",
+    "price": 680,
+    "discount": "经济舱 9.2折",
+    "status": "准点",
+    "gate": "E12",
+    "baggage": "20KG 免费托运",
+    "meal": "提供热食",
+    "wifi": "机上WiFi可用",
+    "seatsLeft": 12,
+    "progress": 65,
+    "timeline": [
+      { "time": "06:30", "event": "开始值机", "done": true },
+      { "time": "07:30", "event": "停止登机", "done": true },
+      { "time": "08:00", "event": "航班起飞", "done": false },
+      { "time": "10:25", "event": "到达上海虹桥", "done": false }
+    ]
+  }
+}

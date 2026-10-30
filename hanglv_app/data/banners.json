@@ -1,0 +1,24 @@
+{
+  "code": 0,
+  "msg": "ok",
+  "data": [
+    {
+      "id": 1,
+      "image": "images/banner-plane.jpg",
+      "title": "国庆出行季 · 机票特惠低至2折",
+      "subtitle": "国航、东航、南航国内航线直降"
+    },
+    {
+      "id": 2,
+      "image": "images/terminal.jpg",
+      "title": "机场极速通行 · 贵宾休息室权益",
+      "subtitle": "钻石卡会员免费尊享"
+    },
+    {
+      "id": 3,
+      "image": "images/travel-flat.jpg",
+      "title": "查航班动态 · 实时推送不延误",
+      "subtitle": "覆盖国内90%机场实时数据"
+    }
+  ]
+}

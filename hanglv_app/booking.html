@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<!--
+  航旅纵横仿站 - 机票预订页
+  作者：caobingyu   学号：[请在此处填写你的学号]
+  页面：其他自选页面
+-->
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>机票预订 - 航旅纵横 | caobingyu</title>
+  <link rel="stylesheet" href="css/cao_style.css">
+</head>
+<body>
+  <div class="cao_page">
+
+    <header class="cao_nav">
+      <div class="cao_nav__left">
+        <a class="cao_nav__icon" href="flight_detail.html">
+          <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+        </a>
+        <span class="cao_nav__title">填写预订信息</span>
+      </div>
+    </header>
+
+    <div class="cao_card">
+      <div class="cao_card__title">航班信息</div>
+      <p class="cao_sub">CA1501 · 北京首都T3 → 上海虹桥T2</p>
+      <p class="cao_sub cao_mt8">2026-10-15 08:00 - 10:25</p>
+      <p class="cao_sub cao_mt8">舱位：经济舱 · 剩余 12 座</p>
+    </div>
+
+    <div class="cao_card">
+      <div class="cao_card__title">乘客信息</div>
+      <form id="cao_booking_form">
+        <div class="cao_form__group">
+          <label class="cao_form__label">乘客姓名</label>
+          <input class="cao_form__control" id="cao_p_name" type="text" placeholder="请输入身份证姓名">
+          <div class="cao_form__error" id="cao_p_name_err"></div>
+        </div>
+        <div class="cao_form__group">
+          <label class="cao_form__label">证件号码</label>
+          <input class="cao_form__control" id="cao_p_id" type="text" placeholder="请输入身份证号">
+          <div class="cao_form__error" id="cao_p_id_err"></div>
+        </div>
+        <div class="cao_form__group">
+          <label class="cao_form__label">手机号</label>
+          <input class="cao_form__control" id="cao_p_phone" type="tel" placeholder="用于接收航班提醒">
+          <div class="cao_form__error" id="cao_p_phone_err"></div>
+        </div>
+        <div class="cao_form__group">
+          <label class="cao_form__label">舱位选择</label>
+          <select class="cao_form__control" id="cao_p_class">
+            <option>经济舱 ¥680</option>
+            <option>超级经济舱 ¥980</option>
+            <option>商务舱 ¥2280</option>
+          </select>
+        </div>
+      </form>
+    </div>
+
+    <div class="cao_card cao_flex cao_between">
+      <div>
+        <div class="cao_sub">应付金额</div>
+        <div style="font-size:22px;color:#ff6b35;font-weight:700">¥680</div>
+      </div>
+      <button class="cao_btn cao_btn--accent cao_btn--lg" id="cao_submit_btn">提交订单</button>
+    </div>
+
+    <nav class="cao_tabbar">
+      <a class="cao_tabbar__item" href="index.html">
+        <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg><span>首页</span>
+      </a>
+      <a class="cao_tabbar__item" href="flight_list.html">
+        <svg viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg><span>航班</span>
+      </a>
+      <a class="cao_tabbar__item" href="checkin.html">
+        <svg viewBox="0 0 24 24"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1S9.6 1.84 9.18 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2z"/></svg><span>值机</span>
+      </a>
+      <a class="cao_tabbar__item" href="mine.html">
+        <svg viewBox="0 0 24 24"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5zm0 2c-4.42 0-8 2.24-8 5v1h16v-1c0-2.76-3.58-5-8-5z"/></svg><span>我的</span>
+      </a>
+    </nav>
+
+    <!-- 弹窗 -->
+    <div class="cao_mask" id="cao_mask">
+      <div class="cao_modal">
+        <div class="cao_modal__title">预订成功</div>
+        <div class="cao_modal__body">已为您生成订单，短信将发送至手机。</div>
+        <button class="cao_btn cao_btn--primary cao_btn--block" id="cao_modal_ok">确定</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/cao_common.js"></script>
+  <script>
+    // 表单校验（本地 JS 效果）
+    document.addEventListener('DOMContentLoaded', function () {
+      document.getElementById('cao_submit_btn').addEventListener('click', function () {
+        var name = document.getElementById('cao_p_name').value.trim();
+        var idc  = document.getElementById('cao_p_id').value.trim();
+        var ph   = document.getElementById('cao_p_phone').value.trim();
+        var ok = true;
+        document.getElementById('cao_p_name_err').textContent = name ? '' : '请输入姓名';
+        document.getElementById('cao_p_id_err').textContent   = idc  ? '' : '请输入证件号';
+        document.getElementById('cao_p_phone_err').textContent = /^1\d{10}$/.test(ph) ? '' : '手机号格式不正确';
+        if (!name || !idc || !/^1\d{10}$/.test(ph)) return;
+        document.getElementById('cao_mask').classList.add('cao_mask--show');
+      });
+      document.getElementById('cao_modal_ok').addEventListener('click', function () {
+        document.getElementById('cao_mask').classList.remove('cao_mask--show');
+      });
+    });
+  </script>
+</body>
+</html>

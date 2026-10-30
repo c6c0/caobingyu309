@@ -1,0 +1,124 @@
+《高级网页设计I》
+图像解决方案 项目报告
+
+学号：24002120309
+姓名：曹炳宇
+班级：商务24003
+项目选题名称：航旅纵横
+
+实施过程
+
+一、项目需求与实现
+本项目为仿制的航旅纵横移动端Web应用，含首页（探索/出行双子Tab）、行程、经验（广场/点评榜双子Tab）、动态（航班/火车双子Tab）、我的、登录、航班列表、航班详情、后台管理等9个以上页面。本报告选取项目的底部下导航（5Tab栏）作为图像解决方案主题：下导航共5个图标，均采用内联SVG矢量图标绘制，以纯HTML内联<svg>方式在页面中直接使用，无需外部图标库请求。
+
+下导航原图（航旅纵横官方App）：
+下导航实现图：（见index.html底部导航）
+5个SVG图标分别为：首页（定位指针）、行程（行李箱）、经验（罗盘）、动态（飞机）、我的（人像）。
+
+二、项目代码
+要求：使用字体图标或SVG的方式使用图标；代码中包含学号或姓名，或类名包含姓名缩写；原则上不使用id选择器；设计全局CSS。本项目：图标以纯内联SVG方式直接写在HTML中，每个Tab一个<svg viewBox="0 0 24 24">元素；所有页面注释含学号24002120309、姓名曹炳宇，类名统一使用cao_前缀；全局公共样式抽离为css/cao_style.css。
+
+核心代码：
+
+（1）下导航HTML（index.html）—— 内联SVG图标：
+<nav class="cao_tabbar">
+  <a class="cao_tabbar__item cao_tabbar__item--active" href="index.html">
+    <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>
+    <span>首页</span>
+  </a>
+  <a class="cao_tabbar__item" href="trip.html">
+    <svg viewBox="0 0 24 24"><path d="M20 6h-4V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2H4a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2z"/></svg>
+    <span>行程</span>
+  </a>
+  <a class="cao_tabbar__item" href="experience.html">
+    <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2z"/></svg>
+    <span>经验</span>
+  </a>
+  <a class="cao_tabbar__item" href="flight_status.html">
+    <svg viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg>
+    <span>动态</span>
+  </a>
+  <a class="cao_tabbar__item" href="mine.html">
+    <svg viewBox="0 0 24 24"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5zm0 2c-4.42 0-8 2.24-8 5v1h16v-1c0-2.76-3.58-5-8-5z"/></svg>
+    <span>我</span>
+  </a>
+</nav>
+
+（2）全局公共CSS（css/cao_style.css）：
+/* 24002120309 曹炳宇 全局公共样式 */
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+body { font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif; background:#f5f7fa; }
+:root {
+  --cao-primary: #22c55e;
+  --cao-blue: #1677ff;
+  --cao-text: #1f2937;
+  --cao-text-sub: #6b7280;
+  --cao-border: #e5e7eb;
+}
+.cao_tabbar {
+  position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+  width: 100%; max-width: 480px; height: 62px;
+  background: #fff; border-top: 1px solid #e5e7eb;
+  display: flex; z-index: 100;
+}
+.cao_tabbar__item {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 2px; color: #9ca3af; font-size: 11px;
+}
+.cao_tabbar__item svg { width: 24px; height: 24px; fill: currentColor; }
+.cao_tabbar__item--active { color: #22c55e; }
+
+（3）登录页Canvas图形验证码（login.html JS）：
+// 24002120309 曹炳宇 Canvas图形验证码
+var canvas = document.getElementById('cao_captcha');
+var ctx = canvas.getContext('2d');
+var captchaCode = '';
+function drawCaptcha() {
+  var chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789';
+  captchaCode = '';
+  for (var i = 0; i < 4; i++) {
+    captchaCode += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  ctx.fillStyle = '#e8f9ef';
+  ctx.fillRect(0, 0, 100, 40);
+  for (var i = 0; i < 5; i++) {
+    ctx.strokeStyle = 'rgba(34,197,94,.3)';
+    ctx.beginPath();
+    ctx.moveTo(Math.random()*100, Math.random()*40);
+    ctx.lineTo(Math.random()*100, Math.random()*40);
+    ctx.stroke();
+  }
+  for (var i = 0; i < 4; i++) {
+    ctx.font = 'bold 20px Arial';
+    ctx.fillStyle = ['#16a34a','#ef4444','#1677ff','#f59e0b'][i];
+    ctx.save();
+    ctx.translate(15 + i*22, 28);
+    ctx.rotate((Math.random()-.5)*.4);
+    ctx.fillText(captchaCode[i], 0, 0);
+    ctx.restore();
+  }
+}
+
+三、测试与发布
+不同浏览器测试：在Chrome手机模式（375×667）和Edge浏览器下打开index.html，SVG图标全部正常显示，5个Tab选中态绿色切换正常，底部导航固定在480px宽度内居中显示；登录页Canvas验证码刷新正常，短信倒计时60秒正常；动态页航班/火车Tab切换正常。
+发布：本项目为纯静态页面，通过python -m http.server 8080启动本地服务器运行，所有9个页面、4个JSON mock接口、16张本地图片均返回HTTP 200。
+
+测试图（下导航在不同视口下的表现）：
+
+四、项目总结
+本次图像解决方案选取项目底部下导航为对象，采用纯内联SVG矢量图标方案，5个Tab图标全部手写SVG path实现，无需外部图标库请求，零网络开销。
+
+项目收获：
+1. 理解了内联SVG图标"直接写在HTML中"的机制，图标颜色通过fill: currentColor自动继承CSS文字颜色，实现选中态（绿色#22c55e）与未选中态（灰色#9ca3af）变色零成本；
+2. 学会从Material Design Icons风格的SVG path数据中选取并适配到自己的项目，掌握纯内联SVG这一图像解决方案；
+3. 通过抽取css/cao_style.css全局样式，实现9个页面底部导航代码零重复，所有类名统一cao_前缀，符合全局CSS设计要求。
+
+遇到的问题与教训：
+1. 最初使用emoji作为图标占位，后来对照真实航旅纵横APP截图发现应该用线性SVG图标，重新设计了5个path并统一stroke/fill风格；
+2. 最初底部是4个Tab，后来对照真实APP发现是5个（首页/行程/经验/动态/我），补齐了行程页和经验页；
+3. SVG的fill默认是黑色，需要设置fill="currentColor"才能跟随CSS color属性变色，否则选中态切换无效。
+
+AI使用说明：本次项目使用AI辅助完成SVG图标path设计、Canvas验证码代码编写、16张本地图片素材生成与移动端适配调试；本人负责图标选取、代码阅读、页面样式调整与全部功能测试。
+
+心得体会：图像资源是网页设计的核心元素，采用纯内联SVG矢量图标方案可以显著减少图片请求、保证高清显示并方便换色，是移动端页面"图像解决方案"的高效实践。

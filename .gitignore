@@ -1,0 +1,25 @@
+# 大型工具目录，勿提交
+Trae CN/
+web-c/
+node_modules/
+*.exe
+*.msi
+
+# 根目录 Node/Electron 运行时残留
+*.dll
+*.bin
+vk_swiftshader_icd.json
+corepack
+corepack.cmd
+npm
+npm.cmd
+npm.ps1
+npx
+npx.cmd
+npx.ps1
+nodevars.bat
+install_tools.bat
+
+# 含明文访问令牌，勿提交到公开仓库
+cby_prompt.md
+skills/提交项目/SKILL.md

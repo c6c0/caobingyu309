@@ -1,0 +1,379 @@
+/* =========================================================
+ * 航旅纵横仿站 - 公共样式表（真实APP绿色主题）
+ * 作者：caobingyu   学号：[请在此处填写你的学号]
+ * ========================================================= */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-size: 14px; color: #222; background: #f4f6fa; line-height: 1.5;
+}
+a { color: inherit; text-decoration: none; }
+ul, ol { list-style: none; }
+img { display: block; max-width: 100%; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
+input, select, textarea { font-family: inherit; font-size: inherit; outline: none; }
+
+:root {
+  --cao-primary:   #22c55e;   /* 航旅纵横鲜绿 */
+  --cao-primary-d: #16a34a;
+  --cao-blue:      #1677ff;
+  --cao-orange:   #ff6b35;
+  --cao-red:       #ef4444;
+  --cao-text:      #1f2937;
+  --cao-text-sub:  #6b7280;
+  --cao-bg:        #f4f6fa;
+  --cao-card:      #fff;
+  --cao-border:    #e5e7eb;
+  --cao-radius:    12px;
+  --cao-shadow:    0 2px 10px rgba(15,30,60,.06);
+}
+
+/* ------- 页面骨架 ------- */
+.cao_page {
+  max-width: 480px; min-height: 100vh; margin: 0 auto;
+  background: var(--cao-bg); position: relative;
+  padding-bottom: 70px; box-shadow: 0 0 30px rgba(0,0,0,.08);
+}
+.cao_page--admin { max-width: 1200px; padding-bottom: 0; }
+
+/* ------- 顶部头部（含子tab） ------- */
+.cao_header {
+  background: linear-gradient(180deg, #e8f9ef 0%, #f4f6fa 100%);
+  padding: 10px 16px 0;
+  position: sticky; top: 0; z-index: 100;
+}
+.cao_header__top {
+  display: flex; align-items: center; justify-content: space-between;
+  height: 44px;
+}
+.cao_header__search, .cao_header__icon {
+  width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;
+  color: var(--cao-text);
+}
+.cao_header__search svg, .cao_header__icon svg { width: 22px; height: 22px; fill: currentColor; }
+.cao_header__tabs {
+  display: flex; justify-content: center; gap: 30px; height: 40px; align-items: center;
+}
+.cao_header__tab {
+  font-size: 17px; color: var(--cao-text-sub); position: relative; height: 100%;
+  display: flex; align-items: center; font-weight: 500;
+}
+.cao_header__tab--active { color: var(--cao-text); font-weight: 700; }
+.cao_header__tab--active::after {
+  content: ""; position: absolute; bottom: 6px; left: 50%; transform: translateX(-50%);
+  width: 20px; height: 3px; border-radius: 2px; background: var(--cao-primary);
+}
+
+/* ------- 底部 TabBar（5个） ------- */
+.cao_tabbar {
+  position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+  width: 100%; max-width: 480px; height: 62px;
+  background: #fff; border-top: 1px solid var(--cao-border);
+  display: flex; z-index: 100;
+}
+.cao_tabbar__item {
+  flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 2px; color: #9ca3af; font-size: 11px;
+}
+.cao_tabbar__item svg { width: 24px; height: 24px; fill: currentColor; }
+.cao_tabbar__item--active { color: var(--cao-primary); }
+
+/* ------- 通用卡片 ------- */
+.cao_card {
+  background: var(--cao-card); border-radius: var(--cao-radius);
+  box-shadow: var(--cao-shadow); padding: 14px; margin: 10px 12px;
+}
+.cao_card__title { font-size: 16px; font-weight: 600; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; }
+.cao_card__more { font-size: 12px; color: var(--cao-text-sub); font-weight: normal; }
+
+/* ------- 按钮 ------- */
+.cao_btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 10px 20px; border-radius: 999px; font-size: 14px; font-weight: 500;
+}
+.cao_btn--primary { background: var(--cao-primary); color: #fff; }
+.cao_btn--blue { background: var(--cao-blue); color: #fff; }
+.cao_btn--ghost { background: #eef2f7; color: var(--cao-text); }
+.cao_btn--outline { background: #fff; color: var(--cao-primary); border: 1px solid var(--cao-primary); }
+.cao_btn--block { display: flex; width: 100%; }
+.cao_btn--lg { padding: 13px 24px; font-size: 15px; }
+
+/* ------- 快捷宫格（5个大图标） ------- */
+.cao_quick {
+  display: flex; justify-content: space-around; padding: 14px 8px;
+  background: #fff; margin: 0 12px; border-radius: var(--cao-radius); box-shadow: var(--cao-shadow);
+}
+.cao_quick__item {
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  font-size: 12px; color: var(--cao-text); position: relative;
+}
+.cao_quick__icon {
+  width: 40px; height: 40px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+}
+.cao_quick__icon svg { width: 26px; height: 26px; fill: #fff; }
+.cao_quick__icon--blue   { background: #3b82f6; }
+.cao_quick__icon--green  { background: #22c55e; }
+.cao_quick__icon--cyan   { background: #06b6d4; }
+.cao_quick__icon--teal   { background: #10b981; }
+.cao_quick__icon--orange { background: #fb923c; }
+.cao_quick__badge {
+  position: absolute; top: -6px; right: -10px;
+  background: var(--cao-red); color: #fff; font-size: 9px;
+  padding: 1px 5px; border-radius: 8px;
+}
+
+/* ------- 三栏分类服务 ------- */
+.cao_services {
+  background: #fff; margin: 10px 12px; border-radius: var(--cao-radius);
+  box-shadow: var(--cao-shadow); padding: 12px;
+  display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;
+}
+.cao_services__col { text-align: center; }
+.cao_services__head {
+  font-size: 12px; color: var(--cao-blue); background: #eff6ff;
+  padding: 3px 8px; border-radius: 4px; display: inline-block; margin-bottom: 8px;
+}
+.cao_services__row {
+  display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 10px; margin-bottom: 6px;
+}
+.cao_services__item {
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  font-size: 11px; color: var(--cao-text); width: 44px;
+}
+.cao_services__item svg { width: 22px; height: 22px; fill: #4b5563; }
+
+/* ------- 民航直销 banner ------- */
+.cao_air_sale {
+  margin: 10px 12px; border-radius: var(--cao-radius); overflow: hidden;
+  background: linear-gradient(135deg, #3b82f6 0%, #22c55e 100%);
+  padding: 14px; color: #fff;
+}
+.cao_air_sale__head { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+.cao_air_sale__tag { background: rgba(255,255,255,.25); padding: 2px 8px; border-radius: 4px; font-size: 11px; }
+.cao_air_sale__route { font-size: 18px; font-weight: 700; }
+.cao_air_sale__price { color: #fef08a; font-size: 20px; font-weight: 700; float: right; }
+.cao_air_sale__btn {
+  background: var(--cao-primary); color: #fff; text-align: center;
+  padding: 11px; border-radius: 999px; font-size: 15px; font-weight: 600; margin: 10px 0;
+}
+
+/* ------- 发现目的地 ------- */
+.cao_dest_tabs {
+  display: flex; gap: 8px; padding: 0 12px; margin-bottom: 10px; overflow-x: auto;
+}
+.cao_dest_tab {
+  padding: 5px 14px; border-radius: 999px; font-size: 12px;
+  background: #fff; color: var(--cao-text-sub); white-space: nowrap;
+}
+.cao_dest_tab--active { background: var(--cao-primary); color: #fff; }
+.cao_dest_list {
+  display: flex; gap: 10px; padding: 0 12px; overflow-x: auto;
+}
+.cao_dest_card {
+  min-width: 150px; background: #fff; border-radius: 10px; overflow: hidden;
+  box-shadow: var(--cao-shadow);
+}
+.cao_dest_card__img { width: 100%; height: 90px; object-fit: cover; position: relative; }
+.cao_dest_card__name { position: absolute; top: 6px; left: 6px; color: #fff; font-size: 12px; text-shadow: 0 1px 3px rgba(0,0,0,.5); }
+.cao_dest_card__body { padding: 8px; }
+.cao_dest_card__city { font-size: 13px; font-weight: 600; }
+.cao_dest_card__desc { font-size: 11px; color: var(--cao-text-sub); margin: 2px 0; }
+.cao_dest_card__price { color: var(--cao-red); font-weight: 700; font-size: 14px; }
+.cao_dest_card__btn {
+  margin-top: 6px; text-align: center; border: 1px solid var(--cao-primary);
+  color: var(--cao-primary); font-size: 11px; padding: 4px; border-radius: 4px;
+}
+
+/* ------- 飞行回忆 / 航线图卡片 ------- */
+.cao_stats {
+  background: #fff; margin: 10px 12px; border-radius: var(--cao-radius);
+  padding: 16px; box-shadow: var(--cao-shadow);
+  display: flex; text-align: center;
+}
+.cao_stats__item { flex: 1; }
+.cao_stats__num { font-size: 20px; font-weight: 700; color: var(--cao-text); }
+.cao_stats__num em { font-style: normal; color: var(--cao-primary); }
+.cao_stats__label { font-size: 12px; color: var(--cao-text-sub); margin-top: 4px; }
+
+/* ------- 榜单彩色卡片 ------- */
+.cao_rank_cards { display: flex; gap: 10px; padding: 0 12px; overflow-x: auto; }
+.cao_rank_card {
+  min-width: 140px; border-radius: 10px; padding: 12px; color: #fff;
+  position: relative; overflow: hidden;
+}
+.cao_rank_card--green { background: linear-gradient(135deg, #4ade80, #16a34a); }
+.cao_rank_card--blue  { background: linear-gradient(135deg, #60a5fa, #2563eb); }
+.cao_rank_card--purple{ background: linear-gradient(135deg, #c084fc, #7c3aed); }
+.cao_rank_card__title { font-size: 15px; font-weight: 700; }
+.cao_rank_card__sub { font-size: 11px; opacity: .9; margin-top: 4px; }
+.cao_rank_card__badge {
+  position: absolute; top: 8px; right: 8px; background: rgba(255,255,255,.3);
+  font-size: 9px; padding: 1px 6px; border-radius: 4px;
+}
+
+/* ------- 榜单列表 ------- */
+.cao_rank_item {
+  display: flex; gap: 12px; padding: 12px 0; border-bottom: 1px solid #f0f2f5;
+}
+.cao_rank_item__img {
+  width: 70px; height: 70px; border-radius: 8px; object-fit: cover; position: relative; flex-shrink: 0;
+}
+.cao_rank_item__top {
+  position: absolute; top: 0; left: 0; background: linear-gradient(135deg,#fbbf24,#f59e0b);
+  color: #fff; font-size: 11px; font-weight: 700; padding: 2px 6px; border-radius: 8px 0 8px 0;
+}
+.cao_rank_item__name { font-size: 15px; font-weight: 600; }
+.cao_rank_item__tags { font-size: 11px; color: var(--cao-text-sub); margin: 4px 0; }
+.cao_rank_item__score { display: inline-block; background: #dcfce7; color: var(--cao-primary-d); padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 600; }
+.cao_rank_item__quote {
+  margin-top: 6px; font-size: 12px; color: var(--cao-text-sub);
+  background: #fffbeb; padding: 6px 8px; border-radius: 4px;
+}
+
+/* ------- 今日热议（蓝色卡片） ------- */
+.cao_hot {
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  border-radius: 12px; padding: 14px; color: #fff; margin: 0 12px;
+}
+.cao_hot__title { font-size: 16px; font-weight: 700; margin-bottom: 10px; display: flex; justify-content: space-between; }
+.cao_hot__item { padding: 6px 0; font-size: 14px; }
+.cao_hot__num { color: #fbbf24; font-weight: 700; margin-right: 6px; }
+.cao_hot__count { font-size: 11px; opacity: .8; margin-left: 6px; }
+
+/* ------- 广场帖子 ------- */
+.cao_post__title { font-size: 16px; font-weight: 600; margin: 14px 0 8px; }
+.cao_post__imgs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+.cao_post__imgs img { width: 100%; height: 80px; object-fit: cover; border-radius: 6px; }
+.cao_post__meta { display: flex; align-items: center; gap: 8px; margin-top: 10px; font-size: 12px; color: var(--cao-text-sub); }
+.cao_post__avatar { width: 22px; height: 22px; border-radius: 50%; background: #dcfce7; }
+
+/* ------- 行程页（家人推广） ------- */
+.cao_family_hero {
+  margin: 12px; border-radius: 12px; overflow: hidden; position: relative;
+  background: linear-gradient(180deg, #dbeafe, #fff);
+}
+.cao_family_hero img { width: 100%; height: 200px; object-fit: cover; }
+.cao_family_hero__title { position: absolute; top: 20px; left: 20px; font-size: 24px; font-weight: 800; color: #1f2937; line-height: 1.3; }
+.cao_family_hero__subtitle { position: absolute; top: 90px; left: 20px; font-size: 13px; color: var(--cao-text-sub); }
+.cao_family_feature {
+  display: flex; gap: 12px; padding: 14px; align-items: flex-start;
+}
+.cao_family_feature__icon {
+  width: 40px; height: 40px; border-radius: 10px; background: #eff6ff;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.cao_family_feature__icon svg { width: 22px; height: 22px; fill: var(--cao-blue); }
+.cao_family_feature__title { font-size: 15px; font-weight: 600; }
+.cao_family_feature__desc { font-size: 12px; color: var(--cao-text-sub); margin-top: 4px; }
+
+/* ------- 动态页（航班查询） ------- */
+.cao_query_card {
+  background: #fff; margin: 10px 12px; border-radius: 12px; padding: 20px 16px;
+  box-shadow: var(--cao-shadow);
+}
+.cao_query_tabs { display: flex; gap: 20px; border-bottom: 1px solid var(--cao-border); margin-bottom: 16px; }
+.cao_query_tab { padding: 8px 2px; color: var(--cao-text-sub); font-size: 14px; border-bottom: 2px solid transparent; }
+.cao_query_tab--active { color: var(--cao-primary); border-color: var(--cao-primary); font-weight: 600; }
+.cao_query_field { margin-bottom: 16px; }
+.cao_query_label { font-size: 13px; color: var(--cao-text-sub); margin-bottom: 6px; }
+.cao_query_input {
+  width: 100%; border: none; border-bottom: 1px solid var(--cao-border);
+  padding: 8px 0; font-size: 16px; color: var(--cao-text);
+}
+.cao_query_input::placeholder { color: #c0c4cc; }
+.cao_query_btn {
+  width: 100%; background: var(--cao-primary); color: #fff;
+  padding: 13px; border-radius: 999px; font-size: 16px; font-weight: 600;
+}
+
+/* ------- 实时航班列表 ------- */
+.cao_live_flight {
+  display: flex; align-items: center; gap: 12px; padding: 12px 0;
+  border-bottom: 1px solid #f0f2f5; font-size: 14px;
+}
+.cao_live_flight__time { font-weight: 600; width: 50px; }
+.cao_live_flight__logo {
+  width: 22px; height: 22px; border-radius: 4px; background: #dc2626; color: #fff;
+  font-size: 10px; display: flex; align-items: center; justify-content: center;
+}
+.cao_live_flight__route { flex: 1; }
+.cao_live_flight__term { color: var(--cao-text-sub); }
+.cao_live_flight__status { font-size: 12px; color: var(--cao-primary); }
+
+/* ------- 我的（个人中心） ------- */
+.cao_mine_header {
+  display: flex; align-items: center; gap: 12px; padding: 16px;
+}
+.cao_mine_avatar {
+  width: 50px; height: 50px; border-radius: 50%; background: #dcfce7;
+  display: flex; align-items: center; justify-content: center; font-size: 20px; color: var(--cao-primary-d);
+}
+.cao_mine_name { font-size: 18px; font-weight: 600; }
+.cao_mine_icons { margin-left: auto; display: flex; gap: 8px; }
+.cao_mine_icons svg { width: 22px; height: 22px; fill: #6b7280; }
+
+.cao_member_card {
+  margin: 0 12px; border-radius: 12px; overflow: hidden;
+  background: linear-gradient(135deg, #78350f, #451a03);
+  color: #fff; padding: 16px;
+}
+.cao_member_card__head { display: flex; justify-content: space-between; margin-bottom: 12px; }
+.cao_member_card__title { font-size: 18px; font-weight: 700; }
+.cao_member_card__tag { font-size: 12px; opacity: .8; }
+.cao_member_perks { display: flex; gap: 8px; overflow-x: auto; }
+.cao_member_perk {
+  min-width: 100px; background: rgba(255,255,255,.12); border-radius: 8px;
+  padding: 10px; text-align: center;
+}
+.cao_member_perk svg { width: 24px; height: 24px; fill: #fbbf24; margin: 0 auto 4px; }
+.cao_member_perk__title { font-size: 12px; font-weight: 600; }
+.cao_member_perk__sub { font-size: 10px; opacity: .8; margin-top: 2px; }
+.cao_member_card__btn {
+  background: #fde68a; color: #78350f; text-align: center;
+  padding: 10px; border-radius: 999px; font-weight: 600; margin-top: 12px;
+}
+
+/* ------- 宫格（订单/证件/钱包） ------- */
+.cao_grid6 {
+  display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px;
+  padding: 14px 8px; background: #fff; margin: 10px 12px; border-radius: 12px;
+  box-shadow: var(--cao-shadow);
+}
+.cao_grid6__item {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  font-size: 11px; color: var(--cao-text);
+}
+.cao_grid6__item svg { width: 24px; height: 24px; fill: #4b5563; }
+
+/* ------- 回到顶部 ------- */
+.cao_backtop {
+  position: fixed; right: 16px; bottom: 80px; width: 38px; height: 38px;
+  border-radius: 50%; background: #fff; box-shadow: 0 4px 14px rgba(0,0,0,.15);
+  display: none; align-items: center; justify-content: center; z-index: 90;
+}
+.cao_backtop--show { display: flex; }
+.cao_backtop svg { width: 20px; height: 20px; fill: var(--cao-primary); }
+
+/* ------- 动画 ------- */
+@keyframes caoFadeIn { from { opacity: 0; transform: translateY(8px);} to { opacity: 1; transform: none;} }
+.cao_fadein { animation: caoFadeIn .35s ease both; }
+
+.cao_mt8 { margin-top: 8px; } .cao_mt16 { margin-top: 16px; }
+.cao_flex { display: flex; align-items: center; } .cao_between { justify-content: space-between; }
+.cao_sub { color: var(--cao-text-sub); font-size: 12px; }
+.cao_center { text-align: center; }
+.cao_divider { height: 1px; background: var(--cao-border); margin: 10px 0; }
+
+/* ------- 后台管理保留 ------- */
+.cao_admin_nav { height: 56px; background: #1f2937; color: #fff; display: flex; align-items: center; padding: 0 24px; gap: 20px; }
+.cao_admin_wrap { display: flex; min-height: 100vh; background: #f4f6fa; }
+.cao_admin_side { width: 200px; background: #1f2937; color: #cbd5e1; }
+.cao_admin_side__item { padding: 12px 20px; display: block; font-size: 14px; border-left: 3px solid transparent; }
+.cao_admin_side__item--active { background: rgba(255,255,255,.06); color: #fff; border-left-color: var(--cao-primary); }
+.cao_admin_main { flex: 1; padding: 24px; }
+.cao_table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 10px; overflow: hidden; }
+.cao_table th, .cao_table td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--cao-border); font-size: 13px; }
+.cao_table th { background: #f8fafc; }

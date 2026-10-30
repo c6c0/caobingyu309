@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<!--
+  航旅纵横仿站 - 首页（探索/出行）
+  作者：caobingyu   学号：[请在此处填写你的学号]
+-->
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>航旅纵横 - 首页 | caobingyu</title>
+  <link rel="stylesheet" href="css/cao_style.css">
+</head>
+<body>
+  <div class="cao_page">
+
+    <!-- 顶部：搜索 + 子tab + 礼物 + 消息 -->
+    <header class="cao_header">
+      <div class="cao_header__top">
+        <div class="cao_header__search">
+          <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 1 0-.7.7l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0A4.5 4.5 0 1 1 14 9.5 4.5 4.5 0 0 1 9.5 14z"/></svg>
+        </div>
+        <div class="cao_header__tabs">
+          <div class="cao_header__tab cao_header__tab--active" data-pane="explore">探索</div>
+          <div class="cao_header__tab" data-pane="travel">出行</div>
+        </div>
+        <div style="display:flex;gap:4px">
+          <div class="cao_header__icon">
+            <svg viewBox="0 0 24 24"><path d="M20 7h-1.2V6a4.8 4.8 0 0 0-9.6 0v1H8a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2zm-9-1.8a2.8 2.8 0 0 1 5.6 0V7H11V5.2z"/></svg>
+          </div>
+          <div class="cao_header__icon">
+            <svg viewBox="0 0 24 24"><path d="M20 2H4a2 2 0 0 0-2 2v18l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z"/></svg>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- ========== 探索 pane ========== -->
+    <section id="cao_pane_explore">
+
+      <!-- 快捷宫格 -->
+      <div class="cao_quick">
+        <div class="cao_quick__item">
+          <div class="cao_quick__icon cao_quick__icon--blue">
+            <svg viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg>
+            <span class="cao_quick__badge">官方直销</span>
+          </div>
+          <span>机票</span>
+        </div>
+        <div class="cao_quick__item">
+          <div class="cao_quick__icon cao_quick__icon--green">
+            <svg viewBox="0 0 24 24"><path d="M12 2c-4 0-8 .5-8 4v9.5A2.5 2.5 0 0 0 6.5 18H7v3a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-3h.5a2.5 2.5 0 0 0 2.5-2.5V6c0-3.5-4-4-8-4zM6.5 15A1.5 1.5 0 1 1 8 13.5 1.5 1.5 0 0 1 6.5 15zm11 0a1.5 1.5 0 1 1 1.5-1.5 1.5 1.5 0 0 1-1.5 1.5zM12 9a3 3 0 0 0-3 3H7a5 5 0 0 1 10 0h-2a3 3 0 0 0-3-3z"/></svg>
+          </div>
+          <span>火车票</span>
+        </div>
+        <div class="cao_quick__item">
+          <div class="cao_quick__icon cao_quick__icon--cyan">
+            <svg viewBox="0 0 24 24"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-1h12v1a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-8l-2.08-5.99zM6.5 16A1.5 1.5 0 1 1 8 14.5 1.5 1.5 0 0 1 6.5 16zm11 0a1.5 1.5 0 1 1 1.5-1.5A1.5 1.5 0 0 1 17.5 16zM5 11l1.5-4.5h11L19 11H5z"/></svg>
+          </div>
+          <span>打车/接送机</span>
+        </div>
+        <div class="cao_quick__item">
+          <div class="cao_quick__icon cao_quick__icon--teal">
+            <svg viewBox="0 0 24 24"><path d="M19 7h-2V5a2 2 0 0 0-2-2H9a2 2 0 0 0-2 2v2H5a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V9a2 2 0 0 0-2-2zM9 5h6v2H9V5zm10 15H5v-7h14v7z"/></svg>
+          </div>
+          <span>酒店</span>
+        </div>
+        <div class="cao_quick__item">
+          <div class="cao_quick__icon cao_quick__icon--orange">
+            <svg viewBox="0 0 24 24"><path d="M21.41 11.58l-9-9C12.05 2.22 11.55 2 11 2H4a2 2 0 0 0-2 2v7c0 .55.22 1.05.59 1.41l9 9c.37.36.87.59 1.41.59s1.04-.23 1.41-.59l7-7c.37-.36.59-.86.59-1.41s-.23-1.05-.59-1.41zM13 14a2 2 0 1 1 0-2 2 2 0 0 1 2z"/></svg>
+          </div>
+          <span>全球免税</span>
+        </div>
+      </div>
+
+      <!-- 三栏服务 -->
+      <div class="cao_services">
+        <div class="cao_services__col">
+          <span class="cao_services__head">航班服务 ▾</span>
+          <div class="cao_services__row">
+            <div class="cao_services__item"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z"/></svg>航班雷达</div>
+            <div class="cao_services__item"><svg viewBox="0 0 24 24"><path d="M3 13h2v-2H3v2zm4 8h2V3H7v18zm4 0h2v-2h-2v2zm4 0h2V9h-2v12zm4 0h2v-4h-2v4z"/></svg>行程统计</div>
+          </div>
+          <div class="cao_services__row">
+            <div class="cao_services__item"><svg viewBox="0 0 24 24"><path d="M20 6H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2z"/></svg>商旅服务</div>
+            <div class="cao_services__item"><svg viewBox="0 0 24 24"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1S9.6 1.84 9.18 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2z"/></svg>值机</div>
+          </div>
+        </div>
+        <div class="cao_services__col">
+          <span class="cao_services__head">本地出行 ▾</span>
+          <div class="cao_services__row">
+            <div class="cao_services__item"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>机场</div>
+            <div class="cao_services__item"><svg viewBox="0 0 24 24"><path d="M21 9V7h-7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2H3v2h1v6H3v2h18v-2h1v-6h-1zM10 5h4v2h-4V5zm-7 9v-2h18v2H3z"/></svg>休息室</div>
+          </div>
+          <div class="cao_services__row">
+            <div class="cao_services__item"><svg viewBox="0 0 24 24"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-1h12v1a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-8l-2.08-5.99z"/></svg>租车自驾</div>
+            <div class="cao_services__item"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2z"/></svg>顺风车</div>
+          </div>
+        </div>
+        <div class="cao_services__col">
+          <span class="cao_services__head">特色功能 ▾</span>
+          <div class="cao_services__row">
+            <div class="cao_services__item"><svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>保险</div>
+            <div class="cao_services__item"><svg viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"/></svg>掼蛋</div>
+          </div>
+          <div class="cao_services__row">
+            <div class="cao_services__item"><svg viewBox="0 0 24 24"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5z"/></svg>首次飞行</div>
+            <div class="cao_services__item"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>签证</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 民航直销 banner -->
+      <div class="cao_air_sale">
+        <div class="cao_air_sale__head">
+          <span style="font-weight:700;font-size:15px">✈ 民航官方直销</span>
+          <span class="cao_air_sale__tag">40+航司</span>
+          <span style="margin-left:auto;font-size:12px;opacity:.9">0差价·0捆绑·0套路</span>
+        </div>
+        <div style="display:flex;align-items:center;margin:10px 0">
+          <span style="font-size:18px;font-weight:700">大连</span>
+          <span style="margin:0 8px;font-size:18px">✈</span>
+          <span style="font-size:18px;font-weight:700">济南</span>
+          <span class="cao_air_sale__tag" style="margin-left:8px;background:#fef08a;color:#78350f">特价机票</span>
+          <span class="cao_air_sale__price">¥240</span>
+        </div>
+        <div class="cao_air_sale__btn">民航直销·订机票</div>
+        <div style="font-size:12px;opacity:.9;text-align:center">🎫 省钱小妙招 买机票至高减80元 <a href="flight_list.html" style="color:#fef08a">去订票</a></div>
+      </div>
+
+      <!-- 发现目的地 -->
+      <div style="padding: 10px 12px 4px" class="cao_flex cao_between">
+        <span style="font-size:16px;font-weight:600">发现目的地</span>
+        <a href="flight_list.html" class="cao_sub">更多特价航线 ›</a>
+      </div>
+      <div class="cao_dest_tabs">
+        <div class="cao_dest_tab cao_dest_tab--active">特价航线</div>
+        <div class="cao_dest_tab">跟着电影去旅行</div>
+        <div class="cao_dest_tab">金秋好去处</div>
+        <div class="cao_dest_tab">海岛游</div>
+      </div>
+      <div class="cao_dest_list">
+        <div class="cao_dest_card">
+          <div style="position:relative">
+            <img class="cao_dest_card__img" src="images/huai-an.jpg" alt="淮安">
+            <span class="cao_dest_card__name">江苏·淮安 ›</span>
+          </div>
+          <div class="cao_dest_card__body">
+            <div class="cao_dest_card__city">大连-淮安</div>
+            <div class="cao_dest_card__desc">人文胜地</div>
+            <div class="cao_dest_card__price">¥230 起</div>
+            <div class="cao_dest_card__btn">订机票</div>
+          </div>
+        </div>
+        <div class="cao_dest_card">
+          <div style="position:relative">
+            <img class="cao_dest_card__img" src="images/jinan.jpg" alt="济南">
+            <span class="cao_dest_card__name">山东·济南 ›</span>
+          </div>
+          <div class="cao_dest_card__body">
+            <div class="cao_dest_card__city">大连-济南</div>
+            <div class="cao_dest_card__desc">泉城魅力</div>
+            <div class="cao_dest_card__price">¥240 起</div>
+            <div class="cao_dest_card__btn">订机票</div>
+          </div>
+        </div>
+        <div class="cao_dest_card">
+          <div style="position:relative">
+            <img class="cao_dest_card__img" src="images/tianjin.jpg" alt="天津">
+            <span class="cao_dest_card__name">天津·天津 ›</span>
+          </div>
+          <div class="cao_dest_card__body">
+            <div class="cao_dest_card__city">大连-天津</div>
+            <div class="cao_dest_card__desc">津门盛景</div>
+            <div class="cao_dest_card__price">¥270 起</div>
+            <div class="cao_dest_card__btn">订机票</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== 出行 pane ========== -->
+    <section id="cao_pane_travel" style="display:none">
+
+      <!-- 旅程影音读物 -->
+      <div class="cao_card">
+        <div class="cao_flex cao_between">
+          <span style="font-size:15px;font-weight:600">旅程影音读物</span>
+          <a class="cao_sub" href="#">更多推荐 ›</a>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:10px;align-items:center">
+          <img src="images/terminal.jpg" style="width:60px;height:60px;border-radius:8px;object-fit:cover" alt="读物">
+          <div style="flex:1">
+            <div style="font-weight:600;font-size:14px">城市文化地图·上海</div>
+            <div class="cao_sub">钱文忠为你揭开上海的前世…</div>
+          </div>
+          <span style="color:var(--cao-primary);font-size:13px">去缓存 ›</span>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:10px">
+          <div style="flex:1;position:relative">
+            <img src="images/banner-plane.jpg" style="width:100%;height:80px;object-fit:cover;border-radius:8px" alt="视频">
+            <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#fff;font-size:24px">▶</div>
+            <div style="position:absolute;bottom:6px;left:6px;color:#fff;font-size:11px">解密兵马俑—秦的…</div>
+          </div>
+          <div style="flex:1;position:relative">
+            <img src="images/window-view.jpg" style="width:100%;height:80px;object-fit:cover;border-radius:8px" alt="视频">
+            <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#fff;font-size:24px">▶</div>
+            <div style="position:absolute;bottom:6px;left:6px;color:#fff;font-size:11px">一线</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 快捷宫格 -->
+      <div class="cao_quick">
+        <div class="cao_quick__item"><div class="cao_quick__icon cao_quick__icon--blue"><svg viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg></div><span>机票</span></div>
+        <div class="cao_quick__item"><div class="cao_quick__icon cao_quick__icon--green"><svg viewBox="0 0 24 24"><path d="M12 2c-4 0-8 .5-8 4v9.5A2.5 2.5 0 0 0 6.5 18H7v3a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-3h.5a2.5 2.5 0 0 0 2.5-2.5V6c0-3.5-4-4-8-4z"/></svg></div><span>火车票</span></div>
+        <div class="cao_quick__item"><div class="cao_quick__icon cao_quick__icon--cyan"><svg viewBox="0 0 24 24"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-1h12v1a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-8l-2.08-5.99z"/></svg></div><span>接送机/租车</span></div>
+        <div class="cao_quick__item"><div class="cao_quick__icon cao_quick__icon--teal"><svg viewBox="0 0 24 24"><path d="M19 7h-2V5a2 2 0 0 0-2-2H9a2 2 0 0 0-2 2v2H5a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V9a2 2 0 0 0-2-2z"/></svg></div><span>酒店</span></div>
+        <div class="cao_quick__item"><div class="cao_quick__icon cao_quick__icon--orange"><svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg></div><span>保险</span></div>
+      </div>
+
+      <!-- 飞行回忆 -->
+      <div class="cao_card">
+        <div class="cao_flex cao_between">
+          <span style="font-size:16px;font-weight:600">飞行回忆</span>
+          <span style="color:var(--cao-primary);font-size:13px">▶ 飞行足迹视频</span>
+        </div>
+        <div class="cao_stats" style="margin:10px 0 0;box-shadow:none;padding:0">
+          <div class="cao_stats__item">
+            <div class="cao_stats__num">61.62<em>%</em></div>
+            <div class="cao_stats__label">超越全国用户 ›</div>
+          </div>
+          <div class="cao_stats__item">
+            <div class="cao_stats__num">1<em>个</em></div>
+            <div class="cao_stats__label">国家 ›</div>
+          </div>
+          <div class="cao_stats__item">
+            <div class="cao_stats__num">12<em>枚</em></div>
+            <div class="cao_stats__label">航旅行程徽章 ›</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 航线图 -->
+      <div class="cao_card">
+        <div style="font-size:16px;font-weight:600;margin-bottom:10px">航线图</div>
+        <div class="cao_flex cao_between">
+          <div>
+            <div style="font-size:13px;color:var(--cao-text-sub)">已同步<em style="color:var(--cao-primary);font-style:normal;font-weight:700">11</em>次飞行航线</div>
+            <div class="cao_sub cao_mt8">立即查看 ›</div>
+          </div>
+          <div style="text-align:center">
+            <div style="font-size:18px;font-weight:700">21986<em style="font-size:12px;color:var(--cao-text-sub);font-style:normal">km</em></div>
+            <div class="cao_sub">里程累计</div>
+          </div>
+          <div style="text-align:center">
+            <div style="font-size:18px;font-weight:700">39<em style="font-size:12px;color:var(--cao-text-sub);font-style:normal">h 30</em><em style="font-size:12px;color:var(--cao-text-sub);font-style:normal">min</em></div>
+            <div class="cao_sub">飞行时长</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 火车轨迹 -->
+      <div class="cao_card">
+        <div style="font-size:16px;font-weight:600;margin-bottom:10px">火车轨迹</div>
+        <div class="cao_flex cao_between">
+          <div>
+            <div style="font-size:13px;color:var(--cao-text-sub)">已同步--次轨迹</div>
+            <div class="cao_sub cao_mt8">立即查看 ›</div>
+          </div>
+          <div style="text-align:center"><div style="font-size:18px;font-weight:700;color:#c0c4cc">--h --min</div><div class="cao_sub">累计乘坐</div></div>
+          <div style="text-align:center"><div style="font-size:18px;font-weight:700;color:#c0c4cc">--个</div><div class="cao_sub">打卡城市</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 底部 TabBar -->
+    <nav class="cao_tabbar">
+      <a class="cao_tabbar__item cao_tabbar__item--active" href="index.html">
+        <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 10a2 2 0 1 1 2-2 2 2 0 0 1-2 2z"/></svg>
+        <span>首页</span>
+      </a>
+      <a class="cao_tabbar__item" href="trip.html">
+        <svg viewBox="0 0 24 24"><path d="M20 6h-4V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2H4a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2zM10 4h4v2h-4V4zm10 15H4V8h16v11z"/></svg>
+        <span>行程</span>
+      </a>
+      <a class="cao_tabbar__item" href="experience.html">
+        <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z"/></svg>
+        <span>经验</span>
+      </a>
+      <a class="cao_tabbar__item" href="flight_status.html">
+        <svg viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg>
+        <span>动态</span>
+      </a>
+      <a class="cao_tabbar__item" href="mine.html">
+        <svg viewBox="0 0 24 24"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5zm0 2c-4.42 0-8 2.24-8 5v1h16v-1c0-2.76-3.58-5-8-5z"/></svg>
+        <span>我</span>
+      </a>
+    </nav>
+
+    <div class="cao_backtop">
+      <svg viewBox="0 0 24 24"><path d="M12 4l-8 8h5v8h6v-8h5z"/></svg>
+    </div>
+  </div>
+
+  <script src="js/cao_common.js"></script>
+  <script>
+    // 探索/出行 tab 切换
+    document.querySelectorAll('.cao_header__tab').forEach(function(tab){
+      tab.addEventListener('click', function(){
+        document.querySelectorAll('.cao_header__tab').forEach(function(t){ t.classList.remove('cao_header__tab--active'); });
+        tab.classList.add('cao_header__tab--active');
+        var pane = tab.getAttribute('data-pane');
+        document.getElementById('cao_pane_explore').style.display = pane === 'explore' ? 'block' : 'none';
+        document.getElementById('cao_pane_travel').style.display  = pane === 'travel'  ? 'block' : 'none';
+      });
+    });
+  </script>
+</body>
+</html>

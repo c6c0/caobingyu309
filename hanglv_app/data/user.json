@@ -1,0 +1,25 @@
+{
+  "code": 0,
+  "msg": "ok",
+  "data": {
+    "name": "caobingyu",
+    "realName": "曹冰玉",
+    "level": "钻石会员",
+    "levelColor": "#8b5cf6",
+    "avatar": "",
+    "phone": "138****8888",
+    "miles": 12860,
+    "orderCount": 18,
+    "couponCount": 5,
+    "favoriteRoutes": [
+      { "from": "北京", "to": "上海", "count": 6 },
+      { "from": "北京", "to": "成都", "count": 4 },
+      { "from": "大连", "to": "北京", "count": 8 }
+    ],
+    "settings": {
+      "push": true,
+      "nightMode": false,
+      "autoCheckin": true
+    }
+  }
+}

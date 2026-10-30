@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<!-- 经验页（广场/点评榜） - caobingyu -->
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>经验 - 航旅纵横 | caobingyu</title>
+  <link rel="stylesheet" href="css/cao_style.css">
+</head>
+<body>
+  <div class="cao_page">
+    <header class="cao_header">
+      <div class="cao_header__top">
+        <div class="cao_header__search"><svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 1 0-.7.7l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0A4.5 4.5 0 1 1 14 9.5 4.5 4.5 0 0 1 9.5 14z"/></svg></div>
+        <div class="cao_header__tabs">
+          <div class="cao_header__tab" data-pane="square">广场</div>
+          <div class="cao_header__tab cao_header__tab--active" data-pane="rank">点评榜</div>
+        </div>
+        <div class="cao_mine_avatar" style="width:36px;height:36px;font-size:14px">CB</div>
+      </div>
+    </header>
+
+    <!-- ========== 点评榜 pane ========== -->
+    <section id="cao_pane_rank">
+      <div class="cao_center cao_mt8" style="font-size:13px;color:var(--cao-text-sub)">
+        用户真实行程评价 ｜ 过亿数据 ｜ <a href="#" style="color:var(--cao-blue)">综合评审规则 ›</a>
+      </div>
+
+      <!-- 三个彩色榜单卡 -->
+      <div class="cao_rank_cards cao_mt16">
+        <div class="cao_rank_card cao_rank_card--green">
+          <span class="cao_rank_card__badge">更新</span>
+          <div class="cao_rank_card__title">航司服务榜</div>
+          <div class="cao_rank_card__sub">综合TOP5</div>
+        </div>
+        <div class="cao_rank_card cao_rank_card--blue">
+          <span class="cao_rank_card__badge">更新</span>
+          <div class="cao_rank_card__title">机场设施榜</div>
+          <div class="cao_rank_card__sub">千万级机场</div>
+        </div>
+        <div class="cao_rank_card cao_rank_card--purple">
+          <span class="cao_rank_card__badge">更新</span>
+          <div class="cao_rank_card__title">航线餐食榜</div>
+          <div class="cao_rank_card__sub">热门航线</div>
+        </div>
+      </div>
+
+      <!-- 点评行程 -->
+      <div class="cao_card cao_mt16">
+        <div class="cao_flex cao_between">
+          <span style="font-size:16px;font-weight:600">点评行程</span>
+          <span class="cao_sub">2026-09-02 温州龙湾-… | <a href="#">更多 ›</a></span>
+        </div>
+        <div class="cao_flex" style="gap:10px;margin-top:10px">
+          <div style="flex:1">
+            <img src="images/wz-airport.jpg" style="width:100%;height:70px;object-fit:cover;border-radius:8px" alt="温州">
+            <div class="cao_mt8"><span class="cao_tag" style="background:#e5e7eb;padding:1px 6px;border-radius:4px;font-size:10px">出发</span> <b>温州龙湾</b></div>
+            <div style="color:var(--cao-orange);font-weight:700">4.56分</div>
+            <div class="cao_sub">👥👤 310544人评分</div>
+          </div>
+          <div style="flex:1">
+            <img src="images/dl-airport.jpg" style="width:100%;height:70px;object-fit:cover;border-radius:8px" alt="大连">
+            <div class="cao_mt8"><span class="cao_tag" style="background:#dbeafe;padding:1px 6px;border-radius:4px;font-size:10px">到达</span> <b>大连周水子</b></div>
+            <div style="color:var(--cao-orange);font-weight:700">4.58分</div>
+            <div class="cao_sub" style="color:var(--cao-blue)">机场中转榜TOP2（… ›</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 榜单tab -->
+      <div class="cao_dest_tabs">
+        <div class="cao_dest_tab cao_dest_tab--active">推荐榜单</div>
+        <div class="cao_dest_tab">机场榜</div>
+        <div class="cao_dest_tab">航司榜</div>
+        <div class="cao_dest_tab">航班榜</div>
+      </div>
+
+      <!-- 榜单列表 -->
+      <div class="cao_card">
+        <div class="cao_flex cao_between">
+          <span style="font-weight:700">👑 全国千万级机场中转便捷榜</span>
+          <span class="cao_sub">最近路过机场上榜了 ›</span>
+        </div>
+
+        <div class="cao_rank_item">
+          <div style="position:relative">
+            <img class="cao_rank_item__img" src="images/daxing-airport.jpg" alt="大兴">
+            <span class="cao_rank_item__top">TOP 1</span>
+          </div>
+          <div style="flex:1">
+            <div class="cao_rank_item__name">北京大兴机场</div>
+            <div class="cao_rank_item__tags">特色打卡点｜文创周边｜美食速达</div>
+            <span class="cao_rank_item__score">4.67 中转便捷分</span>
+            <span class="cao_sub" style="margin-left:6px">20030人评选</span>
+            <div class="cao_rank_item__quote">"中转候机环境优越，配有睡眠舱，过夜也舒适"</div>
+          </div>
+        </div>
+
+        <div class="cao_rank_item">
+          <div style="position:relative">
+            <img class="cao_rank_item__img" src="images/dl-airport.jpg" alt="周水子">
+            <span class="cao_rank_item__top">TOP 2</span>
+          </div>
+          <div style="flex:1">
+            <div class="cao_rank_item__name">大连周水子机场</div>
+            <div class="cao_rank_item__tags">地铁友好｜母婴设施｜指引清晰</div>
+            <span class="cao_rank_item__score">4.66 中转便捷分</span>
+            <span class="cao_sub" style="margin-left:6px">7918人评选</span>
+            <div class="cao_rank_item__quote">"提供免费中转餐食和住宿补贴"</div>
+          </div>
+        </div>
+
+        <div class="cao_rank_item">
+          <div style="position:relative">
+            <img class="cao_rank_item__img" src="images/urumqi-airport.jpg" alt="天山">
+            <span class="cao_rank_item__top">TOP 2</span>
+          </div>
+          <div style="flex:1">
+            <div class="cao_rank_item__name">乌鲁木齐天山机场</div>
+            <div class="cao_rank_item__tags">特色风格｜设施新｜地铁友好</div>
+            <span class="cao_rank_item__score">4.66 中转便捷分</span>
+            <span class="cao_sub" style="margin-left:6px">17821人评选</span>
+            <div class="cao_rank_item__quote">"中转有按摩椅和休息室可以休息养神"</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== 广场 pane ========== -->
+    <section id="cao_pane_square" style="display:none">
+      <!-- 今日热议 + 云听 + 达人 -->
+      <div class="cao_flex" style="gap:10px;padding:10px 12px">
+        <div class="cao_hot" style="flex:1;margin:0">
+          <div class="cao_hot__title">今日热议 <span>••</span></div>
+          <div class="cao_hot__item"><span class="cao_hot__num">1</span>你愿意为飞机上的付费餐食买单吗？<span class="cao_hot__count">184条评论</span></div>
+          <div class="cao_hot__item"><span class="cao_hot__num">2</span>旅途中，你更依赖手机还是相机？<span class="cao_hot__count">17条评论</span></div>
+          <div class="cao_hot__item"><span class="cao_hot__num">3</span>收到"航空积分今晚清零"的短信，你会点击链接兑…<span class="cao_hot__count">49条评论</span></div>
+        </div>
+        <div style="width:110px;background:#fff;border-radius:12px;overflow:hidden;box-shadow:var(--cao-shadow)">
+          <img src="images/window-view.jpg" style="width:100%;height:80px;object-fit:cover" alt="云听">
+          <div style="padding:6px"><div style="font-size:12px;font-weight:600">旅途云听</div><div class="cao_sub" style="font-size:10px">海量高品质音频</div></div>
+        </div>
+      </div>
+
+      <!-- 经验/讨论tab -->
+      <div style="display:flex;gap:20px;padding:10px 16px;border-bottom:1px solid var(--cao-border)">
+        <span class="cao_sub">经验</span>
+        <span style="font-weight:700;border-bottom:2px solid var(--cao-primary);padding-bottom:4px">讨论</span>
+      </div>
+
+      <!-- 投票贴 -->
+      <div class="cao_card">
+        <div style="font-size:16px;font-weight:600">旅途中，你更依赖手机还是相机？</div>
+        <div class="cao_flex cao_mt16" style="gap:10px;justify-content:space-between;align-items:center">
+          <div style="display:flex;gap:8px">
+            <span class="cao_dest_tab cao_dest_tab--active">📱 手机</span>
+            <span class="cao_dest_tab">📷 相机</span>
+          </div>
+          <span class="cao_sub">👥👤👤 5181人投票</span>
+        </div>
+      </div>
+
+      <!-- 双节出行 -->
+      <div class="cao_card">
+        <div style="font-size:16px;font-weight:600">双节出行，你的体验打几分？</div>
+        <p class="cao_sub cao_mt8">今年中秋国庆相连，拼假最长可休13天，不少人已经抢跑出发，也有人正在路上。有人选择"奔县深度游"…</p>
+        <p class="cao_sub cao_mt8">14讨论 · 2天前更新</p>
+      </div>
+
+      <!-- 国庆反向游帖子 -->
+      <div class="cao_card">
+        <div style="font-size:16px;font-weight:600">国庆反向游｜沙漠里居然藏着一片海 🌊</div>
+        <div class="cao_post__imgs cao_mt16">
+          <img src="images/beach-sunset.jpg" alt="">
+          <img src="images/hot-air-balloon.jpg" alt="">
+          <img src="images/travel-flat.jpg" alt="">
+          <img src="images/banner-plane.jpg" alt="">
+        </div>
+        <div class="cao_post__meta">
+          <span class="cao_post__avatar"></span>
+          <span>才男｜访古</span>
+          <span style="margin-left:auto">0评论</span>
+        </div>
+      </div>
+
+      <!-- 话题 -->
+      <div class="cao_card">
+        <div class="cao_flex cao_between">
+          <span style="font-weight:600"># 差旅日记打卡</span>
+          <span class="cao_dest_tab" style="font-size:10px">热议话题</span>
+        </div>
+        <div class="cao_sub cao_mt8">👤👤👤 14982条内容 · 50分钟前更新</div>
+      </div>
+    </section>
+
+    <nav class="cao_tabbar">
+      <a class="cao_tabbar__item" href="index.html"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg><span>首页</span></a>
+      <a class="cao_tabbar__item" href="trip.html"><svg viewBox="0 0 24 24"><path d="M20 6h-4V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2H4a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2z"/></svg><span>行程</span></a>
+      <a class="cao_tabbar__item cao_tabbar__item--active" href="experience.html"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2z"/></svg><span>经验</span></a>
+      <a class="cao_tabbar__item" href="flight_status.html"><svg viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg><span>动态</span></a>
+      <a class="cao_tabbar__item" href="mine.html"><svg viewBox="0 0 24 24"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5zm0 2c-4.42 0-8 2.24-8 5v1h16v-1c0-2.76-3.58-5-8-5z"/></svg><span>我</span></a>
+    </nav>
+  </div>
+
+  <script src="js/cao_common.js"></script>
+  <script>
+    document.querySelectorAll('.cao_header__tab').forEach(function(tab){
+      tab.addEventListener('click', function(){
+        document.querySelectorAll('.cao_header__tab').forEach(function(t){ t.classList.remove('cao_header__tab--active'); });
+        tab.classList.add('cao_header__tab--active');
+        var pane = tab.getAttribute('data-pane');
+        document.getElementById('cao_pane_square').style.display = pane === 'square' ? 'block' : 'none';
+        document.getElementById('cao_pane_rank').style.display  = pane === 'rank'   ? 'block' : 'none';
+      });
+    });
+  </script>
+</body>
+</html>

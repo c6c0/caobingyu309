@@ -1,0 +1,142 @@
+《高级网页设计I》
+网页元素设计 项目报告
+
+学号：[请填写学号]    姓名：caobingyu    班级：[请填写班级]    项目选题名称：航旅纵横移动端APP（模仿航旅纵横）
+
+
+一、项目需求与实现
+
+本项目模仿航旅纵横APP，使用原生HTML5+CSS3+JavaScript开发了一个移动端航空出行网页应用，共包含9个页面：登录页、首页（探索/出行双子Tab）、行程页（家人行程推广）、经验页（广场/点评榜双子Tab）、动态页（航班动态/火车动态双子Tab）、我的（个人中心）、航班列表页、航班详情页、后台管理页。以下选取三个核心网页元素进行展示，每个元素均给出参考原图与本人实现截图对比。
+
+网页元素1：底部Tab导航栏（五栏切换，绿色主题）
+原图：（航旅纵横真实APP底部5Tab：首页/行程/经验/动态/我）
+实现图：（见 index.html 底部导航栏）
+元素说明：底部固定5个Tab项（首页/行程/经验/动态/我），使用SVG线性图标，当前页对应图标和文字变为航旅纵横品牌绿色(#22c55e)。所有class以cao_tabbar和cao_tabbar__item命名，最大宽度480px居中显示，适配移动端。
+
+网页元素2：动态页航班/火车双Tab切换与实时列表
+原图：（航旅纵横动态页航班动态/火车动态切换）
+实现图：（见 flight_status.html）
+元素说明：顶部"航班动态/火车动态"两个子Tab切换内容。航班pane含按航班号/起降地/飞机编号三种查询方式、绿色航班查询按钮、实时航班列表（CA994/ZH9111）。火车pane含G/D字头车次列表（G1/G3/G5绿色、D17/D21蓝色）、正点/晚点状态标签、余票实时卡片。通过JavaScript的data-pane属性切换display实现。
+
+网页元素3：登录页Canvas图形验证码与短信倒计时
+原图：（航旅纵横登录页手机号+验证码登录）
+实现图：（见 login.html）
+元素说明：登录页顶部绿色渐变+航旅纵横logo。手机号输入框（11位正则校验）、Canvas生成的4位随机图形验证码（含干扰线、彩色旋转字符，点击可刷新）、短信验证码获取按钮（60秒倒计时，需先通过图形码才能发送）。登录按钮完整校验：手机号格式、图形码、6位短信码、用户协议勾选，全部通过后跳转首页。
+
+
+二、项目代码
+
+代码中所有class和ID均以学生姓名拼音cao_为前缀（如cao_tabbar、cao_page、cao_header__tab等），全局CSS统一管理在css/cao_style.css，未使用任何第三方框架。代码注释中标注了学号和姓名caobingyu。
+
+网页元素1核心代码（底部Tab导航栏）：
+
+<!-- HTML结构 -->
+<nav class="cao_tabbar">
+  <a class="cao_tabbar__item cao_tabbar__item--active" href="index.html">
+    <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>
+    <span>首页</span>
+  </a>
+  <a class="cao_tabbar__item" href="trip.html">
+    <svg viewBox="0 0 24 24"><path d="M20 6h-4V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2H4a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2z"/></svg>
+    <span>行程</span>
+  </a>
+  <a class="cao_tabbar__item" href="experience.html">
+    <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2z"/></svg>
+    <span>经验</span>
+  </a>
+  <a class="cao_tabbar__item" href="flight_status.html">
+    <svg viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg>
+    <span>动态</span>
+  </a>
+  <a class="cao_tabbar__item" href="mine.html">
+    <svg viewBox="0 0 24 24"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5zm0 2c-4.42 0-8 2.24-8 5v1h16v-1c0-2.76-3.58-5-8-5z"/></svg>
+    <span>我</span>
+  </a>
+</nav>
+
+/* CSS样式 */
+.cao_tabbar {
+  position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+  width: 100%; max-width: 480px; height: 62px;
+  background: #fff; border-top: 1px solid #e5e7eb;
+  display: flex; z-index: 100;
+}
+.cao_tabbar__item {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 2px; color: #9ca3af; font-size: 11px;
+}
+.cao_tabbar__item svg { width: 24px; height: 24px; fill: currentColor; }
+.cao_tabbar__item--active { color: #22c55e; }  /* 航旅纵横品牌绿 */
+
+网页元素2核心代码（航班/火车Tab切换）：
+
+// JavaScript Tab切换
+document.querySelectorAll('.cao_header__tab').forEach(function(tab){
+  tab.addEventListener('click', function(){
+    document.querySelectorAll('.cao_header__tab').forEach(function(t){
+      t.classList.remove('cao_header__tab--active');
+    });
+    tab.classList.add('cao_header__tab--active');
+    var pane = tab.getAttribute('data-pane');
+    document.getElementById('cao_pane_flight').style.display =
+      pane === 'flight' ? 'block' : 'none';
+    document.getElementById('cao_pane_train').style.display =
+      pane === 'train' ? 'block' : 'none';
+  });
+});
+
+网页元素3核心代码（Canvas验证码+倒计时）：
+
+// Canvas图形验证码
+var canvas = document.getElementById('cao_captcha');
+var ctx = canvas.getContext('2d');
+var captchaCode = '';
+function drawCaptcha() {
+  var chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789';
+  captchaCode = '';
+  for (var i = 0; i < 4; i++) {
+    captchaCode += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  ctx.fillStyle = '#e8f9ef';
+  ctx.fillRect(0, 0, 100, 40);
+  for (var i = 0; i < 4; i++) {
+    ctx.font = 'bold 20px Arial';
+    ctx.fillStyle = ['#16a34a','#ef4444','#1677ff','#f59e0b'][i];
+    ctx.save();
+    ctx.translate(15 + i * 22, 28);
+    ctx.rotate((Math.random() - .5) * .4);
+    ctx.fillText(captchaCode[i], 0, 0);
+    ctx.restore();
+  }
+}
+
+// 短信60秒倒计时
+var countdown = 60;
+var timer = setInterval(function(){
+  countdown--;
+  smsBtn.textContent = countdown + 's后重发';
+  if (countdown <= 0) {
+    clearInterval(timer);
+    smsBtn.textContent = '获取验证码';
+  }
+}, 1000);
+
+
+三、测试与发布
+
+在Chrome浏览器中使用手机模式（375×667）测试，页面自适应居中显示，底部Tab栏固定在480px宽度内。通过python -m http.server 8080启动本地静态服务器，验证所有9个页面、4个JSON mock接口、16张本地图片均返回HTTP 200。同时验证了Tab切换、表单校验、Canvas验证码、短信倒计时、航班/火车列表渲染等交互功能。
+
+网页元素一测试图：（略）
+网页元素一发布图：（略）
+
+
+四、项目总结
+
+本次项目我模仿航旅纵横APP，独立完成了一个名为"航旅纵横"的移动端航空出行网页应用，共实现9个页面：登录页、首页（探索/出行双子Tab）、行程页（家人行程推广）、经验页（广场/点评榜双子Tab）、动态页（航班/火车动态）、我的（个人中心）、航班列表、航班详情和后台管理。
+
+技术方面，我使用原生HTML5+CSS3+JavaScript从零开发，没有使用任何第三方框架（Bootstrap、jQuery、Vue、React、Tailwind等均未使用）。通过4个本地JSON mock接口（banners.json、flights.json、flight_detail.json、user.json）配合fetch实现异步数据加载。所有CSS类名和ID均以我姓名拼音cao_作为前缀，符合课程规范。页面图标统一采用内联SVG绘制，16张图片资源全部通过AI生成后放在独立的images目录下，没有引用任何外部CDN资源。主色采用航旅纵横品牌鲜绿色#22c55e，与真实APP保持一致。
+
+开发过程中我遇到了几个典型问题：一是最初使用蓝色主题，后来对照真实APP截图发现品牌色应该是鲜绿色，重新调整了CSS变量；二是真实APP底部是5个Tab（首页/行程/经验/动态/我），最初做成了4个，后来补齐了行程页和经验页；三是动态页最初只有航班动态，后来根据真实APP补充了完整的火车动态tab内容；四是登录页的Canvas验证码需要处理干扰线、彩色字符、旋转角度等细节，逐步调试完成。
+
+本项目使用了豆包AI辅助完成：AI帮助生成了页面整体结构、SVG图标路径、mock数据JSON、16张本地图片素材（目的地风景、机场建筑、广告banner等）和部分CSS布局。本人负责需求分析、对照真实APP截图进行页面订正、命名规范落实（cao_前缀）、交互逻辑调试（Tab切换、验证码、倒计时）、图片本地化和最终样式打磨。通过这次作业，我对移动端适配、Flex布局、多Tab切换、异步数据加载、Canvas绘图和UI图标设计有了更直观的理解。

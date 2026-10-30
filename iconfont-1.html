@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Font Awesome · 字体图标 | ATELIER</title>
+  <link rel="stylesheet" href="cdn/font-awesome/css/all.min.css" />
+  <style>
+    :root {
+      --wy-bg: #FAF7F2;
+      --wy-bg-dark: #1A1A1A;
+      --wy-surface: #FFFFFF;
+      --wy-text: #1A1A1A;
+      --wy-text-muted: #6B6B6B;
+      --wy-accent: #C9A96E;
+      --wy-accent-dark: #8B7355;
+      --wy-border: #E8E2D9;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Georgia", "Cambria", "Times New Roman", serif;
+      background-color: var(--wy-bg);
+      color: var(--wy-text);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* --- 顶部导航 --- */
+    .wy_nav_top {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 24px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--wy-border);
+    }
+
+    .wy_nav_home {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--wy-text);
+      padding-bottom: 4px;
+      border-bottom: 1px solid var(--wy-accent);
+      transition: color 0.3s;
+    }
+
+    .wy_nav_home:hover { color: var(--wy-accent-dark); }
+
+    .wy_nav_page_title {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--wy-text-muted);
+    }
+
+    /* --- Hero --- */
+    .wy_hero {
+      text-align: center;
+      padding: 72px 40px 48px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .wy_hero_kicker {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--wy-accent-dark);
+      margin-bottom: 24px;
+    }
+
+    .wy_hero h1 {
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      font-weight: 400;
+      letter-spacing: 0.06em;
+      margin-bottom: 16px;
+    }
+
+    .wy_hero p {
+      font-size: 1.05rem;
+      color: var(--wy-text-muted);
+      font-style: italic;
+      max-width: 560px;
+      margin: 0 auto;
+    }
+
+    /* --- 图标展示区 --- */
+    .wy_section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 48px 40px;
+    }
+
+    .wy_section_header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 32px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--wy-border);
+    }
+
+    .wy_section_title {
+      font-size: 1.3rem;
+      font-weight: 400;
+      letter-spacing: 0.04em;
+    }
+
+    .wy_section_tag {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--wy-accent-dark);
+    }
+
+    .wy_icon_grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 24px;
+    }
+
+    .wy_icon_card {
+      background: var(--wy-surface);
+      border: 1px solid var(--wy-border);
+      padding: 28px 16px;
+      text-align: center;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+      cursor: default;
+    }
+
+    .wy_icon_card:hover {
+      border-color: var(--wy-accent);
+      box-shadow: 0 6px 24px rgba(201, 169, 110, 0.18);
+      transform: translateY(-3px);
+    }
+
+    .wy_icon_card i {
+      font-size: 2rem;
+      color: var(--wy-text);
+      display: block;
+      margin-bottom: 16px;
+      transition: color 0.3s;
+    }
+
+    .wy_icon_card:hover i { color: var(--wy-accent-dark); }
+
+    .wy_icon_name {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--wy-text-muted);
+    }
+
+    /* --- 字体样式变体 --- */
+    .wy_variant_row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .wy_variant_card {
+      background: var(--wy-surface);
+      border: 1px solid var(--wy-border);
+      padding: 36px 24px;
+      text-align: center;
+    }
+
+    .wy_variant_card i {
+      font-size: 2.8rem;
+      display: block;
+      margin-bottom: 20px;
+      color: var(--wy-accent-dark);
+    }
+
+    .wy_variant_label {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--wy-text-muted);
+      margin-bottom: 4px;
+    }
+
+    .wy_variant_name {
+      font-size: 1rem;
+      letter-spacing: 0.04em;
+    }
+
+    /* --- 尺寸展示 --- */
+    .wy_size_row {
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      gap: 40px;
+      background: var(--wy-bg-dark);
+      padding: 56px 24px;
+    }
+
+    .wy_size_item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .wy_size_item i { color: var(--wy-accent); }
+
+    .wy_size_label {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #999;
+    }
+
+    /* --- 底部返回 --- */
+    .wy_back_home {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 48px 40px 80px;
+      text-align: center;
+    }
+
+    .wy_back_link {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--wy-text);
+      padding: 12px 32px;
+      border: 1px solid var(--wy-accent);
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .wy_back_link:hover {
+      background: var(--wy-accent);
+      color: #fff;
+    }
+
+    /* --- 深色背景色块 --- */
+    .wy_section_dark {
+      background: var(--wy-bg-dark);
+      max-width: 100%;
+      padding: 48px 0;
+    }
+
+    @media (max-width: 700px) {
+      .wy_variant_row { grid-template-columns: 1fr; }
+      .wy_size_row { gap: 24px; padding: 40px 16px; flex-wrap: wrap; }
+      .wy_nav_top, .wy_hero, .wy_section, .wy_back_home { padding-left: 20px; padding-right: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- 顶部导航 -->
+  <nav class="wy_nav_top">
+    <a class="wy_nav_home" href="index.html">← 返回首页</a>
+    <span class="wy_nav_page_title">Chapter One · 字体图标</span>
+  </nav>
+
+  <!-- Hero -->
+  <header class="wy_hero">
+    <div class="wy_hero_kicker">font family · css · web font</div>
+    <h1>Font Awesome</h1>
+    <p>一套用字体文件加载的图标库，通过 CSS 类名即可在任意尺寸下保持锐利。</p>
+  </header>
+
+  <!-- 常用图标展示 -->
+  <section class="wy_section">
+    <div class="wy_section_header">
+      <h2 class="wy_section_title">常用图标</h2>
+      <span class="wy_section_tag">solid</span>
+    </div>
+    <div class="wy_icon_grid">
+      <div class="wy_icon_card"><i class="fa-solid fa-house"></i><span class="wy_icon_name">house</span></div>
+      <div class="wy_icon_card"><i class="fa-solid fa-heart"></i><span class="wy_icon_name">heart</span></div>
+      <div class="wy_icon_card"><i class="fa-solid fa-star"></i><span class="wy_icon_name">star</span></div>
+      <div class="wy_icon_card"><i class="fa-solid fa-user"></i><span class="wy_icon_name">user</span></div>
+      <div class="wy_icon_card"><i class="fa-solid fa-envelope"></i><span class="wy_icon_name">envelope</span></div>
+      <div class="wy_icon_card"><i class="fa-solid fa-search"></i><span class="wy_icon_name">search</span></div>
+      <div class="wy_icon_card"><i class="fa-solid fa-bell"></i><span class="wy_icon_name">bell</span></div>
+      <div class="wy_icon_card"><i class="fa-solid fa-cog"></i><span class="wy_icon_name">settings</span></div>
+      <div class="wy_icon_card"><i class="fa-solid fa-camera"></i><span class="wy_icon_name">camera</span></div>
+      <div class="wy_icon_card"><i class="fa-solid fa-music"></i><span class="wy_icon_name">music</span></div>
+      <div class="wy_icon_card"><i class="fa-solid fa-cloud"></i><span class="wy_icon_name">cloud</span></div>
+      <div class="wy_icon_card"><i class="fa-solid fa-moon"></i><span class="wy_icon_name">moon</span></div>
+    </div>
+  </section>
+
+  <!-- 品牌图标 -->
+  <section class="wy_section">
+    <div class="wy_section_header">
+      <h2 class="wy_section_title">品牌图标</h2>
+      <span class="wy_section_tag">brands</span>
+    </div>
+    <div class="wy_icon_grid">
+      <div class="wy_icon_card"><i class="fa-brands fa-github"></i><span class="wy_icon_name">github</span></div>
+      <div class="wy_icon_card"><i class="fa-brands fa-twitter"></i><span class="wy_icon_name">twitter</span></div>
+      <div class="wy_icon_card"><i class="fa-brands fa-instagram"></i><span class="wy_icon_name">instagram</span></div>
+      <div class="wy_icon_card"><i class="fa-brands fa-linkedin"></i><span class="wy_icon_name">linkedin</span></div>
+      <div class="wy_icon_card"><i class="fa-brands fa-youtube"></i><span class="wy_icon_name">youtube</span></div>
+      <div class="wy_icon_card"><i class="fa-brands fa-weixin"></i><span class="wy_icon_name">wechat</span></div>
+      <div class="wy_icon_card"><i class="fa-brands fa-weibo"></i><span class="wy_icon_name">weibo</span></div>
+      <div class="wy_icon_card"><i class="fa-brands fa-chrome"></i><span class="wy_icon_name">chrome</span></div>
+      <div class="wy_icon_card"><i class="fa-brands fa-apple"></i><span class="wy_icon_name">apple</span></div>
+      <div class="wy_icon_card"><i class="fa-brands fa-python"></i><span class="wy_icon_name">python</span></div>
+      <div class="wy_icon_card"><i class="fa-brands fa-js"></i><span class="wy_icon_name">javascript</span></div>
+      <div class="wy_icon_card"><i class="fa-brands fa-html5"></i><span class="wy_icon_name">html5</span></div>
+    </div>
+  </section>
+
+  <!-- 字体变体 -->
+  <section class="wy_section">
+    <div class="wy_section_header">
+      <h2 class="wy_section_title">三种字体变体</h2>
+      <span class="wy_section_tag">style</span>
+    </div>
+    <div class="wy_variant_row">
+      <div class="wy_variant_card">
+        <i class="fa-solid fa-feather-pointed"></i>
+        <div class="wy_variant_label">fa-solid</div>
+        <div class="wy_variant_name">实心</div>
+      </div>
+      <div class="wy_variant_card">
+        <i class="fa-regular fa-feather-pointed"></i>
+        <div class="wy_variant_label">fa-regular</div>
+        <div class="wy_variant_name">常规</div>
+      </div>
+      <div class="wy_variant_card">
+        <i class="fa-brands fa-font-awesome"></i>
+        <div class="wy_variant_label">fa-brands</div>
+        <div class="wy_variant_name">品牌</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 尺寸展示 -->
+  <div class="wy_section_dark">
+    <section class="wy_section" style="padding-top:0;padding-bottom:0;">
+      <div class="wy_section_header" style="border-color:#333;">
+        <h2 class="wy_section_title" style="color:#FAF7F2;">尺寸缩放</h2>
+        <span class="wy_section_tag">scalable</span>
+      </div>
+      <div class="wy_size_row">
+        <div class="wy_size_item"><i class="fa-solid fa-heart fa-xs"></i><span class="wy_size_label">xs</span></div>
+        <div class="wy_size_item"><i class="fa-solid fa-heart fa-sm"></i><span class="wy_size_label">sm</span></div>
+        <div class="wy_size_item"><i class="fa-solid fa-heart"></i><span class="wy_size_label">1x</span></div>
+        <div class="wy_size_item"><i class="fa-solid fa-heart fa-lg"></i><span class="wy_size_label">lg</span></div>
+        <div class="wy_size_item"><i class="fa-solid fa-heart fa-2x"></i><span class="wy_size_label">2x</span></div>
+        <div class="wy_size_item"><i class="fa-solid fa-heart fa-3x"></i><span class="wy_size_label">3x</span></div>
+        <div class="wy_size_item"><i class="fa-solid fa-heart fa-5x"></i><span class="wy_size_label">5x</span></div>
+      </div>
+    </section>
+  </div>
+
+  <!-- 返回首页 -->
+  <div class="wy_back_home">
+    <a class="wy_back_link" href="index.html">← 返回工坊</a>
+  </div>
+</body>
+</html>

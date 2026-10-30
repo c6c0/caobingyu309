@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<!-- 动态页（航班动态 + 火车动态） - caobingyu -->
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>动态 - 航旅纵横 | caobingyu</title>
+  <link rel="stylesheet" href="css/cao_style.css">
+  <style>
+    .cao_train_row {
+      display: flex; align-items: center; padding: 12px 0;
+      border-bottom: 1px solid #f0f2f5;
+    }
+    .cao_train_no {
+      width: 60px; height: 40px; border-radius: 6px;
+      background: #22c55e; color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 13px; flex-shrink: 0;
+    }
+    .cao_train_no--d { background: #3b82f6; }
+    .cao_train_route { flex: 1; padding: 0 12px; }
+    .cao_train_time { font-size: 15px; font-weight: 700; }
+    .cao_train_station { font-size: 12px; color: var(--cao-text-sub); }
+    .cao_train_status {
+      font-size: 11px; padding: 2px 8px; border-radius: 4px;
+    }
+    .cao_train_status--ontime { background: #dcfce7; color: #16a34a; }
+    .cao_train_status--delay { background: #fee2e2; color: #ef4444; }
+  </style>
+</head>
+<body>
+  <div class="cao_page">
+    <header class="cao_header">
+      <div class="cao_header__tabs">
+        <div class="cao_header__tab cao_header__tab--active" data-pane="flight">航班动态</div>
+        <div class="cao_header__tab" data-pane="train">火车动态</div>
+      </div>
+    </header>
+
+    <!-- ==================== 航班动态 pane ==================== -->
+    <section id="cao_pane_flight">
+      <div class="cao_query_card">
+        <div class="cao_query_tabs">
+          <div class="cao_query_tab cao_query_tab--active">按航班号</div>
+          <div class="cao_query_tab">按起降地</div>
+          <div class="cao_query_tab">按飞机编号</div>
+        </div>
+        <div class="cao_query_field">
+          <div class="cao_query_label">航班号</div>
+          <input class="cao_query_input" id="cao_flight_no" placeholder="请输入航班号，如CA1234或1234">
+        </div>
+        <div class="cao_query_field">
+          <div class="cao_query_label">出发日期</div>
+          <div class="cao_flex cao_between">
+            <span style="font-size:16px;font-weight:600">2026年10月13日 星期二</span>
+            <span style="color:var(--cao-text-sub)">›</span>
+          </div>
+        </div>
+        <div class="cao_sub cao_mt8">⚠ 国际航班请选择出发地当地日期</div>
+        <button class="cao_query_btn cao_mt16" id="cao_query_btn">航班查询</button>
+      </div>
+
+      <div style="margin:0 12px;border-radius:12px;overflow:hidden;position:relative">
+        <img src="images/saudi-banner.jpg" style="width:100%;height:100px;object-fit:cover" alt="沙特">
+        <div style="position:absolute;top:12px;left:16px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.4)">
+          <div style="font-size:18px;font-weight:700">好心动目的地</div>
+          <div style="font-size:14px">沙特阿拉伯</div>
+          <span style="background:rgba(255,255,255,.9);color:#78350f;font-size:11px;padding:2px 8px;border-radius:4px">领福利 ›</span>
+        </div>
+        <span style="position:absolute;top:8px;right:8px;background:rgba(0,0,0,.5);color:#fff;font-size:10px;padding:1px 6px;border-radius:3px">广告</span>
+      </div>
+
+      <div style="display:flex;gap:10px;padding:10px 12px">
+        <div class="cao_card" style="flex:1;margin:0;padding:12px;text-align:center">
+          <div style="font-weight:600">执飞航线 <span style="color:var(--cao-blue);font-size:10px;background:#eff6ff;padding:1px 4px;border-radius:3px">APP</span></div>
+          <div class="cao_sub cao_mt8">航线执飞轻松查</div>
+        </div>
+        <div class="cao_card" style="flex:1;margin:0;padding:12px;text-align:center">
+          <div style="font-weight:600">民航看板 <span style="color:var(--cao-blue);font-size:10px;background:#eff6ff;padding:1px 4px;border-radius:3px">📈</span></div>
+          <div class="cao_sub cao_mt8">每日航班执行数据</div>
+        </div>
+        <div class="cao_card" style="flex:1;margin:0;padding:12px;text-align:center">
+          <div style="font-weight:600">公务机 <span style="color:var(--cao-blue);font-size:10px;background:#eff6ff;padding:1px 4px;border-radius:3px">🔍</span></div>
+          <div class="cao_sub cao_mt8">公务机航班查询</div>
+        </div>
+      </div>
+
+      <div class="cao_card">
+        <div class="cao_flex cao_between">
+          <span style="font-size:18px;font-weight:700">北京首都机场 ⇌</span>
+          <span style="color:var(--cao-primary);font-size:12px">● 流量正常 ›</span>
+        </div>
+        <div class="cao_live_flight cao_mt8">
+          <span class="cao_live_flight__time">18:15</span>
+          <span class="cao_live_flight__logo">国</span>
+          <span class="cao_live_flight__route">CA994</span>
+          <span>多伦多</span>
+          <span class="cao_live_flight__term">T3</span>
+          <span class="cao_live_flight__status">起飞</span>
+        </div>
+        <div class="cao_live_flight">
+          <span class="cao_live_flight__time">18:15</span>
+          <span class="cao_live_flight__logo" style="background:#f97316">深</span>
+          <span class="cao_live_flight__route">ZH9111</span>
+          <span>深圳</span>
+          <span class="cao_live_flight__term">T3</span>
+          <span class="cao_live_flight__status">到达</span>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:18px;padding:10px 16px;overflow-x:auto">
+        <span style="font-weight:700;border-bottom:2px solid var(--cao-primary);padding-bottom:4px;color:var(--cao-primary)">风景榜</span>
+        <span class="cao_sub" style="font-size:15px">盘旋榜</span>
+        <span class="cao_sub" style="font-size:15px">延误榜</span>
+        <span class="cao_sub" style="font-size:15px">准点榜</span>
+        <span class="cao_sub" style="font-size:15px">到达榜</span>
+      </div>
+      <div style="display:flex;gap:10px;padding:0 12px;overflow-x:auto">
+        <div style="min-width:200px;height:80px;border-radius:10px;background:linear-gradient(135deg,#dcfce7,#86efac);display:flex;align-items:center;justify-content:center;color:#16a34a;font-size:20px;font-weight:800">风景榜</div>
+        <div style="min-width:200px;height:80px;border-radius:10px;background:linear-gradient(135deg,#ffedd5,#fdba74);display:flex;align-items:center;justify-content:center;color:#ea580c;font-size:20px;font-weight:800">盘旋榜</div>
+      </div>
+    </section>
+
+    <!-- ==================== 火车动态 pane ==================== -->
+    <section id="cao_pane_train" style="display:none">
+      <div class="cao_query_card">
+        <div class="cao_query_tabs">
+          <div class="cao_query_tab cao_query_tab--active">按车次号</div>
+          <div class="cao_query_tab">按出发到达站</div>
+        </div>
+        <div class="cao_query_field">
+          <div class="cao_query_label">车次号</div>
+          <input class="cao_query_input" id="cao_train_no" placeholder="请输入车次，如G101或D25">
+        </div>
+        <div class="cao_query_field">
+          <div class="cao_query_label">出发日期</div>
+          <div class="cao_flex cao_between">
+            <span style="font-size:16px;font-weight:600">2026年10月13日 星期二</span>
+            <span style="color:var(--cao-text-sub)">›</span>
+          </div>
+        </div>
+        <div class="cao_sub cao_mt8">⚠ 支持高铁(G)、动车(D)、城际(C)、直达(Z)、特快(T)查询</div>
+        <button class="cao_query_btn cao_mt16" id="cao_train_query_btn" style="background:#3b82f6">车次查询</button>
+      </div>
+
+      <!-- 火车快捷入口 -->
+      <div style="display:flex;gap:10px;padding:10px 12px">
+        <div class="cao_card" style="flex:1;margin:0;padding:12px;text-align:center">
+          <div style="font-weight:600">余票查询</div>
+          <div class="cao_sub cao_mt8">实时余票动态</div>
+        </div>
+        <div class="cao_card" style="flex:1;margin:0;padding:12px;text-align:center">
+          <div style="font-weight:600">正晚点</div>
+          <div class="cao_sub cao_mt8">实时到站时间</div>
+        </div>
+        <div class="cao_card" style="flex:1;margin:0;padding:12px;text-align:center">
+          <div style="font-weight:600">经停站</div>
+          <div class="cao_sub cao_mt8">全程站点列表</div>
+        </div>
+      </div>
+
+      <!-- 实时高铁列表 -->
+      <div class="cao_card">
+        <div class="cao_flex cao_between">
+          <span style="font-size:18px;font-weight:700">北京南站 ⇌</span>
+          <span style="color:var(--cao-primary);font-size:12px">● 今日开行 42 列 ›</span>
+        </div>
+
+        <div class="cao_train_row">
+          <div class="cao_train_no">G1</div>
+          <div class="cao_train_route">
+            <div class="cao_train_time">07:00 → 12:28</div>
+            <div class="cao_train_station">北京南 → 上海虹桥 · 全程5h28m</div>
+          </div>
+          <span class="cao_train_status cao_train_status--ontime">正点</span>
+        </div>
+
+        <div class="cao_train_row">
+          <div class="cao_train_no">G3</div>
+          <div class="cao_train_route">
+            <div class="cao_train_time">08:00 → 13:27</div>
+            <div class="cao_train_station">北京南 → 上海虹桥 · 全程5h27m</div>
+          </div>
+          <span class="cao_train_status cao_train_status--ontime">正点</span>
+        </div>
+
+        <div class="cao_train_row">
+          <div class="cao_train_no cao_train_no--d">D17</div>
+          <div class="cao_train_route">
+            <div class="cao_train_time">08:56 → 16:47</div>
+            <div class="cao_train_station">北京 → 沈阳北 · 全程7h51m</div>
+          </div>
+          <span class="cao_train_status cao_train_status--delay">晚点12分</span>
+        </div>
+
+        <div class="cao_train_row">
+          <div class="cao_train_no">G5</div>
+          <div class="cao_train_route">
+            <div class="cao_train_time">09:00 → 13:34</div>
+            <div class="cao_train_station">北京南 → 上海虹桥 · 全程4h34m</div>
+          </div>
+          <span class="cao_train_status cao_train_status--ontime">正点</span>
+        </div>
+
+        <div class="cao_train_row">
+          <div class="cao_train_no cao_train_no--d">D21</div>
+          <div class="cao_train_route">
+            <div class="cao_train_time">10:00 → 15:22</div>
+            <div class="cao_train_station">北京 → 长春 · 全程5h22m</div>
+          </div>
+          <span class="cao_train_status cao_train_status--ontime">正点</span>
+        </div>
+
+        <div class="cao_train_row">
+          <div class="cao_train_no">G7</div>
+          <div class="cao_train_route">
+            <div class="cao_train_time">10:47 → 15:20</div>
+            <div class="cao_train_station">北京南 → 上海虹桥 · 全程4h33m</div>
+          </div>
+          <span class="cao_train_status cao_train_status--delay">晚点5分</span>
+        </div>
+      </div>
+
+      <!-- 余票示例 -->
+      <div class="cao_card">
+        <div class="cao_card__title">G103 次 · 实时余票 <span class="cao_card__more">10月13日</span></div>
+        <div class="cao_flex" style="justify-content:space-around;text-align:center">
+          <div>
+            <div style="font-size:18px;font-weight:700;color:#16a34a">商务座</div>
+            <div class="cao_sub cao_mt8">3 张</div>
+          </div>
+          <div>
+            <div style="font-size:18px;font-weight:700;color:#3b82f6">一等座</div>
+            <div class="cao_sub cao_mt8">18 张</div>
+          </div>
+          <div>
+            <div style="font-size:18px;font-weight:700;color:#f59e0b">二等座</div>
+            <div class="cao_sub cao_mt8">有票</div>
+          </div>
+          <div>
+            <div style="font-size:18px;font-weight:700;color:#ef4444">无座</div>
+            <div class="cao_sub cao_mt8">有票</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <nav class="cao_tabbar">
+      <a class="cao_tabbar__item" href="index.html"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg><span>首页</span></a>
+      <a class="cao_tabbar__item" href="trip.html"><svg viewBox="0 0 24 24"><path d="M20 6h-4V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2H4a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2z"/></svg><span>行程</span></a>
+      <a class="cao_tabbar__item" href="experience.html"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2z"/></svg><span>经验</span></a>
+      <a class="cao_tabbar__item cao_tabbar__item--active" href="flight_status.html"><svg viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg><span>动态</span></a>
+      <a class="cao_tabbar__item" href="mine.html"><svg viewBox="0 0 24 24"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5zm0 2c-4.42 0-8 2.24-8 5v1h16v-1c0-2.76-3.58-5-8-5z"/></svg><span>我</span></a>
+    </nav>
+  </div>
+
+  <script src="js/cao_common.js"></script>
+  <script>
+    // 航班/火车 tab 切换
+    document.querySelectorAll('.cao_header__tab').forEach(function(tab){
+      tab.addEventListener('click', function(){
+        document.querySelectorAll('.cao_header__tab').forEach(function(t){ t.classList.remove('cao_header__tab--active'); });
+        tab.classList.add('cao_header__tab--active');
+        var pane = tab.getAttribute('data-pane');
+        document.getElementById('cao_pane_flight').style.display = pane === 'flight' ? 'block' : 'none';
+        document.getElementById('cao_pane_train').style.display  = pane === 'train'  ? 'block' : 'none';
+      });
+    });
+    // 航班查询
+    document.getElementById('cao_query_btn').addEventListener('click', function(){
+      var no = document.getElementById('cao_flight_no').value.trim();
+      if(!no){ alert('请输入航班号'); return; }
+      alert('正在查询 ' + no + ' 的航班动态（演示）');
+    });
+    // 火车查询
+    document.getElementById('cao_train_query_btn').addEventListener('click', function(){
+      var no = document.getElementById('cao_train_no').value.trim();
+      if(!no){ alert('请输入车次号'); return; }
+      alert('正在查询 ' + no + ' 次列车的实时动态（演示）');
+    });
+  </script>
+</body>
+</html>

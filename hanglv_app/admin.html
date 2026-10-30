@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<!--
+  航旅纵横仿站 - 后台管理页面
+  作者：caobingyu   学号：[请在此处填写你的学号]
+  页面：后台管理页面
+-->
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>后台管理 - 航旅纵横 | caobingyu</title>
+  <link rel="stylesheet" href="css/cao_style.css">
+</head>
+<body>
+  <div class="cao_page cao_page--admin">
+
+    <!-- 顶部管理导航 -->
+    <header class="cao_admin_nav">
+      <span class="cao_admin_nav__brand">航旅纵横 · 管理后台</span>
+      <a class="cao_admin_nav__link" href="index.html">返回前台</a>
+      <span style="margin-left:auto;color:#94a3b8;font-size:13px">管理员：caobingyu</span>
+    </header>
+
+    <div class="cao_admin_wrap">
+      <!-- 侧边栏 -->
+      <aside class="cao_admin_side">
+        <a class="cao_admin_side__item cao_admin_side__item--active" href="#" data-panel="dashboard">📊 数据概览</a>
+        <a class="cao_admin_side__item" href="#" data-panel="flights">✈️ 航班管理</a>
+        <a class="cao_admin_side__item" href="#" data-panel="orders">📦 订单管理</a>
+        <a class="cao_admin_side__item" href="#" data-panel="users">👤 用户管理</a>
+      </aside>
+
+      <!-- 主内容区 -->
+      <main class="cao_admin_main">
+
+        <!-- 面板1：数据概览 -->
+        <section class="cao_admin_panel" id="panel-dashboard">
+          <h2 style="margin-bottom:16px">数据概览</h2>
+          <div class="cao_admin_stats">
+            <div class="cao_stat">
+              <div class="cao_stat__num" data-target="12860">0</div>
+              <div class="cao_stat__label">今日出票</div>
+            </div>
+            <div class="cao_stat">
+              <div class="cao_stat__num" data-target="352">0</div>
+              <div class="cao_stat__label">今日航班</div>
+            </div>
+            <div class="cao_stat">
+              <div class="cao_stat__num" data-target="18930">0</div>
+              <div class="cao_stat__label">活跃用户</div>
+            </div>
+            <div class="cao_stat">
+              <div class="cao_stat__num" data-target="98">0</div>
+              <div class="cao_stat__label">准点率(%)</div>
+            </div>
+          </div>
+
+          <div class="cao_card" style="margin:0">
+            <div class="cao_card__title">近7日出票趋势</div>
+            <div style="display:flex;align-items:flex-end;gap:10px;height:160px;padding:10px 0">
+              <div style="flex:1;background:#eaf2ff;border-radius:6px 6px 0 0;height:60%"></div>
+              <div style="flex:1;background:#eaf2ff;border-radius:6px 6px 0 0;height:75%"></div>
+              <div style="flex:1;background:#eaf2ff;border-radius:6px 6px 0 0;height:55%"></div>
+              <div style="flex:1;background:#1677ff;border-radius:6px 6px 0 0;height:90%"></div>
+              <div style="flex:1;background:#eaf2ff;border-radius:6px 6px 0 0;height:70%"></div>
+              <div style="flex:1;background:#eaf2ff;border-radius:6px 6px 0 0;height:80%"></div>
+              <div style="flex:1;background:#eaf2ff;border-radius:6px 6px 0 0;height:65%"></div>
+            </div>
+            <div class="cao_flex" style="justify-content:space-between;font-size:11px;color:#999">
+              <span>周一</span><span>周二</span><span>周三</span><span>周四</span><span>周五</span><span>周六</span><span>周日</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- 面板2：航班管理（fetch 渲染） -->
+        <section class="cao_admin_panel" id="panel-flights" style="display:none">
+          <h2 style="margin-bottom:16px">航班管理</h2>
+          <table class="cao_table">
+            <thead>
+              <tr>
+                <th>航班号</th><th>航司</th><th>出发</th><th>到达</th>
+                <th>时刻</th><th>价格</th><th>状态</th>
+              </tr>
+            </thead>
+            <tbody id="cao_admin_tbody"></tbody>
+          </table>
+        </section>
+
+        <!-- 面板3：订单管理 -->
+        <section class="cao_admin_panel" id="panel-orders" style="display:none">
+          <h2 style="margin-bottom:16px">订单管理</h2>
+          <table class="cao_table">
+            <thead><tr><th>订单号</th><th>乘客</th><th>航班</th><th>金额</th><th>状态</th></tr></thead>
+            <tbody>
+              <tr><td>DD20261015001</td><td>曹冰玉</td><td>CA1501</td><td>¥680</td><td><span class="cao_tag cao_tag--blue">已出票</span></td></tr>
+              <tr><td>DD20261015002</td><td>张三</td><td>MU5109</td><td>¥590</td><td><span class="cao_tag cao_tag--green">已支付</span></td></tr>
+              <tr><td>DD20261015003</td><td>李四</td><td>HU7605</td><td>¥450</td><td><span class="cao_tag cao_tag--orange">待出票</span></td></tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- 面板4：用户管理 -->
+        <section class="cao_admin_panel" id="panel-users" style="display:none">
+          <h2 style="margin-bottom:16px">用户管理</h2>
+          <table class="cao_table">
+            <thead><tr><th>用户</th><th>手机号</th><th>等级</th><th>里程</th><th>注册时间</th></tr></thead>
+            <tbody>
+              <tr><td>caobingyu</td><td>138****8888</td><td><span class="cao_tag cao_tag--blue">钻石</span></td><td>12860</td><td>2024-03-12</td></tr>
+              <tr><td>traveler01</td><td>139****2233</td><td><span class="cao_tag cao_tag--green">金卡</span></td><td>5230</td><td>2025-01-08</td></tr>
+              <tr><td>fly_daily</td><td>186****5566</td><td><span class="cao_tag cao_tag--orange">普通</span></td><td>320</td><td>2026-09-20</td></tr>
+            </tbody>
+          </table>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="js/cao_common.js"></script>
+  <script src="js/cao_admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<!-- 登录页 - caobingyu -->
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>登录 - 航旅纵横 | caobingyu</title>
+  <link rel="stylesheet" href="css/cao_style.css">
+  <style>
+    .cao_login_wrap {
+      max-width: 480px; min-height: 100vh; margin: 0 auto;
+      background: linear-gradient(180deg, #22c55e 0%, #16a34a 30%, #f4f6fa 30%);
+      padding: 40px 24px;
+    }
+    .cao_login_logo {
+      text-align: center; color: #fff; margin-bottom: 30px;
+    }
+    .cao_login_logo h1 { font-size: 26px; font-weight: 800; letter-spacing: 2px; }
+    .cao_login_logo p { font-size: 13px; opacity: .9; margin-top: 6px; }
+    .cao_login_card {
+      background: #fff; border-radius: 16px; padding: 24px 20px;
+      box-shadow: 0 8px 30px rgba(0,0,0,.12);
+    }
+    .cao_login_title { font-size: 20px; font-weight: 700; margin-bottom: 20px; }
+    .cao_login_field {
+      display: flex; align-items: center; gap: 10px;
+      border-bottom: 1px solid var(--cao-border); padding: 12px 0;
+      margin-bottom: 12px;
+    }
+    .cao_login_field svg { width: 20px; height: 20px; fill: #9ca3af; flex-shrink: 0; }
+    .cao_login_field input {
+      flex: 1; border: none; outline: none; font-size: 15px;
+    }
+    .cao_login_field input::placeholder { color: #c0c4cc; }
+    .cao_login_code {
+      display: flex; gap: 10px; align-items: center;
+    }
+    .cao_login_code input { flex: 1; border: none; outline: none; font-size: 15px; }
+    .cao_captcha_canvas {
+      width: 100px; height: 40px; border-radius: 6px; cursor: pointer;
+      border: 1px solid var(--cao-border);
+    }
+    .cao_send_sms {
+      color: var(--cao-primary); font-size: 13px; white-space: nowrap; cursor: pointer;
+    }
+    .cao_send_sms--disabled { color: #c0c4cc; cursor: not-allowed; }
+    .cao_login_btn {
+      width: 100%; background: var(--cao-primary); color: #fff;
+      padding: 13px; border-radius: 999px; font-size: 16px; font-weight: 600;
+      margin-top: 20px;
+    }
+    .cao_agreement {
+      display: flex; gap: 6px; align-items: center; margin-top: 16px;
+      font-size: 12px; color: var(--cao-text-sub);
+    }
+    .cao_agreement input { width: 14px; height: 14px; accent-color: var(--cao-primary); }
+    .cao_agreement a { color: var(--cao-blue); }
+    .cao_login_other {
+      text-align: center; margin-top: 24px; font-size: 13px; color: var(--cao-text-sub);
+    }
+    .cao_login_icons {
+      display: flex; justify-content: center; gap: 24px; margin-top: 16px;
+    }
+    .cao_login_icons svg { width: 36px; height: 36px; fill: #4b5563; }
+  </style>
+</head>
+<body>
+  <div class="cao_login_wrap">
+    <div class="cao_login_logo">
+      <h1>✈ 航旅纵横</h1>
+      <p>坐飞机就用航旅纵横</p>
+    </div>
+
+    <div class="cao_login_card">
+      <div class="cao_login_title">手机号登录</div>
+
+      <!-- 手机号 -->
+      <div class="cao_login_field">
+        <svg viewBox="0 0 24 24"><path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/></svg>
+        <input id="cao_phone" type="tel" maxlength="11" placeholder="请输入手机号">
+      </div>
+
+      <!-- 图形验证码 -->
+      <div class="cao_login_field">
+        <svg viewBox="0 0 24 24"><path d="M18 8h-1V6a5 5 0 0 0-10 0v2H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V10a2 2 0 0 0-2-2zM8 6a4 4 0 0 1 8 0v2H8V6zm10 14H6V10h12v10z"/></svg>
+        <div class="cao_login_code" style="flex:1">
+          <input id="cao_img_code" type="text" maxlength="4" placeholder="图形验证码">
+          <canvas class="cao_captcha_canvas" id="cao_captcha" width="100" height="40" title="点击刷新"></canvas>
+        </div>
+      </div>
+
+      <!-- 短信验证码 -->
+      <div class="cao_login_field">
+        <svg viewBox="0 0 24 24"><path d="M20 2H4a2 2 0 0 0-2 2v18l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z"/></svg>
+        <input id="cao_sms_code" type="text" maxlength="6" placeholder="短信验证码">
+        <span class="cao_send_sms" id="cao_send_sms">获取验证码</span>
+      </div>
+
+      <button class="cao_login_btn" id="cao_login_btn">登 录</button>
+
+      <div class="cao_agreement">
+        <input type="checkbox" id="cao_agree" checked>
+        <span>我已阅读并同意 <a href="#">《用户协议》</a> 和 <a href="#">《隐私政策》</a></span>
+      </div>
+    </div>
+
+    <div class="cao_login_other">其他登录方式</div>
+    <div class="cao_login_icons">
+      <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5.5 10.5h-4v6h-3v-6h-4v-3h4v-4h3v4h4v3z"/></svg>
+      <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"/></svg>
+      <svg viewBox="0 0 24 24"><path d="M12 2L9.5 9.5 2 12l7.5 2.5L12 22l2.5-7.5L22 12l-7.5-2.5z"/></svg>
+    </div>
+  </div>
+
+  <script>
+    // ============ 图形验证码（Canvas 随机生成） ============
+    var canvas = document.getElementById('cao_captcha');
+    var ctx = canvas.getContext('2d');
+    var captchaCode = '';
+
+    function drawCaptcha() {
+      var chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789';
+      captchaCode = '';
+      for (var i = 0; i < 4; i++) {
+        captchaCode += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      // 背景
+      ctx.fillStyle = '#e8f9ef';
+      ctx.fillRect(0, 0, 100, 40);
+      // 干扰线
+      for (var i = 0; i < 5; i++) {
+        ctx.strokeStyle = 'rgba(34,197,94,' + (Math.random() * .4 + .2) + ')';
+        ctx.beginPath();
+        ctx.moveTo(Math.random() * 100, Math.random() * 40);
+        ctx.lineTo(Math.random() * 100, Math.random() * 40);
+        ctx.stroke();
+      }
+      // 文字
+      for (var i = 0; i < 4; i++) {
+        ctx.font = 'bold ' + (18 + Math.random() * 6) + 'px Arial';
+        ctx.fillStyle = ['#16a34a', '#ef4444', '#1677ff', '#f59e0b'][i % 4];
+        ctx.save();
+        ctx.translate(15 + i * 22, 28);
+        ctx.rotate((Math.random() - .5) * .4);
+        ctx.fillText(captchaCode[i], 0, 0);
+        ctx.restore();
+      }
+    }
+    drawCaptcha();
+    canvas.addEventListener('click', drawCaptcha);
+
+    // ============ 短信验证码倒计时 ============
+    var smsBtn = document.getElementById('cao_send_sms');
+    var countdown = 0;
+    smsBtn.addEventListener('click', function () {
+      var phone = document.getElementById('cao_phone').value.trim();
+      if (!/^1\d{10}$/.test(phone)) { alert('请先输入正确的手机号'); return; }
+      var imgCode = document.getElementById('cao_img_code').value.trim();
+      if (imgCode.toLowerCase() !== captchaCode.toLowerCase()) {
+        alert('图形验证码错误，请重新输入');
+        drawCaptcha();
+        return;
+      }
+      countdown = 60;
+      smsBtn.classList.add('cao_send_sms--disabled');
+      var timer = setInterval(function () {
+        countdown--;
+        smsBtn.textContent = countdown + 's后重发';
+        if (countdown <= 0) {
+          clearInterval(timer);
+          smsBtn.textContent = '获取验证码';
+          smsBtn.classList.remove('cao_send_sms--disabled');
+        }
+      }, 1000);
+      alert('验证码已发送（演示：任意6位数字即可登录）');
+    });
+
+    // ============ 登录按钮 ============
+    document.getElementById('cao_login_btn').addEventListener('click', function () {
+      var phone = document.getElementById('cao_phone').value.trim();
+      var sms = document.getElementById('cao_sms_code').value.trim();
+      var agree = document.getElementById('cao_agree').checked;
+
+      if (!/^1\d{10}$/.test(phone)) { alert('请输入正确的11位手机号'); return; }
+      if (document.getElementById('cao_img_code').value.trim().toLowerCase() !== captchaCode.toLowerCase()) {
+        alert('图形验证码错误'); drawCaptcha(); return;
+      }
+      if (!/^\d{6}$/.test(sms)) { alert('请输入6位短信验证码'); return; }
+      if (!agree) { alert('请先同意用户协议'); return; }
+
+      // 登录成功，跳转首页
+      alert('登录成功，欢迎 caobingyu！');
+      window.location.href = 'index.html';
+    });
+  </script>
+</body>
+</html>
