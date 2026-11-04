@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<!--
+  作者：曹炳宇
+  建立时间：2026-11-04 13:42
+  使用大模型：GLM-5.3-Flash
+  功能名称：新闻选项卡（可复用 Tab 组件演示页）
+-->
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>新闻选项卡 | ATELIER</title>
+  <style>
+    :root {
+      --wy-bg: #FAF7F2;
+      --wy-surface: #FFFFFF;
+      --wy-text: #1A1A1A;
+      --wy-text-muted: #6B6B6B;
+      --wy-accent: #C9A96E;
+      --wy-accent-dark: #8B7355;
+      --wy-border: #E8E2D9;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Georgia", "Cambria", "Times New Roman", serif;
+      background-color: var(--wy-bg);
+      color: var(--wy-text);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* --- 顶部导航 --- */
+    .wy_nav_top {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 24px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--wy-border);
+    }
+
+    .wy_nav_home {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--wy-text);
+      padding-bottom: 4px;
+      border-bottom: 1px solid var(--wy-accent);
+      transition: color 0.3s;
+    }
+
+    .wy_nav_home:hover { color: var(--wy-accent-dark); }
+
+    /* --- 页头 --- */
+    .wy_hero {
+      text-align: center;
+      padding: 56px 32px 32px;
+    }
+
+    .wy_hero_kicker {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--wy-accent-dark);
+      margin-bottom: 18px;
+    }
+
+    .wy_hero h1 {
+      font-size: clamp(1.8rem, 5vw, 2.6rem);
+      font-weight: 400;
+      letter-spacing: 0.08em;
+    }
+
+    /* --- 选项卡组件 --- */
+    .wy_tabs {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 24px 32px 64px;
+    }
+
+    .wy_tab_nav {
+      display: flex;
+      border-bottom: 1px solid var(--wy-border);
+      background: var(--wy-surface);
+      border: 1px solid var(--wy-border);
+      border-bottom: none;
+    }
+
+    .wy_tab_btn {
+      flex: 1;
+      padding: 16px 8px;
+      font-family: "Georgia", serif;
+      font-size: 0.95rem;
+      letter-spacing: 0.06em;
+      color: var(--wy-text-muted);
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      cursor: pointer;
+      transition: color 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+    }
+
+    .wy_tab_btn:hover {
+      color: var(--wy-accent-dark);
+      background: rgba(201, 169, 110, 0.08);
+    }
+
+    /* 选中状态 */
+    .wy_tab_btn.wy_active {
+      color: var(--wy-accent-dark);
+      border-bottom: 2px solid var(--wy-accent);
+      background: var(--wy-surface);
+      font-weight: 600;
+    }
+
+    .wy_tab_panels {
+      border: 1px solid var(--wy-border);
+      background: var(--wy-surface);
+    }
+
+    .wy_tab_panel {
+      display: none;
+      padding: 32px;
+    }
+
+    .wy_tab_panel.wy_active {
+      display: block;
+      animation: wy_fade_in 0.35s ease;
+    }
+
+    @keyframes wy_fade_in {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* --- 新闻列表 --- */
+    .wy_news_list {
+      list-style: none;
+      display: grid;
+      gap: 0;
+    }
+
+    .wy_news_item {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 24px;
+      padding: 18px 4px;
+      border-bottom: 1px dashed var(--wy-border);
+    }
+
+    .wy_news_item:last-child { border-bottom: none; }
+
+    .wy_news_title {
+      font-size: 1rem;
+      letter-spacing: 0.03em;
+      color: var(--wy-text);
+    }
+
+    .wy_news_date {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      color: var(--wy-text-muted);
+      white-space: nowrap;
+    }
+
+    .wy_panel_tag {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--wy-accent-dark);
+      margin-bottom: 16px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--wy-accent);
+      display: inline-block;
+    }
+
+    @media (max-width: 560px) {
+      .wy_tab_nav { flex-wrap: wrap; }
+      .wy_tab_btn { flex: 1 1 50%; border-bottom: 1px solid var(--wy-border); }
+      .wy_tab_btn.wy_active { border-bottom: 2px solid var(--wy-accent); }
+      .wy_nav_top, .wy_hero, .wy_tabs { padding-left: 16px; padding-right: 16px; }
+      .wy_news_item { flex-direction: column; gap: 4px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- 顶部导航 -->
+  <nav class="wy_nav_top">
+    <a class="wy_nav_home" href="index.html">← 返回首页</a>
+  </nav>
+
+  <!-- 页头 -->
+  <header class="wy_hero">
+    <div class="wy_hero_kicker">tab component · reusable</div>
+    <h1>新闻选项卡</h1>
+  </header>
+
+  <!-- 选项卡组件：国内新闻默认选中 -->
+  <div class="wy_tabs">
+    <div class="wy_tab_nav" role="tablist">
+      <button class="wy_tab_btn wy_active" data-wy-tab="wy_panel_domestic">国内新闻</button>
+      <button class="wy_tab_btn" data-wy-tab="wy_panel_province">省内新闻</button>
+      <button class="wy_tab_btn" data-wy-tab="wy_panel_world">国际新闻</button>
+      <button class="wy_tab_btn" data-wy-tab="wy_panel_hot">最热新闻</button>
+    </div>
+
+    <div class="wy_tab_panels">
+      <div class="wy_tab_panel wy_active" id="wy_panel_domestic">
+        <span class="wy_panel_tag">Domestic · 国内</span>
+        <ul class="wy_news_list">
+          <li class="wy_news_item"><span class="wy_news_title">全国数字经济高质量发展大会在京召开</span><span class="wy_news_date">2026-11-04</span></li>
+          <li class="wy_news_item"><span class="wy_news_title">多条新高铁线路年底前陆续开通运营</span><span class="wy_news_date">2026-11-03</span></li>
+          <li class="wy_news_item"><span class="wy_news_title">秋粮收购全面展开 市场购销两旺</span><span class="wy_news_date">2026-11-02</span></li>
+          <li class="wy_news_item"><span class="wy_news_title">全国科普月活动累计参与人次创新高</span><span class="wy_news_date">2026-11-01</span></li>
+        </ul>
+      </div>
+
+      <div class="wy_tab_panel" id="wy_panel_province">
+        <span class="wy_panel_tag">Province · 省内</span>
+        <ul class="wy_news_list">
+          <li class="wy_news_item"><span class="wy_news_title">我省智能网联汽车测试道路新增 120 公里</span><span class="wy_news_date">2026-11-04</span></li>
+          <li class="wy_news_item"><span class="wy_news_title">省内高校科技成果转化对接会圆满举办</span><span class="wy_news_date">2026-11-03</span></li>
+          <li class="wy_news_item"><span class="wy_news_title">全省文旅消费季正式启动 惠民券开领</span><span class="wy_news_date">2026-11-02</span></li>
+        </ul>
+      </div>
+
+      <div class="wy_tab_panel" id="wy_panel_world">
+        <span class="wy_panel_tag">World · 国际</span>
+        <ul class="wy_news_list">
+          <li class="wy_news_item"><span class="wy_news_title">全球气候峰会就减排目标达成新共识</span><span class="wy_news_date">2026-11-04</span></li>
+          <li class="wy_news_item"><span class="wy_news_title">国际航联新款电动飞机完成首航测试</span><span class="wy_news_date">2026-11-03</span></li>
+          <li class="wy_news_item"><span class="wy_news_title">多国联合科考队公布深海探测新成果</span><span class="wy_news_date">2026-11-01</span></li>
+        </ul>
+      </div>
+
+      <div class="wy_tab_panel" id="wy_panel_hot">
+        <span class="wy_panel_tag">Trending · 最热</span>
+        <ul class="wy_news_list">
+          <li class="wy_news_item"><span class="wy_news_title">热议：AI 助教走进中小学课堂第一周</span><span class="wy_news_date">热度 98</span></li>
+          <li class="wy_news_item"><span class="wy_news_title">热议：城市 15 分钟便民生活圈全覆盖</span><span class="wy_news_date">热度 95</span></li>
+          <li class="wy_news_item"><span class="wy_news_title">热议：电竞选手入选亚运国家集训队</span><span class="wy_news_date">热度 91</span></li>
+          <li class="wy_news_item"><span class="wy_news_title">热议：候鸟迁徙季观光航线预订火爆</span><span class="wy_news_date">热度 88</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 外部引用可复用选项卡脚本 -->
+  <script src="js/wy_tabs.js"></script>
+</body>
+</html>
