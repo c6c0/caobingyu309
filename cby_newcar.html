@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<!--
+  作者：曹炳宇
+  建立时间：2026-11-04 14:05
+  使用大模型：GLM-5.3-Flash
+  功能名称：最新上市/即将上市 新车选项卡表格（课堂测试 3-4 一比一还原）
+-->
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>最新上市 - 即将上市</title>
+  <style>
+    /* 基础重置 */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #ffffff;
+      font-family: SimSun, "宋体", serif;
+      font-size: 12px;
+      color: #333;
+      padding: 40px 0;
+    }
+
+    /* ===== 新车选项卡组件（一比一还原 4.jpg） ===== */
+    .cby_widget {
+      width: 300px;
+      margin: 0 auto;
+      border: 2px solid #4a7db5;
+      background: #fff;
+    }
+
+    /* --- 标签栏 --- */
+    .cby_tab_bar {
+      display: flex;
+    }
+
+    .cby_tab_btn {
+      flex: 1;
+      height: 32px;
+      font-family: SimSun, "宋体", serif;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 32px;
+      text-align: center;
+      color: #333;
+      background: #fff;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    /* 选中状态：深蓝底白字 */
+    .cby_tab_btn.cby_active {
+      background: #2d5a8c;
+      color: #fff;
+    }
+
+    /* --- 内容面板 --- */
+    .cby_panel {
+      display: none;
+    }
+
+    .cby_panel.cby_active {
+      display: block;
+    }
+
+    /* --- 表格 --- */
+    .cby_table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
+
+    .cby_table th {
+      height: 28px;
+      background: #dbe5f1;
+      color: #1f497d;
+      font-size: 12px;
+      font-weight: 700;
+      text-align: left;
+      padding: 0 10px;
+    }
+
+    .cby_table td {
+      height: 28px;
+      color: #333;
+      border-bottom: 1px solid #e4e8f0;
+      padding: 0 10px;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+
+    /* 上市时间列：灰色 */
+    .cby_table td.cby_date {
+      color: #808080;
+      width: 76px;
+    }
+
+    /* 售价列：右对齐、红色 */
+    .cby_table td.cby_price {
+      color: #c00000;
+      text-align: right;
+      width: 88px;
+    }
+
+    .cby_table th.cby_col_price {
+      text-align: right;
+    }
+
+    .cby_table tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* --- 返回首页链接 --- */
+    .cby_back_box {
+      width: 300px;
+      margin: 16px auto 0;
+      text-align: center;
+    }
+
+    .cby_back_link {
+      font-size: 12px;
+      color: #808080;
+      text-decoration: none;
+    }
+
+    .cby_back_link:hover {
+      color: #2d5a8c;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <!-- 新车选项卡组件：最新上市为默认选中 -->
+  <div class="cby_widget" id="cby_car_widget">
+    <!-- 标签栏 -->
+    <div class="cby_tab_bar" role="tablist">
+      <button class="cby_tab_btn cby_active" data-cby-tab="cby_panel_latest">最新上市</button>
+      <button class="cby_tab_btn" data-cby-tab="cby_panel_upcoming">即将上市</button>
+    </div>
+
+    <!-- 最新上市面板（默认显示） -->
+    <div class="cby_panel cby_active" id="cby_panel_latest">
+      <table class="cby_table">
+        <thead>
+          <tr>
+            <th>上市时间</th>
+            <th>品牌/车型</th>
+            <th class="cby_col_price">售价（万元）</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="cby_date">12月13日</td><td>沃尔沃S60L</td><td class="cby_price">26.98-38.49</td></tr>
+          <tr><td class="cby_date">12月12日</td><td>Jeep牧马人龙腾典藏</td><td class="cby_price">47.99-59.99</td></tr>
+          <tr><td class="cby_date">12月10日</td><td>一汽大众高尔夫7</td><td class="cby_price">11.89-18.29</td></tr>
+          <tr><td class="cby_date">12月6日</td><td>2014款古思特</td><td class="cby_price">419.0-666.0</td></tr>
+          <tr><td class="cby_date">12月5日</td><td>起亚新K5</td><td class="cby_price">15.98-25.18</td></tr>
+          <tr><td class="cby_date">12月5日</td><td>2014款奥德赛</td><td class="cby_price">22.98-28.68</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 即将上市面板 -->
+    <div class="cby_panel" id="cby_panel_upcoming">
+      <table class="cby_table">
+        <thead>
+          <tr>
+            <th>上市时间</th>
+            <th>品牌/车型</th>
+            <th class="cby_col_price">预计售价（万元）</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="cby_date">12月18日</td><td>广汽本田新飞度</td><td class="cby_price">7.38-11.28</td></tr>
+          <tr><td class="cby_date">12月20日</td><td>上海大众凌渡</td><td class="cby_price">14.98-22.58</td></tr>
+          <tr><td class="cby_date">12月26日</td><td>长安福特新锐界</td><td class="cby_price">24.98-42.98</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 返回首页 -->
+  <div class="cby_back_box">
+    <a class="cby_back_link" href="index.html">← 返回首页</a>
+  </div>
+
+  <!-- 外部引用选项卡脚本 -->
+  <script src="js/cby_car_tabs.js"></script>
+</body>
+</html>

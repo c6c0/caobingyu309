@@ -1,0 +1,383 @@
+﻿<!DOCTYPE html>
+<!--
+  作者：曹炳宇
+  建立时间：2026-11-10 00:00
+  使用大模型：GLM-5.3-Flash
+  功能名称：纹样馆掌上首页（字体图标版 · 青绿色新中式风）
+-->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>纹样馆 · 掌上首页（字体图标版）</title>
+<link rel="stylesheet" href="../cdn/iconfont/iconfont.css">
+<style>
+  /* ===== 新中式主题变量：深青 + 米白 + 朱砂 + 茶褐 ===== */
+  :root {
+    --cby_jade: #2F6B5E;          /* 主色：深青 */
+    --cby_jade-dark: #1F4A40;     /* 深青暗 */
+    --cby_paper: #FAF6EF;         /* 米白宣纸 */
+    --cby_ink: #1C1C1C;           /* 墨黑 */
+    --cby_cinnabar: #C84C3B;      /* 朱砂红 */
+    --cby_tea: #8B6F47;           /* 茶褐 */
+    --cby_line: #D9D2C4;          /* 淡茶线 */
+    --cby_font_serif: "KaiTi", "楷体", "STKaiti", "FangSong", "仿宋", serif;
+    --cby_font_sans: "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: var(--cby_font_sans);
+    background: #EAE3D4;
+    color: var(--cby_ink);
+    line-height: 1.7;
+  }
+  a { color: inherit; }
+  a:focus-visible, button:focus-visible { outline: 3px solid var(--cby_cinnabar); outline-offset: 2px; }
+
+  /* ===== 应用框架 ===== */
+  .cby_app {
+    max-width: 520px;
+    margin: 0 auto;
+    background: var(--cby_paper);
+    min-height: 100dvh;
+    position: relative;
+  }
+  @media (min-width: 560px) {
+    .cby_app { border-inline: 2px solid var(--cby_jade); }
+  }
+
+  /* ===== 顶栏 ===== */
+  .cby_topbar {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    background: linear-gradient(180deg, var(--cby_jade) 0%, var(--cby_jade-dark) 100%);
+    color: #fff;
+    box-shadow: 0 2px 12px rgba(31, 74, 64, 0.25);
+  }
+  .cby_brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+  }
+  .cby_seal {
+    width: 38px;
+    height: 38px;
+    background: var(--cby_cinnabar);
+    border: 2px solid #fff;
+    border-radius: 4px;
+    display: grid;
+    place-items: center;
+    font-family: var(--cby_font_serif);
+    font-size: 1.25rem;
+    color: #fff;
+    letter-spacing: 0;
+  }
+  .cby_brandText {
+    font-family: var(--cby_font_serif);
+    font-weight: 700;
+    font-size: 1.15rem;
+    letter-spacing: 0.08em;
+  }
+  .cby_homeLink {
+    font-size: 0.82rem;
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    padding: 4px 12px;
+    border-radius: 999px;
+  }
+  .cby_homeLink:hover { background: rgba(255, 255, 255, 0.15); color: #fff; }
+
+  /* ===== 内容与面板 ===== */
+  .cby_main { padding: 28px 20px 120px; }
+  .cby_panel { display: none; }
+  .cby_panel.cby_active { display: block; animation: cby_fadeIn 0.3s ease; }
+  @keyframes cby_fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+  .cby_panelHead {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    padding-bottom: 14px;
+    border-bottom: 1px dashed var(--cby_tea);
+  }
+  .cby_panelTitle {
+    font-family: var(--cby_font_serif);
+    font-size: 1.9rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: var(--cby_jade-dark);
+  }
+  .cby_panelText {
+    margin-top: 8px;
+    font-family: var(--cby_font_serif);
+    font-size: 0.95rem;
+    color: var(--cby_tea);
+    line-height: 1.9;
+  }
+  .cby_panelIcon {
+    width: 64px;
+    height: 64px;
+    background: var(--cby_jade);
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    color: #fff;
+    flex: none;
+  }
+  .cby_panelIcon .iconfont { font-size: 34px; }
+
+  .cby_rows { margin-top: 22px; list-style: none; }
+  .cby_row {
+    padding: 16px 14px;
+    border-radius: 10px;
+    transition: background 0.2s;
+  }
+  .cby_row + .cby_row { margin-top: 8px; }
+  .cby_row:hover { background: rgba(47, 107, 94, 0.06); }
+  .cby_rowTitle {
+    font-family: var(--cby_font_serif);
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--cby_ink);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .cby_rowTitle .iconfont { font-size: 18px; color: var(--cby_cinnabar); }
+  .cby_rowSub {
+    font-family: var(--cby_font_serif);
+    font-size: 0.85rem;
+    color: var(--cby_tea);
+    margin-top: 4px;
+    padding-left: 28px;
+    letter-spacing: 0.03em;
+  }
+
+  .cby_verNote {
+    margin-top: 40px;
+    padding-top: 16px;
+    font-family: var(--cby_font_serif);
+    font-size: 0.82rem;
+    color: var(--cby_tea);
+    border-top: 1px solid var(--cby_line);
+  }
+  .cby_verNote a { color: var(--cby_jade); font-weight: 700; }
+
+  /* ===== 固定底部导航 ===== */
+  .cby_tabbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin-inline: auto;
+    max-width: 520px;
+    z-index: 30;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    background: #fff;
+    border-top: 2px solid var(--cby_jade);
+    padding: 6px 0 calc(6px + env(safe-area-inset-bottom));
+    box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.06);
+  }
+  @media (min-width: 560px) {
+    .cby_tabbar { border-inline: 2px solid var(--cby_jade); }
+  }
+  .cby_tab {
+    background: none;
+    border: 0;
+    font-family: var(--cby_font_sans);
+    color: #888;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 8px 0 6px;
+    cursor: pointer;
+    position: relative;
+    transition: color 0.2s;
+  }
+  .cby_tabIcon { position: relative; line-height: 1; font-size: 24px; }
+  .cby_tabIcon .iconfont { font-size: 24px; }
+  .cby_tabLabel { font-size: 0.72rem; letter-spacing: 0.1em; font-family: var(--cby_font_serif); }
+  .cby_tab.cby_active { color: var(--cby_jade); }
+  .cby_tab.cby_active .cby_tabLabel { font-weight: 700; }
+  .cby_tab.cby_active .cby_tabIcon::after {
+    content: "";
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 3px;
+    background: var(--cby_cinnabar);
+    border-radius: 2px;
+  }
+
+  /* ===== 数字徽章与红点 ===== */
+  .cby_badge, .cby_dot {
+    position: absolute;
+    background: var(--cby_cinnabar);
+    border: 2px solid #fff;
+  }
+  .cby_badge {
+    top: -8px;
+    right: -12px;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    border-radius: 999px;
+    color: #fff;
+    font-size: 0.68rem;
+    font-weight: 700;
+    font-style: normal;
+    line-height: 14px;
+    text-align: center;
+  }
+  .cby_dot {
+    top: -4px;
+    right: -6px;
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+  }
+
+  @media (max-width: 360px) {
+    .cby_panelIcon { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cby_app">
+
+  <header class="cby_topbar">
+    <a class="cby_brand" href="../../index.html">
+      <span class="cby_seal">纹</span>
+      <span class="cby_brandText">纹样馆</span>
+    </a>
+    <a class="cby_homeLink" href="../../index.html">返回首页</a>
+  </header>
+
+  <main class="cby_main">
+
+    <section class="cby_panel cby_active" id="cby_panel-home">
+      <div class="cby_panelHead">
+        <div>
+          <h1 class="cby_panelTitle">今日纹样</h1>
+          <p class="cby_panelText">馆内今日展出的三件纹样，皆与印刷有关：纹样先被刻出，再被印下。</p>
+        </div>
+        <span class="cby_panelIcon"><i class="iconfont icon-shouye_3" aria-hidden="true"></i></span>
+      </div>
+      <ul class="cby_rows">
+        <li class="cby_row"><p class="cby_rowTitle">缠枝莲纹 · 青花转心瓶</p><p class="cby_rowSub">清乾隆，釉里红描金</p></li>
+        <li class="cby_row"><p class="cby_rowTitle">云雷纹 · 兽面铜尊</p><p class="cby_rowSub">商代晚期，范铸法</p></li>
+        <li class="cby_row"><p class="cby_rowTitle">万字不到头 · 掐丝珐琅盘</p><p class="cby_rowSub">明永乐，宫廷造办处</p></li>
+      </ul>
+    </section>
+
+    <section class="cby_panel" id="cby_panel-bar">
+      <div class="cby_panelHead">
+        <div>
+          <h1 class="cby_panelTitle">书吧</h1>
+          <p class="cby_panelText">馆内书吧备有图录与茶，凭门票即可入座。</p>
+        </div>
+      </div>
+      <ul class="cby_rows">
+        <li class="cby_row"><p class="cby_rowTitle">《中国纹样谱》</p><p class="cby_rowSub">在架可阅，不外借</p></li>
+        <li class="cby_row"><p class="cby_rowTitle">《铅字与活字》</p><p class="cby_rowSub">可借 7 天，现剩 2 册</p></li>
+        <li class="cby_row"><p class="cby_rowTitle">《印刷的形状》</p><p class="cby_rowSub">周末分享会，限 20 人</p></li>
+      </ul>
+    </section>
+
+    <section class="cby_panel" id="cby_panel-fav">
+      <div class="cby_panelHead">
+        <div>
+          <h1 class="cby_panelTitle">收藏</h1>
+          <p class="cby_panelText">你标记过的展品都在这里，离馆 30 天内有效。</p>
+        </div>
+      </div>
+      <ul class="cby_rows">
+        <li class="cby_row"><p class="cby_rowTitle">缠枝莲纹 · 青花转心瓶</p><p class="cby_rowSub">你于今日收藏</p></li>
+        <li class="cby_row"><p class="cby_rowTitle">活字架全景</p><p class="cby_rowSub">你于昨日收藏</p></li>
+        <li class="cby_row"><p class="cby_rowTitle">藏书票 · 鱼纹</p><p class="cby_rowSub">你于本周收藏</p></li>
+      </ul>
+    </section>
+
+    <section class="cby_panel" id="cby_panel-me">
+      <div class="cby_panelHead">
+        <div>
+          <h1 class="cby_panelTitle">我的</h1>
+          <p class="cby_panelText">票务与借阅，都在这一页办理。</p>
+        </div>
+      </div>
+      <ul class="cby_rows">
+        <li class="cby_row"><p class="cby_rowTitle"><i class="iconfont icon-shouye_3" aria-hidden="true"></i>观展预约</p><p class="cby_rowSub">明日还有 14 个名额</p></li>
+        <li class="cby_row"><p class="cby_rowTitle"><i class="iconfont icon-shuba" aria-hidden="true"></i>借阅记录</p><p class="cby_rowSub">1 册在借，3 天后到期</p></li>
+        <li class="cby_row"><p class="cby_rowTitle"><i class="iconfont icon-shouji" aria-hidden="true"></i>联系馆员</p><p class="cby_rowSub">每日 9:00 至 17:00</p></li>
+      </ul>
+    </section>
+
+    <p class="cby_verNote">本页为字体图标版，矢量版见 <a href="iconfont-4.html">iconfont-4.html</a>，桌面双厅见 <a href="../iconfont-1.html">铅字厅</a> 与 <a href="../iconfont-2.html">线稿厅</a>。</p>
+
+  </main>
+
+  <nav class="cby_tabbar" aria-label="底部导航">
+    <button type="button" class="cby_tab cby_active" data-wy-tab="home" aria-current="page">
+      <span class="cby_tabIcon"><i class="iconfont icon-shouye" aria-hidden="true"></i></span>
+      <span class="cby_tabLabel">首页</span>
+    </button>
+    <button type="button" class="cby_tab" data-wy-tab="bar">
+      <span class="cby_tabIcon"><i class="iconfont icon-shuba" aria-hidden="true"></i><b class="cby_badge" id="cby_badgeBar">6</b></span>
+      <span class="cby_tabLabel">书吧</span>
+    </button>
+    <button type="button" class="cby_tab" data-wy-tab="fav">
+      <span class="cby_tabIcon"><i class="iconfont icon-shoucang" aria-hidden="true"></i><b class="cby_dot" id="cby_dotFav"></b></span>
+      <span class="cby_tabLabel">收藏</span>
+    </button>
+    <button type="button" class="cby_tab" data-wy-tab="me">
+      <span class="cby_tabIcon"><i class="iconfont icon-wode" aria-hidden="true"></i></span>
+      <span class="cby_tabLabel">我的</span>
+    </button>
+  </nav>
+
+</div>
+
+<script>
+  // 功能：显示指定名称的面板，并清除其他面板与按钮的选中状态
+  function cby_show(cby_name) {
+    var cby_tabs = document.querySelectorAll('.cby_tab');
+    var cby_panels = document.querySelectorAll('.cby_panel');
+    cby_tabs.forEach(function (cby_btn) {
+      var cby_on = cby_btn.getAttribute('data-wy-tab') === cby_name;
+      cby_btn.classList.toggle('cby_active', cby_on);
+      if (cby_on) { cby_btn.setAttribute('aria-current', 'page'); }
+      else { cby_btn.removeAttribute('aria-current'); }
+    });
+    cby_panels.forEach(function (cby_p) {
+      cby_p.classList.toggle('cby_active', cby_p.id === 'cby_panel-' + cby_name);
+    });
+    // 功能：切换到书吧时清除数字徽章
+    if (cby_name === 'bar') { var cby_badge = document.getElementById('cby_badgeBar'); if (cby_badge) cby_badge.remove(); }
+    // 功能：切换到收藏时清除红点
+    if (cby_name === 'fav') { var cby_dot = document.getElementById('cby_dotFav'); if (cby_dot) cby_dot.remove(); }
+  }
+
+  // 功能：为所有底部导航按钮绑定点击事件，点击后显示对应面板
+  document.querySelectorAll('.cby_tab').forEach(function (cby_btn) {
+    cby_btn.addEventListener('click', function () {
+      cby_show(this.getAttribute('data-wy-tab'));
+    });
+  });
+</script>
+
+</body>
+</html>

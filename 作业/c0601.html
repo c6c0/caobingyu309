@@ -1,0 +1,183 @@
+﻿<!DOCTYPE html>
+<!--
+  作者：曹炳宇
+  建立时间：2026-11-10 00:00
+  使用大模型：GLM-5.3-Flash
+  功能名称：事件冒泡与捕获（深色科技风）
+-->
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>事件的冒泡与捕获</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background: #0A0E1A;
+            color: #E0E6F0;
+            font-family: "Consolas", "Courier New", monospace;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        /* ===== 页面标题 ===== */
+        .cby_title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #00E5FF;
+            text-shadow: 0 0 12px rgba(0, 229, 255, 0.6);
+            margin-bottom: 30px;
+            letter-spacing: 0.08em;
+        }
+
+        /* ===== 点击按钮 ===== */
+        .cby_btn {
+            padding: 12px 32px;
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: 700;
+            color: #0A0E1A;
+            background: linear-gradient(135deg, #00E5FF, #00B8D4);
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(0, 229, 255, 0.5);
+            transition: all 0.2s;
+            margin-bottom: 30px;
+        }
+        .cby_btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 28px rgba(0, 229, 255, 0.8);
+        }
+
+        /* ===== 三层盒子：外层 → 中层 → 内层 ===== */
+        .cby_box {
+            width: 400px;
+            height: 400px;
+            background: linear-gradient(135deg, rgba(244, 67, 54, 0.35), rgba(244, 67, 54, 0.15));
+            border: 2px solid #F44336;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 30px rgba(244, 67, 54, 0.4), inset 0 0 20px rgba(244, 67, 54, 0.15);
+            transition: box-shadow 0.3s;
+        }
+        .cby_box:hover { box-shadow: 0 0 40px rgba(244, 67, 54, 0.7); }
+
+        .cby_mid {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, rgba(33, 150, 243, 0.35), rgba(33, 150, 243, 0.15));
+            border: 2px solid #2196F3;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 25px rgba(33, 150, 243, 0.4), inset 0 0 16px rgba(33, 150, 243, 0.15);
+        }
+
+        .cby_inner {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, rgba(255, 235, 59, 0.45), rgba(255, 235, 59, 0.2));
+            border: 2px solid #FFEB3B;
+            border-radius: 6px;
+            box-shadow: 0 0 20px rgba(255, 235, 59, 0.5);
+            color: #0A0E1A;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        /* ===== 输入框 ===== */
+        .cby_input {
+            margin-top: 30px;
+            padding: 10px 16px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            color: #E0E6F0;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid #3F51B5;
+            border-radius: 6px;
+            width: 320px;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .cby_input:focus {
+            border-color: #00E5FF;
+            box-shadow: 0 0 16px rgba(0, 229, 255, 0.5);
+        }
+
+        /* ===== 返回首页 ===== */
+        .cby_back {
+            margin-top: 40px;
+            font-size: 0.85rem;
+            color: #5C6BC0;
+            text-decoration: none;
+        }
+        .cby_back:hover { color: #00E5FF; text-shadow: 0 0 8px rgba(0, 229, 255, 0.5); }
+    </style>
+</head>
+<body>
+    <h1 class="cby_title">⚡ 事件的冒泡与捕获</h1>
+
+    <button class="cby_btn" id="cby_button">点击事件</button>
+
+    <div class="cby_box" id="cby_box">
+        <div class="cby_mid" id="cby_mid">
+            <div class="cby_inner" id="cby_inner">捕获</div>
+        </div>
+    </div>
+
+    <input type="text" class="cby_input" id="cby_input" placeholder="请输入内容">
+
+    <a class="cby_back" href="../index.html">← 返回首页</a>
+
+    <script>
+        // 功能：按钮点击事件处理函数
+        function cby_clickFun() {
+            alert("点击事件");
+        }
+
+        var cby_btn = document.getElementById("cby_button");
+        cby_btn.addEventListener("click", cby_clickFun);
+
+        var cby_box = document.getElementById("cby_box");
+        // 功能：外层盒子绑定冒泡阶段点击监听（false = 冒泡）
+        cby_box.addEventListener("click", function () {
+            alert("cby_box");
+        }, false);
+
+        var cby_mid = document.getElementById("cby_mid");
+        // 功能：中层盒子绑定冒泡阶段点击监听
+        cby_mid.addEventListener("click", function () {
+            alert("cby_mid");
+        }, false);
+
+        var cby_inner = document.getElementById("cby_inner");
+        // 功能：内层盒子绑定冒泡阶段点击监听，并阻止冒泡
+        cby_inner.addEventListener("click", function (e) {
+            alert("cby_inner");
+            e.stopPropagation();
+        }, false);
+
+        // 功能：盒子绑定鼠标移动监听，实时显示坐标（捕获阶段 true）
+        cby_box.addEventListener("mousemove", function (e) {
+            cby_mid.innerHTML = "鼠标：" + e.clientX + "," + e.clientY +
+                "<br>相对：" + (e.offsetX) + "," + (e.offsetY);
+        }, true);
+
+        var cby_input = document.getElementById("cby_input");
+        // 功能：输入框绑定键盘按下监听，提示按下的键名
+        cby_input.addEventListener("keydown", function (e) {
+            alert("你按下了" + e.key + "键");
+        }, false);
+    </script>
+</body>
+</html>

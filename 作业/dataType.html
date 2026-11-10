@@ -1,0 +1,126 @@
+﻿<!DOCTYPE html>
+<!--
+  作者：曹炳宇
+  建立时间：2026-11-10 00:00
+  使用大模型：GLM-5.3-Flash
+  功能名称：数据类型和运算符（极光渐变风）
+-->
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数据类型和运算符</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: "Consolas", "Courier New", monospace;
+            background: linear-gradient(135deg, #0F0C29, #302B63, #24243E, #1A1A3E);
+            background-size: 400% 400%;
+            animation: cby_aurora 12s ease infinite;
+            min-height: 100vh;
+            padding: 30px 20px;
+            color: #fff;
+        }
+        @keyframes cby_aurora {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .cby_title {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #E0B0FF;
+            text-shadow: 0 0 16px rgba(224, 176, 255, 0.6);
+            margin-bottom: 24px;
+            letter-spacing: 0.08em;
+        }
+
+        /* ===== 数字方块 ===== */
+        .cby_num {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, rgba(138, 43, 226, 0.55), rgba(75, 0, 130, 0.35));
+            border: 2px solid rgba(224, 176, 255, 0.6);
+            border-radius: 8px;
+            margin: 8px;
+            color: #fff;
+            text-align: center;
+            line-height: 56px;
+            font-size: 1.4rem;
+            font-weight: 700;
+            float: left;
+            box-shadow: 0 0 16px rgba(138, 43, 226, 0.5);
+            text-shadow: 0 0 8px rgba(224, 176, 255, 0.8);
+            transition: transform 0.2s;
+        }
+        .cby_num:hover { transform: scale(1.12); }
+
+        /* ===== 含 7 的数字：特殊高亮 ===== */
+        .cby_num.cby_special {
+            background: linear-gradient(135deg, #FF6B9D, #C44569);
+            border-color: #FF6B9D;
+            box-shadow: 0 0 22px rgba(255, 107, 157, 0.7);
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.9);
+        }
+
+        .cby_clear { clear: both; }
+
+        .cby_back {
+            display: inline-block;
+            margin-top: 30px;
+            font-size: 0.85rem;
+            color: #E0B0FF;
+            text-decoration: none;
+        }
+        .cby_back:hover { color: #fff; text-shadow: 0 0 8px rgba(255, 255, 255, 0.5); }
+    </style>
+</head>
+
+<body>
+    <h1 class="cby_title">📊 1–100 数字方阵 · 含 7 高亮</h1>
+
+    <script>
+        var cby_a = 6;
+        var cby_b = 1;
+        // 功能：基本算术与自增运算演示
+        console.log(cby_a + cby_b);
+        console.log(cby_a++, ++cby_b);
+        console.log(cby_a - cby_b > 0 ? cby_a : cby_b);
+        console.log(true && false, true || false, !true);
+
+        var cby_str = 'hallo word', cby_numVal = 123, cby_bl = true, cby_obj = { name: '张三', age: 18 }, cby_ud, cby_kong = null;
+        // 功能：typeof 检查各类型
+        console.log(typeof cby_str, typeof cby_numVal, typeof cby_bl, typeof cby_obj, typeof cby_ud, typeof cby_kong);
+        // 功能：浮点数精度、字符串与数字混合运算演示
+        console.log(0.1 + 0.2 == 0.3);
+        console.log(1 + '1', '1' - 1, '11' + 1 - 1);
+        console.log('caobingyu' - 1);
+        console.log(isNaN(NaN));
+        console.log(NaN == NaN, null == null);
+        console.log(parseInt('123.79'));
+
+        var cby_sum = 0;
+        // 功能：计算 1 到 100 累加和
+        for (var cby_i = 1; cby_i <= 100; cby_i++) {
+            cby_sum += cby_i;
+        }
+
+        // 功能：输出 1–100 数字方块，含 7 的数字加 cby_special 类高亮
+        for (var cby_j = 1; cby_j <= 99; cby_j++) {
+            if (cby_j % 7 == 0 || cby_j % 10 == 7 || parseInt(cby_j / 10) == 7) {
+                document.write('<div class="cby_num cby_special">' + cby_j + '</div>');
+            } else {
+                document.write('<div class="cby_num">' + cby_j + '</div>');
+            }
+        }
+    </script>
+
+    <div class="cby_clear"></div>
+    <a class="cby_back" href="../index.html">← 返回首页</a>
+
+</body>
+
+</html>

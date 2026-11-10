@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
@@ -29,7 +29,7 @@
     }
 
     /* --- SVG 图标基础样式 --- */
-    .wy_svg_icon {
+    .cby_svg_icon {
       width: 24px;
       height: 24px;
       fill: currentColor;
@@ -37,12 +37,12 @@
     }
 
     /* --- 品牌头图 --- */
-    .wy_hero {
+    .cby_hero {
       text-align: center;
       padding: 64px 24px 32px;
     }
 
-    .wy_hero_kicker {
+    .cby_hero_kicker {
       font-family: "Helvetica Neue", Arial, sans-serif;
       font-size: 0.65rem;
       letter-spacing: 0.4em;
@@ -51,21 +51,21 @@
       margin-bottom: 20px;
     }
 
-    .wy_hero h1 {
+    .cby_hero h1 {
       font-size: clamp(1.8rem, 7vw, 2.6rem);
       font-weight: 400;
       letter-spacing: 0.08em;
       margin-bottom: 12px;
     }
 
-    .wy_hero p {
+    .cby_hero p {
       font-size: 0.95rem;
       color: var(--wy-text-muted);
       font-style: italic;
     }
 
     /* --- 内容卡片（展示滚动效果） --- */
-    .wy_feed {
+    .cby_feed {
       max-width: 460px;
       margin: 0 auto;
       padding: 24px 16px;
@@ -73,7 +73,7 @@
       gap: 16px;
     }
 
-    .wy_feed_card {
+    .cby_feed_card {
       background: var(--wy-surface);
       border: 1px solid var(--wy-border);
       padding: 24px 20px;
@@ -82,20 +82,20 @@
       gap: 16px;
     }
 
-    .wy_feed_card .wy_svg_icon {
+    .cby_feed_card .cby_svg_icon {
       width: 26px;
       height: 26px;
       color: var(--wy-accent-dark);
       flex-shrink: 0;
     }
 
-    .wy_feed_info h2 {
+    .cby_feed_info h2 {
       font-size: 1.05rem;
       font-weight: 400;
       letter-spacing: 0.04em;
     }
 
-    .wy_feed_info p {
+    .cby_feed_info p {
       font-family: "Helvetica Neue", Arial, sans-serif;
       font-size: 0.72rem;
       letter-spacing: 0.08em;
@@ -103,7 +103,7 @@
     }
 
     /* --- 固定底部导航（自适应宽度） --- */
-    .wy_tabbar {
+    .cby_tabbar {
       position: fixed;
       bottom: 0;
       left: 50%;
@@ -120,7 +120,7 @@
       z-index: 100;
     }
 
-    .wy_tab_item {
+    .cby_tab_item {
       flex: 1; /* 四项均分自适应宽度 */
       display: flex;
       flex-direction: column;
@@ -135,7 +135,7 @@
     }
 
     /* 顶部激活指示条 */
-    .wy_tab_item::before {
+    .cby_tab_item::before {
       content: "";
       position: absolute;
       top: 0;
@@ -147,34 +147,34 @@
       transition: transform 0.25s ease;
     }
 
-    .wy_tab_item .wy_svg_icon {
+    .cby_tab_item .cby_svg_icon {
       width: 23px;
       height: 23px;
       line-height: 1;
       transition: transform 0.25s ease;
     }
 
-    .wy_tab_label {
+    .cby_tab_label {
       font-family: "Helvetica Neue", Arial, sans-serif;
       font-size: 0.65rem;
       letter-spacing: 0.12em;
     }
 
     /* 选中态 */
-    .wy_tab_item.wy_active {
+    .cby_tab_item.cby_active {
       color: var(--wy-accent-dark);
     }
 
-    .wy_tab_item.wy_active::before {
+    .cby_tab_item.cby_active::before {
       transform: translateX(-50%) scaleX(1);
     }
 
-    .wy_tab_item.wy_active .wy_svg_icon {
+    .cby_tab_item.cby_active .cby_svg_icon {
       transform: translateY(-2px);
     }
 
     /* --- 右上角数字徽章 --- */
-    .wy_badge {
+    .cby_badge {
       position: absolute;
       top: 10px;
       right: calc(50% - 26px);
@@ -193,7 +193,7 @@
     }
 
     /* --- 右上角红点 --- */
-    .wy_dot {
+    .cby_dot {
       position: absolute;
       top: 12px;
       right: calc(50% - 18px);
@@ -205,7 +205,7 @@
     }
 
     /* --- 代码说明块 --- */
-    .wy_code_block {
+    .cby_code_block {
       max-width: 460px;
       margin: 0 auto;
       background: #1F1D1B;
@@ -217,19 +217,19 @@
       overflow-x: auto;
     }
 
-    .wy_code_comment { color: #7A7568; }
-    .wy_code_tag { color: #B8864A; }
-    .wy_code_attr { color: #E8C88B; }
+    .cby_code_comment { color: #7A7568; }
+    .cby_code_tag { color: #B8864A; }
+    .cby_code_attr { color: #E8C88B; }
 
     /* --- 返回首页 --- */
-    .wy_back_home {
+    .cby_back_home {
       max-width: 460px;
       margin: 0 auto;
       padding: 24px 16px 32px;
       text-align: center;
     }
 
-    .wy_back_link {
+    .cby_back_link {
       font-family: "Helvetica Neue", Arial, sans-serif;
       font-size: 0.65rem;
       letter-spacing: 0.3em;
@@ -241,7 +241,7 @@
       transition: background 0.3s, color 0.3s;
     }
 
-    .wy_back_link:hover {
+    .cby_back_link:hover {
       background: var(--wy-accent);
       color: #fff;
     }
@@ -249,99 +249,99 @@
 </head>
 <body>
   <!-- 品牌头图 -->
-  <header class="wy_hero">
-    <div class="wy_hero_kicker">mobile tabbar · svg symbol</div>
+  <header class="cby_hero">
+    <div class="cby_hero_kicker">mobile tabbar · svg symbol</div>
     <h1>底部导航 · SVG</h1>
     <p>iconfont 矢量方案 · 四项均分 · 徽章与红点</p>
   </header>
 
   <!-- 内容卡片 -->
-  <main class="wy_feed">
-    <article class="wy_feed_card">
-      <svg class="wy_svg_icon" aria-hidden="true"><use href="#icon-home-g"></use></svg>
-      <div class="wy_feed_info">
+  <main class="cby_feed">
+    <article class="cby_feed_card">
+      <svg class="cby_svg_icon" aria-hidden="true"><use href="#icon-home-g"></use></svg>
+      <div class="cby_feed_info">
         <h2>主页 · Home</h2>
         <p>fixed · adaptive · 4 items</p>
       </div>
     </article>
-    <article class="wy_feed_card">
-      <svg class="wy_svg_icon" aria-hidden="true"><use href="#icon-icon_favorite"></use></svg>
-      <div class="wy_feed_info">
+    <article class="cby_feed_card">
+      <svg class="cby_svg_icon" aria-hidden="true"><use href="#icon-icon_favorite"></use></svg>
+      <div class="cby_feed_info">
         <h2>收藏 · Favorites</h2>
-        <p>数字徽章 wy_badge · 12</p>
+        <p>数字徽章 cby_badge · 12</p>
       </div>
     </article>
-    <article class="wy_feed_card">
-      <svg class="wy_svg_icon" aria-hidden="true"><use href="#icon-shoucang"></use></svg>
-      <div class="wy_feed_info">
+    <article class="cby_feed_card">
+      <svg class="cby_svg_icon" aria-hidden="true"><use href="#icon-shoucang"></use></svg>
+      <div class="cby_feed_info">
         <h2>关注 · Follow</h2>
-        <p>红点 wy_dot · 未读提醒</p>
+        <p>红点 cby_dot · 未读提醒</p>
       </div>
     </article>
-    <article class="wy_feed_card">
-      <svg class="wy_svg_icon" aria-hidden="true"><use href="#icon-icon-test"></use></svg>
-      <div class="wy_feed_info">
+    <article class="cby_feed_card">
+      <svg class="cby_svg_icon" aria-hidden="true"><use href="#icon-icon-test"></use></svg>
+      <div class="cby_feed_info">
         <h2>我的 · Profile</h2>
-        <p>数字徽章 wy_badge · 6</p>
+        <p>数字徽章 cby_badge · 6</p>
       </div>
     </article>
 
     <!-- 用法说明 -->
-    <pre class="wy_code_block"><code><span class="wy_code_comment">&lt;!-- SVG 用法：use 引用 symbol --&gt;</span>
-<span class="wy_code_tag">&lt;svg</span> <span class="wy_code_attr">class</span>=<span class="wy_code_val">"wy_svg_icon"</span><span class="wy_code_tag">&gt;</span>
-  <span class="wy_code_tag">&lt;use</span> <span class="wy_code_attr">href</span>=<span class="wy_code_val">"#icon-home-g"</span><span class="wy_code_tag">&gt;&lt;/use&gt;</span>
-<span class="wy_code_tag">&lt;/svg&gt;</span>
-<span class="wy_code_comment">&lt;!-- 引入 iconfont.js 自动注入 symbol 集合 --&gt;</span>
-<span class="wy_code_tag">&lt;script</span> <span class="wy_code_attr">src</span>=<span class="wy_code_val">"font/iconfont.js"</span><span class="wy_code_tag">&gt;&lt;/script&gt;</span></code></pre>
+    <pre class="cby_code_block"><code><span class="cby_code_comment">&lt;!-- SVG 用法：use 引用 symbol --&gt;</span>
+<span class="cby_code_tag">&lt;svg</span> <span class="cby_code_attr">class</span>=<span class="cby_code_val">"cby_svg_icon"</span><span class="cby_code_tag">&gt;</span>
+  <span class="cby_code_tag">&lt;use</span> <span class="cby_code_attr">href</span>=<span class="cby_code_val">"#icon-home-g"</span><span class="cby_code_tag">&gt;&lt;/use&gt;</span>
+<span class="cby_code_tag">&lt;/svg&gt;</span>
+<span class="cby_code_comment">&lt;!-- 引入 iconfont.js 自动注入 symbol 集合 --&gt;</span>
+<span class="cby_code_tag">&lt;script</span> <span class="cby_code_attr">src</span>=<span class="cby_code_val">"font/iconfont.js"</span><span class="cby_code_tag">&gt;&lt;/script&gt;</span></code></pre>
 
     <!-- 返回首页 -->
-    <div class="wy_back_home" style="padding:0;">
-      <a class="wy_back_link" href="index.html">← 返回工坊</a>
+    <div class="cby_back_home" style="padding:0;">
+      <a class="cby_back_link" href="index.html">← 返回工坊</a>
     </div>
   </main>
 
   <!-- 固定底部导航 -->
-  <nav class="wy_tabbar">
-    <a class="wy_tab_item wy_active" href="#home">
-      <svg class="wy_svg_icon" aria-hidden="true"><use href="#icon-home-g"></use></svg>
-      <span class="wy_tab_label">主页</span>
+  <nav class="cby_tabbar">
+    <a class="cby_tab_item cby_active" href="#home">
+      <svg class="cby_svg_icon" aria-hidden="true"><use href="#icon-home-g"></use></svg>
+      <span class="cby_tab_label">主页</span>
     </a>
-    <a class="wy_tab_item" href="#favorite">
-      <svg class="wy_svg_icon" aria-hidden="true"><use href="#icon-icon_favorite"></use></svg>
-      <span class="wy_badge">12</span>
-      <span class="wy_tab_label">收藏</span>
+    <a class="cby_tab_item" href="#favorite">
+      <svg class="cby_svg_icon" aria-hidden="true"><use href="#icon-icon_favorite"></use></svg>
+      <span class="cby_badge">12</span>
+      <span class="cby_tab_label">收藏</span>
     </a>
-    <a class="wy_tab_item" href="#follow">
-      <svg class="wy_svg_icon" aria-hidden="true"><use href="#icon-shoucang"></use></svg>
-      <span class="wy_dot"></span>
-      <span class="wy_tab_label">关注</span>
+    <a class="cby_tab_item" href="#follow">
+      <svg class="cby_svg_icon" aria-hidden="true"><use href="#icon-shoucang"></use></svg>
+      <span class="cby_dot"></span>
+      <span class="cby_tab_label">关注</span>
     </a>
-    <a class="wy_tab_item" href="#mine">
-      <svg class="wy_svg_icon" aria-hidden="true"><use href="#icon-icon-test"></use></svg>
-      <span class="wy_badge">6</span>
-      <span class="wy_tab_label">我的</span>
+    <a class="cby_tab_item" href="#mine">
+      <svg class="cby_svg_icon" aria-hidden="true"><use href="#icon-icon-test"></use></svg>
+      <span class="cby_badge">6</span>
+      <span class="cby_tab_label">我的</span>
     </a>
   </nav>
 
   <!-- 引入 iconfont.js：自动将 symbol 集合注入页面 -->
   <script src="font/iconfont.js"></script>
   <script>
-    // wy_ 前缀：底部导航交互
-    const wy_tabItems = document.querySelectorAll('.wy_tab_item');
+    // cby_ 前缀：底部导航交互
+    const cby_tabItems = document.querySelectorAll('.cby_tab_item');
 
-    wy_tabItems.forEach(function (wy_item) {
-      wy_item.addEventListener('click', function (wy_event) {
-        wy_event.preventDefault();
+    cby_tabItems.forEach(function (cby_item) {
+      cby_item.addEventListener('click', function (cby_event) {
+        cby_event.preventDefault();
 
         // 切换选中态
-        document.querySelector('.wy_tab_item.wy_active').classList.remove('wy_active');
-        this.classList.add('wy_active');
+        document.querySelector('.cby_tab_item.cby_active').classList.remove('cby_active');
+        this.classList.add('cby_active');
 
         // 点击后清除该项的徽章 / 红点（模拟已读）
-        const wy_badge = this.querySelector('.wy_badge');
-        const wy_dot = this.querySelector('.wy_dot');
-        if (wy_badge) { wy_badge.remove(); }
-        if (wy_dot) { wy_dot.remove(); }
+        const cby_badge = this.querySelector('.cby_badge');
+        const cby_dot = this.querySelector('.cby_dot');
+        if (cby_badge) { cby_badge.remove(); }
+        if (cby_dot) { cby_dot.remove(); }
       });
     });
   </script>

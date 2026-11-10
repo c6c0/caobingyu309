@@ -1,0 +1,334 @@
+﻿<!DOCTYPE html>
+<!--
+  作者：曹炳宇
+  建立时间：2026-11-10 00:00
+  使用大模型：GLM-5.3-Flash
+  功能名称：抓小球小游戏（赛博朋克霓虹风）
+-->
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>抓小球小游戏</title>
+    <style>
+        /* ========== 全局 ========== */
+        * { box-sizing: border-box; }
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            font-family: "Consolas", "Courier New", monospace;
+            background: #0A0015;
+            background-image:
+                linear-gradient(rgba(255, 0, 128, 0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 200, 0.04) 1px, transparent 1px);
+            background-size: 40px 40px;
+            color: #E0E0E0;
+        }
+
+        /* ========== 顶部信息栏 ========== */
+        #cby_header {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            height: 52px;
+            padding: 0 24px;
+            background: linear-gradient(180deg, rgba(20, 0, 40, 0.95), rgba(10, 0, 21, 0.9));
+            border-bottom: 2px solid #FF0080;
+            box-shadow: 0 0 20px rgba(255, 0, 128, 0.5);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 20;
+        }
+        #cby_header .cby_title {
+            font-size: 17px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: #FF0080;
+            text-shadow: 0 0 10px rgba(255, 0, 128, 0.8);
+        }
+        #cby_header .cby_stats {
+            font-size: 15px;
+            display: flex;
+            gap: 32px;
+            align-items: center;
+        }
+        #cby_header .cby_stats .cby_label { color: #00FFC8; text-shadow: 0 0 6px rgba(0, 255, 200, 0.5); }
+        #cby_header .cby_stats .cby_value { font-weight: 700; margin-left: 4px; color: #FFF; text-shadow: 0 0 8px rgba(255, 255, 255, 0.4); }
+        #cby_timer.cby_warn { color: #FF3366; text-shadow: 0 0 12px rgba(255, 51, 102, 0.8); }
+
+        /* ========== 点击空白闪屏 ========== */
+        body.cby_flash {
+            background-color: rgba(255, 0, 128, 0.18);
+            transition: background-color 0.12s;
+        }
+
+        /* ========== 小球 ========== */
+        .cby_ball {
+            position: absolute;
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            cursor: crosshair;
+            background: radial-gradient(circle at 30% 30%, #FF66CC, #FF0080 55%, #8000FF);
+            box-shadow:
+                0 0 20px rgba(255, 0, 128, 0.8),
+                0 0 40px rgba(128, 0, 255, 0.5),
+                inset -6px -6px 14px rgba(0, 0, 0, 0.4),
+                inset 4px 4px 10px rgba(255, 255, 255, 0.3);
+            transform: scale(1);
+            opacity: 1;
+            transition: transform 0.2s ease-out, opacity 0.2s ease-out;
+            will-change: transform, opacity;
+            z-index: 5;
+        }
+        .cby_ball.cby_spawning { transform: scale(0); opacity: 0; pointer-events: none; }
+        .cby_ball.cby_dying { transform: scale(0); opacity: 0; pointer-events: none; }
+
+        /* ========== 开始按钮 ========== */
+        #cby_startBtn {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 18px 52px;
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            color: #0A0015;
+            background: linear-gradient(135deg, #00FFC8, #00B894);
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            box-shadow: 0 0 30px rgba(0, 255, 200, 0.6), inset 0 0 14px rgba(255, 255, 255, 0.3);
+            transition: all 0.15s;
+            z-index: 15;
+            font-family: inherit;
+        }
+        #cby_startBtn:hover {
+            background: linear-gradient(135deg, #FF0080, #8000FF);
+            color: #fff;
+            box-shadow: 0 0 40px rgba(255, 0, 128, 0.8);
+        }
+        #cby_startBtn:active { transform: translate(-50%, -50%) scale(0.96); }
+        #cby_startBtn.cby_hidden { display: none; }
+
+        /* ========== 结束遮罩 ========== */
+        #cby_gameOver {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 0, 21, 0.92);
+            backdrop-filter: blur(6px);
+            justify-content: center;
+            align-items: center;
+            z-index: 30;
+            animation: cby_fadeIn 0.3s;
+        }
+        #cby_gameOver.cby_show { display: flex; }
+        #cby_gameOver .cby_card {
+            background: linear-gradient(135deg, rgba(30, 0, 60, 0.95), rgba(10, 0, 30, 0.95));
+            border: 2px solid #FF0080;
+            border-radius: 12px;
+            padding: 44px 56px;
+            text-align: center;
+            box-shadow: 0 0 40px rgba(255, 0, 128, 0.5);
+            min-width: 340px;
+            animation: cby_popIn 0.35s ease-out;
+        }
+        #cby_gameOver .cby_card h2 {
+            margin: 0 0 14px;
+            font-size: 26px;
+            color: #FF0080;
+            text-shadow: 0 0 12px rgba(255, 0, 128, 0.8);
+            letter-spacing: 2px;
+        }
+        #cby_gameOver .cby_card .cby_final-score {
+            font-size: 48px;
+            font-weight: 700;
+            color: #00FFC8;
+            text-shadow: 0 0 16px rgba(0, 255, 200, 0.7);
+            margin: 10px 0 28px;
+        }
+        #cby_gameOver .cby_card button {
+            padding: 14px 44px;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: #0A0015;
+            background: linear-gradient(135deg, #00FFC8, #00B894);
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            box-shadow: 0 0 22px rgba(0, 255, 200, 0.6);
+            transition: all 0.15s;
+            font-family: inherit;
+        }
+        #cby_gameOver .cby_card button:hover {
+            background: linear-gradient(135deg, #FF0080, #8000FF);
+            color: #fff;
+            box-shadow: 0 0 30px rgba(255, 0, 128, 0.7);
+        }
+        @keyframes cby_fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes cby_popIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to   { opacity: 1; transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="cby_header">
+        <div class="cby_title">◢ 抓小球 · CYBER HUNT ◣</div>
+        <div class="cby_stats">
+            <div><span class="cby_label">SCORE</span> <span id="cby_score" class="cby_value">0</span></div>
+            <div><span class="cby_label">TIME</span> <span id="cby_timer" class="cby_value">02:00</span></div>
+        </div>
+    </div>
+
+    <button id="cby_startBtn">▶ START GAME</button>
+
+    <div id="cby_gameOver">
+        <div class="cby_card">
+            <h2>GAME OVER</h2>
+            <div>最终得分</div>
+            <div id="cby_finalScore" class="cby_final-score">0</div>
+            <button id="cby_restartBtn">↻ PLAY AGAIN</button>
+        </div>
+    </div>
+
+<script>
+    // ========== 游戏状态 ==========
+    var cby_game = {
+        score: 0,
+        timeLeft: 120,
+        playing: false,
+        timerId: null,
+        ballSize: 54,
+        headerH: 52,
+        ballEl: null,
+    };
+
+    // ========== DOM 快捷引用 ==========
+    var $cby_score      = document.getElementById('cby_score');
+    var $cby_timer      = document.getElementById('cby_timer');
+    var $cby_startBtn   = document.getElementById('cby_startBtn');
+    var $cby_gameOver   = document.getElementById('cby_gameOver');
+    var $cby_finalScore = document.getElementById('cby_finalScore');
+    var $cby_restartBtn = document.getElementById('cby_restartBtn');
+
+    // ========== 工具函数 ==========
+    // 功能：补零格式化数字
+    function cby_pad2(cby_n) { return cby_n < 10 ? '0' + cby_n : '' + cby_n; }
+    // 功能：同步分数到界面
+    function cby_updateScore() { $cby_score.textContent = cby_game.score; }
+    // 功能：同步倒计时到界面，最后 10 秒加警告样式
+    function cby_updateTimer() {
+        $cby_timer.textContent = cby_pad2(Math.floor(cby_game.timeLeft / 60)) + ':' + cby_pad2(cby_game.timeLeft % 60);
+        if (cby_game.timeLeft <= 10) { $cby_timer.classList.add('cby_warn'); }
+        else { $cby_timer.classList.remove('cby_warn'); }
+    }
+    // 功能：点击空白扣分时闪屏提示
+    function cby_flashScreen() {
+        document.body.classList.add('cby_flash');
+        setTimeout(function () { document.body.classList.remove('cby_flash'); }, 120);
+    }
+    // 功能：生成随机坐标，避开顶栏与视口边界
+    function cby_randomPosition() {
+        var cby_maxX = window.innerWidth  - cby_game.ballSize;
+        var cby_maxY = window.innerHeight - cby_game.headerH - cby_game.ballSize;
+        return {
+            x: Math.max(0, Math.floor(Math.random() * cby_maxX)),
+            y: Math.max(0, Math.floor(Math.random() * cby_maxY)) + cby_game.headerH
+        };
+    }
+
+    // ========== 小球生命周期 ==========
+    // 功能：从 DOM 中移除当前小球
+    function cby_removeBallDOM() {
+        if (cby_game.ballEl) {
+            cby_game.ballEl.remove();
+            cby_game.ballEl = null;
+        }
+    }
+    // 功能：在随机位置创建新小球 DOM，绑定点击事件得分并重生
+    function cby_createBallDOM() {
+        var cby_pos = cby_randomPosition();
+        var cby_ball = document.createElement('div');
+        cby_ball.className = 'cby_ball cby_spawning';
+        cby_ball.style.left = cby_pos.x + 'px';
+        cby_ball.style.top  = cby_pos.y + 'px';
+        document.body.appendChild(cby_ball);
+        requestAnimationFrame(function () { cby_ball.classList.remove('cby_spawning'); });
+
+        cby_ball.addEventListener('click', function (cby_e) {
+            cby_e.stopPropagation();
+            if (!cby_game.playing || cby_ball.classList.contains('cby_dying')) return;
+            cby_game.score += 2;
+            cby_updateScore();
+            cby_hitAndRespawn();
+        });
+        return cby_ball;
+    }
+    // 功能：在原位置播放死亡动画并在新位置立即生成新球
+    function cby_hitAndRespawn() {
+        if (!cby_game.ballEl) return;
+        var cby_old = cby_game.ballEl;
+        cby_old.classList.add('cby_dying');
+        cby_game.ballEl = null;
+        setTimeout(function () { cby_old.remove(); }, 200);
+        if (cby_game.playing) { cby_game.ballEl = cby_createBallDOM(); }
+    }
+
+    // ========== 游戏流程 ==========
+    // 功能：启动游戏，重置状态、生成首球、启动倒计时
+    function cby_startGame() {
+        cby_game.score = 0;
+        cby_game.timeLeft = 120;
+        cby_game.playing = true;
+        cby_updateScore();
+        cby_updateTimer();
+        $cby_startBtn.classList.add('cby_hidden');
+        $cby_gameOver.classList.remove('cby_show');
+        cby_removeBallDOM();
+        cby_game.ballEl = cby_createBallDOM();
+        cby_game.timerId = setInterval(function () {
+            cby_game.timeLeft--;
+            cby_updateTimer();
+            if (cby_game.timeLeft <= 0) { cby_endGame(); }
+        }, 1000);
+    }
+    // 功能：结束游戏，停倒计时、清小球、显示最终分数遮罩
+    function cby_endGame() {
+        cby_game.playing = false;
+        if (cby_game.timerId) { clearInterval(cby_game.timerId); cby_game.timerId = null; }
+        cby_removeBallDOM();
+        $cby_finalScore.textContent = cby_game.score;
+        $cby_gameOver.classList.add('cby_show');
+    }
+
+    // ========== 事件绑定 ==========
+    // 功能：开始按钮与再来一局按钮均触发 startGame，需 stopPropagation
+    $cby_startBtn.addEventListener('click', function (cby_e) { cby_e.stopPropagation(); cby_startGame(); });
+    $cby_restartBtn.addEventListener('click', function (cby_e) { cby_e.stopPropagation(); cby_startGame(); });
+
+    // 功能：点击空白扣分，跳过顶栏、按钮、遮罩、小球
+    document.body.addEventListener('click', function (cby_e) {
+        if (!cby_game.playing) return;
+        if (cby_e.target.closest('#cby_header') ||
+            cby_e.target.closest('#cby_startBtn') ||
+            cby_e.target.closest('#cby_gameOver') ||
+            cby_e.target.closest('.cby_ball')) return;
+        cby_game.score -= 1;
+        cby_flashScreen();
+        cby_updateScore();
+    });
+
+    // 功能：顶栏点击 stopPropagation 防止触发扣分
+    document.getElementById('cby_header').addEventListener('click', function (cby_e) { cby_e.stopPropagation(); });
+</script>
+
+</body>
+</html>

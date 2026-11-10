@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
@@ -25,18 +25,18 @@
       line-height: 1.6;
     }
 
-    .wy_main {
+    .cby_main {
       max-width: 960px;
       margin: 0 auto;
       padding: 80px 40px;
     }
 
-    .wy_brand {
+    .cby_brand {
       text-align: center;
       margin-bottom: 80px;
     }
 
-    .wy_brand_mark {
+    .cby_brand_mark {
       display: inline-block;
       font-family: "Helvetica Neue", Arial, sans-serif;
       font-size: 0.75rem;
@@ -48,38 +48,38 @@
       border-bottom: 1px solid var(--wy-accent);
     }
 
-    .wy_brand h1 {
+    .cby_brand h1 {
       font-size: clamp(2.5rem, 6vw, 4.5rem);
       font-weight: 400;
       letter-spacing: 0.08em;
       margin-bottom: 16px;
     }
 
-    .wy_brand p {
+    .cby_brand p {
       font-size: 1.05rem;
       color: var(--wy-text-muted);
       font-style: italic;
     }
 
-    .wy_nav_list {
+    .cby_nav_list {
       list-style: none;
       display: grid;
       gap: 24px;
     }
 
-    .wy_nav_item {
+    .cby_nav_item {
       border: 1px solid var(--wy-border);
       background: #fff;
       transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
     }
 
-    .wy_nav_item:hover {
+    .cby_nav_item:hover {
       border-color: var(--wy-accent);
       box-shadow: 0 8px 32px rgba(201, 169, 110, 0.15);
       transform: translateY(-2px);
     }
 
-    .wy_nav_link {
+    .cby_nav_link {
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -88,19 +88,19 @@
       color: var(--wy-text);
     }
 
-    .wy_nav_info {
+    .cby_nav_info {
       display: flex;
       flex-direction: column;
       gap: 8px;
     }
 
-    .wy_nav_title {
+    .cby_nav_title {
       font-size: 1.4rem;
       font-weight: 400;
       letter-spacing: 0.04em;
     }
 
-    .wy_nav_desc {
+    .cby_nav_desc {
       font-family: "Helvetica Neue", Arial, sans-serif;
       font-size: 0.85rem;
       color: var(--wy-text-muted);
@@ -108,18 +108,18 @@
       text-transform: uppercase;
     }
 
-    .wy_nav_arrow {
+    .cby_nav_arrow {
       font-family: "Helvetica Neue", Arial, sans-serif;
       font-size: 1.5rem;
       color: var(--wy-accent);
       transition: transform 0.3s ease;
     }
 
-    .wy_nav_item:hover .wy_nav_arrow {
+    .cby_nav_item:hover .cby_nav_arrow {
       transform: translateX(8px);
     }
 
-    .wy_footer {
+    .cby_footer {
       text-align: center;
       margin-top: 80px;
       font-family: "Helvetica Neue", Arial, sans-serif;
@@ -130,62 +130,170 @@
     }
 
     @media (max-width: 600px) {
-      .wy_main { padding: 48px 20px; }
-      .wy_nav_link { padding: 24px 20px; flex-direction: column; align-items: flex-start; gap: 16px; }
-      .wy_nav_arrow { align-self: flex-end; }
+      .cby_main { padding: 48px 20px; }
+      .cby_nav_link { padding: 24px 20px; flex-direction: column; align-items: flex-start; gap: 16px; }
+      .cby_nav_arrow { align-self: flex-end; }
     }
   </style>
 </head>
 <body>
-  <main class="wy_main">
-    <header class="wy_brand">
-      <div class="wy_brand_mark">ATELIER · ICONOGRAPHY</div>
+  <main class="cby_main">
+    <header class="cby_brand">
+      <div class="cby_brand_mark">ATELIER · ICONOGRAPHY</div>
       <h1>图标设计工坊</h1>
       <p>两种经典图标方案 · 字体与矢量的对话</p>
     </header>
 
     <nav>
-      <ul class="wy_nav_list">
-        <li class="wy_nav_item">
-          <a class="wy_nav_link" href="iconfont-1.html">
-            <span class="wy_nav_info">
-              <span class="wy_nav_title">Font Awesome</span>
-              <span class="wy_nav_desc">字体图标 · Web Font</span>
+      <ul class="cby_nav_list">
+        <li class="cby_nav_item">
+          <a class="cby_nav_link" href="iconfont-1.html">
+            <span class="cby_nav_info">
+              <span class="cby_nav_title">Font Awesome</span>
+              <span class="cby_nav_desc">字体图标 · Web Font</span>
             </span>
-            <span class="wy_nav_arrow">→</span>
+            <span class="cby_nav_arrow">→</span>
           </a>
         </li>
-        <li class="wy_nav_item">
-          <a class="wy_nav_link" href="inconfont-2.html">
-            <span class="wy_nav_info">
-              <span class="wy_nav_title">Lucide</span>
-              <span class="wy_nav_desc">矢量图标 · SVG</span>
+        <li class="cby_nav_item">
+          <a class="cby_nav_link" href="inconfont-2.html">
+            <span class="cby_nav_info">
+              <span class="cby_nav_title">Lucide</span>
+              <span class="cby_nav_desc">矢量图标 · SVG</span>
             </span>
-            <span class="wy_nav_arrow">→</span>
+            <span class="cby_nav_arrow">→</span>
           </a>
         </li>
-        <li class="wy_nav_item">
-          <a class="wy_nav_link" href="iconfont-3.html">
-            <span class="wy_nav_info">
-              <span class="wy_nav_title">移动端底部导航</span>
-              <span class="wy_nav_desc">iconfont 字体图标 · 徽章与红点</span>
+        <li class="cby_nav_item">
+          <a class="cby_nav_link" href="iconfont-3.html">
+            <span class="cby_nav_info">
+              <span class="cby_nav_title">移动端底部导航</span>
+              <span class="cby_nav_desc">iconfont 字体图标 · 徽章与红点</span>
             </span>
-            <span class="wy_nav_arrow">→</span>
+            <span class="cby_nav_arrow">→</span>
           </a>
         </li>
-        <li class="wy_nav_item">
-          <a class="wy_nav_link" href="iconfont-4.html">
-            <span class="wy_nav_info">
-              <span class="wy_nav_title">移动端底部导航</span>
-              <span class="wy_nav_desc">iconfont SVG · 徽章与红点</span>
+        <li class="cby_nav_item">
+          <a class="cby_nav_link" href="iconfont-4.html">
+            <span class="cby_nav_info">
+              <span class="cby_nav_title">移动端底部导航</span>
+              <span class="cby_nav_desc">iconfont SVG · 徽章与红点</span>
             </span>
-            <span class="wy_nav_arrow">→</span>
+            <span class="cby_nav_arrow">→</span>
+          </a>
+        </li>
+        <li class="cby_nav_item">
+          <a class="cby_nav_link" href="tab-news.html">
+            <span class="cby_nav_info">
+              <span class="cby_nav_title">新闻选项卡</span>
+              <span class="cby_nav_desc">可复用 Tab 组件 · 外部 JS</span>
+            </span>
+            <span class="cby_nav_arrow">→</span>
+          </a>
+        </li>
+        <li class="cby_nav_item">
+          <a class="cby_nav_link" href="swiper-task(1).html">
+            <span class="cby_nav_info">
+              <span class="cby_nav_title">Swiper 大国重器光影展</span>
+              <span class="cby_nav_desc">Swiper 11 · 轮播组件课堂任务</span>
+            </span>
+            <span class="cby_nav_arrow">→</span>
+          </a>
+        </li>
+        <li class="cby_nav_item">
+          <a class="cby_nav_link" href="cby_car.html">
+            <span class="cby_nav_info">
+              <span class="cby_nav_title">新车上市选项卡（曹炳宇版）</span>
+              <span class="cby_nav_desc">课堂测试 4.jpg 一比一还原 · cby_ 命名</span>
+            </span>
+            <span class="cby_nav_arrow">→</span>
+          </a>
+        </li>
+        <li class="cby_nav_item">
+          <a class="cby_nav_link" href="作业/c0601.html">
+            <span class="cby_nav_info">
+              <span class="cby_nav_title">事件的冒泡与捕获</span>
+              <span class="cby_nav_desc">作业 · 三层盒子冒泡 · 深色科技风</span>
+            </span>
+            <span class="cby_nav_arrow">→</span>
+          </a>
+        </li>
+        <li class="cby_nav_item">
+          <a class="cby_nav_link" href="作业/dataType.html">
+            <span class="cby_nav_info">
+              <span class="cby_nav_title">数据类型和运算符</span>
+              <span class="cby_nav_desc">作业 · 1–100 数字方阵 · 极光渐变风</span>
+            </span>
+            <span class="cby_nav_arrow">→</span>
+          </a>
+        </li>
+        <li class="cby_nav_item">
+          <a class="cby_nav_link" href="作业/game.html">
+            <span class="cby_nav_info">
+              <span class="cby_nav_title">抓小球小游戏</span>
+              <span class="cby_nav_desc">作业 · 2 分钟限时 · 赛博朋克霓虹风</span>
+            </span>
+            <span class="cby_nav_arrow">→</span>
+          </a>
+        </li>
+        <li class="cby_nav_item">
+          <a class="cby_nav_link" href="作业/iconfont-3.html">
+            <span class="cby_nav_info">
+              <span class="cby_nav_title">纹样馆掌上首页（字体图标版）</span>
+              <span class="cby_nav_desc">作业 · 青绿色新中式风 · 底部导航</span>
+            </span>
+            <span class="cby_nav_arrow">→</span>
+          </a>
+        </li>
+        <li class="cby_nav_item">
+          <a class="cby_nav_link" href="作业/iconfont-4.html">
+            <span class="cby_nav_info">
+              <span class="cby_nav_title">纹样馆掌上首页（SVG 矢量版）</span>
+              <span class="cby_nav_desc">作业 · 青绿色新中式风 · 底部导航</span>
+            </span>
+            <span class="cby_nav_arrow">→</span>
+          </a>
+        </li>
+        <li class="cby_nav_item">
+          <a class="cby_nav_link" href="作业/js_boj.apply.html">
+            <span class="cby_nav_info">
+              <span class="cby_nav_title">JS 对象的应用</span>
+              <span class="cby_nav_desc">作业 · 学生卡片 · upgrade 升级方法</span>
+            </span>
+            <span class="cby_nav_arrow">→</span>
+          </a>
+        </li>
+        <li class="cby_nav_item">
+          <a class="cby_nav_link" href="作业/opject.html">
+            <span class="cby_nav_info">
+              <span class="cby_nav_title">JS 对象</span>
+              <span class="cby_nav_desc">作业 · 对象基础练习</span>
+            </span>
+            <span class="cby_nav_arrow">→</span>
+          </a>
+        </li>
+        <li class="cby_nav_item">
+          <a class="cby_nav_link" href="作业/function005.html">
+            <span class="cby_nav_info">
+              <span class="cby_nav_title">JS 内部对象</span>
+              <span class="cby_nav_desc">作业 · Math Date Array 练习</span>
+            </span>
+            <span class="cby_nav_arrow">→</span>
+          </a>
+        </li>
+        <li class="cby_nav_item">
+          <a class="cby_nav_link" href="作业/fandtion005.html">
+            <span class="cby_nav_info">
+              <span class="cby_nav_title">JS 函数</span>
+              <span class="cby_nav_desc">作业 · 函数定义与调用练习</span>
+            </span>
+            <span class="cby_nav_arrow">→</span>
           </a>
         </li>
       </ul>
     </nav>
 
-    <footer class="wy_footer">© MMXXVI · Designed with Care</footer>
+    <footer class="cby_footer">© MMXXVI · Designed with Care</footer>
   </main>
 </body>
 </html>
