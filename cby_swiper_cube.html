@@ -1,0 +1,212 @@
+﻿<!--
+  作者：曹炳宇
+  建立时间：2026-11-11 13:55
+  使用大模型：Trae-CN-Proprietary
+  功能名称：Swiper 单轮播演示 · 无缝循环 + 3.2s 自动翻页 + 可点击圆点 + 初始 cube 3D 效果
+-->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Swiper Cube 3D 轮播 · 曹炳宇</title>
+<!-- Swiper 11 CDN（网络受限可手动下载到 cdn/swiper/ 后替换） -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "Microsoft YaHei", "PingFang SC", system-ui, sans-serif;
+    background: linear-gradient(135deg, #0f2b5b 0%, #1d5bbf 60%, #6b8dd6 100%);
+    min-height: 100vh;
+    color: #fff;
+    padding: 40px 20px;
+  }
+  .cby_wrap { max-width: 880px; margin: 0 auto; }
+  .cby_head { text-align: center; margin-bottom: 32px; }
+  .cby_badge {
+    display: inline-block; padding: 5px 16px; border-radius: 999px;
+    background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.35);
+    font-size: 12px; letter-spacing: 3px; margin-bottom: 16px;
+  }
+  .cby_head h1 { font-size: 32px; letter-spacing: 2px; margin-bottom: 8px; }
+  .cby_head h1 b { color: #ffd166; }
+  .cby_head p { font-size: 14px; color: #c8d5ee; letter-spacing: 1px; }
+
+  .cby_config {
+    background: rgba(255,255,255,.08); backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,.2); border-radius: 14px;
+    padding: 18px 24px; margin-bottom: 28px; font-size: 13px; line-height: 2;
+  }
+  .cby_config b { color: #ffd166; }
+  .cby_config code {
+    background: rgba(0,0,0,.25); color: #9df2c1;
+    padding: 1px 8px; border-radius: 5px; font-family: Consolas, monospace; font-size: 12.5px;
+  }
+
+  /* Swiper 容器 */
+  .cby_swiper_stage {
+    perspective: 1200px;   /* 给 cube 效果透视感 */
+    padding: 20px 0 40px;
+  }
+  .cby_my_swiper {
+    width: 100%; max-width: 700px; margin: 0 auto;
+    border-radius: 18px; overflow: visible !important;
+  }
+  .cby_my_swiper .swiper {
+    border-radius: 18px;
+    box-shadow: 0 20px 48px rgba(0,0,0,.35);
+    aspect-ratio: 16 / 10;
+  }
+  .cby_my_swiper .swiper-slide {
+    position: relative;
+    display: flex; align-items: flex-end;
+    overflow: hidden;
+  }
+  .cby_my_swiper .swiper-slide img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+  }
+  .cby_cap {
+    position: absolute; left: 0; right: 0; bottom: 0;
+    padding: 40px 24px 16px; color: #fff;
+    background: linear-gradient(transparent, rgba(0,0,0,.78));
+  }
+  .cby_cap h3 { font-size: 20px; letter-spacing: 1px; margin-bottom: 4px; }
+  .cby_cap p { font-size: 13.5px; color: #d8e3f7; }
+
+  /* 分页器圆点 */
+  .cby_my_swiper .swiper-pagination { bottom: -4px !important; }
+  .cby_my_swiper .swiper-pagination-bullet {
+    width: 10px; height: 10px; background: rgba(255,255,255,.5); opacity: 1;
+  }
+  .cby_my_swiper .swiper-pagination-bullet-active {
+    background: #ffd166; width: 26px; border-radius: 6px;
+    transition: width .3s ease;
+  }
+
+  /* 导航箭头（可选，cube 效果也能用） */
+  .cby_my_swiper .swiper-button-next,
+  .cby_my_swiper .swiper-button-prev {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: rgba(255,255,255,.18); color: #fff;
+    --swiper-navigation-size: 18px;
+    backdrop-filter: blur(6px);
+  }
+  .cby_my_swiper .swiper-button-next:hover,
+  .cby_my_swiper .swiper-button-prev:hover {
+    background: #ffd166; color: #1a1a1a;
+  }
+
+  .cby_back { text-align: center; margin-top: 36px; }
+  .cby_back a {
+    display: inline-block; text-decoration: none; color: #fff; font-size: 14px;
+    background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.3);
+    border-radius: 999px; padding: 10px 26px; letter-spacing: 1px;
+    transition: background .2s, transform .2s;
+  }
+  .cby_back a:hover { background: #ffd166; color: #1a1a1a; transform: translateY(-2px); }
+
+  footer { text-align: center; margin-top: 30px; font-size: 12px; color: rgba(255,255,255,.5); letter-spacing: 2px; }
+</style>
+</head>
+<body>
+<div class="cby_wrap">
+
+  <header class="cby_head">
+    <span class="cby_badge">S W I P E R · 1 1</span>
+    <h1>Cube 3D 轮播 · <b>曹炳宇配置</b></h1>
+    <p>无缝循环 · 3.2 秒自动翻页 · 可点击圆点分页器 · 初始 cube 3D 效果</p>
+  </header>
+
+  <div class="cby_config">
+    <b>配置要点：</b><br>
+    ① <code>loop: true</code> —— 最后一张翻完无缝回到第一张<br>
+    ② <code>autoplay.delay: 3200</code> + <code>disableOnInteraction: false</code> —— 3.2 秒自动翻，手动拖动后不停<br>
+    ③ <code>pagination.clickable: true</code> —— 底部圆点可点跳转<br>
+    ④ <code>effect: 'cube'</code> + <code>cubeEffect</code> —— 初始 3D 立方体效果
+  </div>
+
+  <div class="cby_swiper_stage">
+    <div class="cby_my_swiper">
+      <div class="swiper" id="wyCubeSw">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide">
+            <img src="swiper-imgs/tiangong_1.jpg" alt="天宫空间站">
+            <div class="cby_cap"><h3>天宫空间站</h3><p>2022 年全面建成 · 中国人的太空家园</p></div>
+          </div>
+          <div class="swiper-slide">
+            <img src="swiper-imgs/fuxing_1.jpg" alt="复兴号动车组">
+            <div class="cby_cap"><h3>复兴号动车组</h3><p>350 km/h · 世界商业运营最高时速</p></div>
+          </div>
+          <div class="swiper-slide">
+            <img src="swiper-imgs/c919_1.jpg" alt="C919大飞机">
+            <div class="cby_cap"><h3>C919 大飞机</h3><p>2023 年商业首航 · 国产干线客机翱翔蓝天</p></div>
+          </div>
+          <div class="swiper-slide">
+            <img src="swiper-imgs/fendouzhe_1.jpg" alt="奋斗者号">
+            <div class="cby_cap"><h3>奋斗者号</h3><p>10909 米 · 触碰地球第四极马里亚纳海沟</p></div>
+          </div>
+          <div class="swiper-slide">
+            <img src="swiper-imgs/fast_1.jpg" alt="中国天眼">
+            <div class="cby_cap"><h3>中国天眼 FAST</h3><p>500 米口径 · 世界最大单口径射电望远镜</p></div>
+          </div>
+        </div>
+
+        <div class="swiper-pagination" id="wyCubePag"></div>
+        <div class="swiper-button-prev" id="wyCubePrev"></div>
+        <div class="swiper-button-next" id="wyCubeNext"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cby_back">
+    <a href="index.html">← 返回首页</a>
+  </div>
+
+  <footer>Swiper Cube Demo · 曹炳宇 · 高级网页设计 · 2026-11-11</footer>
+</div>
+
+<script>
+  // 功能：初始化 Swiper 轮播 —— 无缝循环 + 3.2s 自动 + 可点圆点 + 初始 cube 3D 效果
+  var wyCubeSw = new Swiper('#wyCubeSw', {
+    // ① 无缝循环
+    loop: true,
+
+    // ② 3.2 秒自动翻页，手动操作后不停止
+    autoplay: {
+      delay: 3200,
+      disableOnInteraction: false,   // 用户拖动/点击后自动播放继续
+      pauseOnMouseEnter: false,      // 鼠标悬停也不停（可选）
+    },
+
+    // ③ 圆点分页器，可点击
+    pagination: {
+      el: '#wyCubePag',
+      clickable: true,
+    },
+
+    // 导航箭头
+    navigation: {
+      prevEl: '#wyCubePrev',
+      nextEl: '#wyCubeNext',
+    },
+
+    // ④ 初始效果为 cube 3D 立方体
+    effect: 'cube',
+    cubeEffect: {
+      slideShadows: true,   // 幻灯片之间的阴影（立体感）
+      shadow: true,         // 立方体整体投影
+      shadowOffset: 100,    // 投影偏移
+      shadowScale: 0.94,    // 投影缩放
+    },
+
+    // 其他：过渡动画时长
+    speed: 800,
+
+    // 自动播放的智能处理：cube 在 loop 模式下需要允许 touch 移动
+    allowTouchMove: true,
+    grabCursor: true,
+  });
+</script>
+</body>
+</html>
