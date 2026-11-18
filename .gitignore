@@ -23,3 +23,12 @@ install_tools.bat
 # 含明文访问令牌，勿提交到公开仓库
 cby_prompt.md
 skills/提交项目/SKILL.md
+cby_prompt (2).md
+
+# 大体积运行时、生成物与备份
+webcast_mate/
+.trae-html-share-packages/
+_backup/
+
+# 异常空文件
+swiper-task(1

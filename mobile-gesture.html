@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<!--
+  作者：曹炳宇　学号：24002120309
+  建立时间：2026-11-18 13:56
+  使用大模型：DeepSeek-V4.1-Flash
+  功能名称：移动端手势卡片——左右滑动切换 4 道中华美食
+-->
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>手势卡片 · 中华美食</title>
+  <style>
+    :root {
+      --cby_bg: #0b0a12;
+      --cby_card: #17141f;
+      --cby_text: #f5f2ea;
+      --cby_muted: #9b95a8;
+      --cby_accent: #ffb85c;
+      --cby_line: rgba(255, 255, 255, 0.1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(120% 60% at 50% 0%, #241a2e 0%, transparent 60%),
+        var(--cby_bg);
+      color: var(--cby_text);
+      font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", sans-serif;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .cby_page {
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 20px 18px 48px;
+    }
+
+    .cby_topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 28px;
+    }
+
+    .cby_back {
+      color: var(--cby_muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      letter-spacing: 0.04em;
+      padding: 6px 0;
+      transition: color 0.2s ease;
+    }
+
+    .cby_back:active {
+      color: var(--cby_accent);
+    }
+
+    .cby_step {
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      color: var(--cby_accent);
+      border: 1px solid rgba(255, 184, 92, 0.35);
+      border-radius: 999px;
+      padding: 4px 10px;
+    }
+
+    .cby_title {
+      font-size: 1.75rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      margin-bottom: 6px;
+    }
+
+    .cby_sub {
+      font-size: 0.82rem;
+      color: var(--cby_muted);
+      margin-bottom: 22px;
+    }
+
+    .cby_swipe {
+      position: relative;
+      overflow: hidden;
+      border-radius: 26px;
+      border: 1px solid var(--cby_line);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+      touch-action: pan-y;
+    }
+
+    .cby_swipe.cby_shake {
+      animation: cby_shake 0.3s ease;
+    }
+
+    @keyframes cby_shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-7px); }
+      75% { transform: translateX(7px); }
+    }
+
+    .cby_track {
+      display: flex;
+      transition: transform 0.3s cubic-bezier(0.22, 0.61, 0.36, 1);
+      will-change: transform;
+    }
+
+    .cby_card {
+      position: relative;
+      flex: 0 0 100%;
+      min-height: 430px;
+      padding: 26px 24px 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+      color: #fff;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    .cby_card::before {
+      content: "";
+      position: absolute;
+      width: 260px;
+      height: 260px;
+      right: -90px;
+      top: -90px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.12);
+      filter: blur(2px);
+    }
+
+    .cby_card::after {
+      content: "";
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      left: -80px;
+      bottom: -90px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.16);
+    }
+
+    .cby_card_1 { background: linear-gradient(150deg, #ff7a3d 0%, #d0202b 58%, #6d0d18 100%); }
+    .cby_card_2 { background: linear-gradient(150deg, #f2543d 0%, #b5122f 58%, #5a0a1c 100%); }
+    .cby_card_3 { background: linear-gradient(150deg, #38cbb8 0%, #0f8a7c 58%, #064440 100%); }
+    .cby_card_4 { background: linear-gradient(150deg, #f0ad4e 0%, #b05f1d 58%, #4a2410 100%); }
+
+    .cby_card_head {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      font-size: 0.72rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      opacity: 0.85;
+    }
+
+    .cby_card_emoji {
+      position: absolute;
+      right: 6px;
+      top: 44px;
+      z-index: 0;
+      font-size: 7.5rem;
+      line-height: 1;
+      opacity: 0.28;
+      transform: rotate(-8deg);
+      filter: saturate(0.85);
+    }
+
+    .cby_card_body {
+      position: relative;
+      z-index: 1;
+    }
+
+    .cby_card_name {
+      font-size: 2.1rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      line-height: 1.2;
+      margin-bottom: 8px;
+    }
+
+    .cby_card_tag {
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      opacity: 0.88;
+      margin-bottom: 16px;
+    }
+
+    .cby_card_desc {
+      font-size: 0.92rem;
+      line-height: 1.85;
+      opacity: 0.94;
+      max-width: 15em;
+    }
+
+    .cby_card_tags {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 26px;
+    }
+
+    .cby_card_tags span {
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      padding: 5px 12px;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.18);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+    }
+
+    .cby_hint {
+      position: absolute;
+      z-index: 3;
+      top: 14px;
+      left: 50%;
+      transform: translate(-50%, -6px);
+      padding: 7px 16px;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(8px);
+      font-size: 0.78rem;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+
+    .cby_hint.cby_hint_show {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+
+    .cby_meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-top: 18px;
+      font-size: 0.8rem;
+      color: var(--cby_muted);
+    }
+
+    .cby_count {
+      color: var(--cby_text);
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 0.06em;
+    }
+
+    .cby_meta_tip {
+      text-align: right;
+      letter-spacing: 0.04em;
+    }
+
+    .cby_tip {
+      margin-top: 26px;
+      padding: 16px 18px;
+      border-radius: 16px;
+      background: var(--cby_card);
+      border: 1px solid var(--cby_line);
+      font-size: 0.8rem;
+      color: var(--cby_muted);
+      line-height: 1.8;
+    }
+
+    .cby_tip strong {
+      color: var(--cby_accent);
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <main class="cby_page">
+    <header class="cby_topbar">
+      <a class="cby_back" href="index.html">← 返回首页</a>
+      <span class="cby_step">任务 ⭐⭐</span>
+    </header>
+
+    <h1 class="cby_title">中华美食</h1>
+    <p class="cby_sub">左右滑动切换菜品 · 识别阈值 40px</p>
+
+    <section class="cby_swipe" id="cbySwipe">
+      <div class="cby_track" id="cbyTrack">
+        <article class="cby_card cby_card_1">
+          <div class="cby_card_head">
+            <span>川菜</span>
+            <span>SCROLL →</span>
+          </div>
+          <span class="cby_card_emoji">🍗</span>
+          <div class="cby_card_body">
+            <h2 class="cby_card_name">宫保鸡丁</h2>
+            <p class="cby_card_tag">糊辣荔枝味 · 咸甜微酸</p>
+            <p class="cby_card_desc">鸡丁滑嫩、花生酥脆，一勺糊辣香里带着若有若无的回甜，是川菜里最讨喜的那一口。</p>
+          </div>
+          <div class="cby_card_tags">
+            <span>鸡腿肉</span><span>花生米</span><span>干辣椒</span>
+          </div>
+        </article>
+
+        <article class="cby_card cby_card_2">
+          <div class="cby_card_head">
+            <span>川菜</span>
+            <span>SCROLL →</span>
+          </div>
+          <span class="cby_card_emoji">🌶️</span>
+          <div class="cby_card_body">
+            <h2 class="cby_card_name">麻婆豆腐</h2>
+            <p class="cby_card_tag">麻辣鲜香 · 烫嫩酥麻</p>
+            <p class="cby_card_desc">嫩豆腐裹着牛肉臊子，红油亮而不燥。花椒的麻在舌尖慢慢炸开，配一碗白米饭刚刚好。</p>
+          </div>
+          <div class="cby_card_tags">
+            <span>嫩豆腐</span><span>牛肉臊子</span><span>花椒</span>
+          </div>
+        </article>
+
+        <article class="cby_card cby_card_3">
+          <div class="cby_card_head">
+            <span>浙菜</span>
+            <span>SCROLL →</span>
+          </div>
+          <span class="cby_card_emoji">🐟</span>
+          <div class="cby_card_body">
+            <h2 class="cby_card_name">西湖醋鱼</h2>
+            <p class="cby_card_tag">酸甜清鲜 · 蟹味回甘</p>
+            <p class="cby_card_desc">草鱼现杀现烹，糖醋汁薄而亮。鱼肉细嫩不带腥，入口先酸后甜，收口干净。</p>
+          </div>
+          <div class="cby_card_tags">
+            <span>草鱼</span><span>香醋</span><span>姜末</span>
+          </div>
+        </article>
+
+        <article class="cby_card cby_card_4">
+          <div class="cby_card_head">
+            <span>京菜</span>
+            <span>SCROLL →</span>
+          </div>
+          <span class="cby_card_emoji">🦆</span>
+          <div class="cby_card_body">
+            <h2 class="cby_card_name">北京烤鸭</h2>
+            <p class="cby_card_tag">果木挂炉 · 皮酥肉嫩</p>
+            <p class="cby_card_desc">果木挂炉烤制，鸭皮油亮酥脆。片好的鸭皮蘸白糖，鸭肉卷进荷叶饼，配葱丝与甜面酱。</p>
+          </div>
+          <div class="cby_card_tags">
+            <span>填鸭</span><span>荷叶饼</span><span>甜面酱</span>
+          </div>
+        </article>
+      </div>
+
+      <div class="cby_hint" id="cbyHint">已经是第一张</div>
+    </section>
+
+    <div class="cby_meta">
+      <span class="cby_count" id="cbyCount">第 1/4 张</span>
+      <span class="cby_meta_tip">← 左滑下一道 · 右滑上一道 →</span>
+    </div>
+
+    <p class="cby_tip">
+      <strong>实现要点：</strong>监听 <code>touchstart / touchend</code>，用
+      <code>changedTouches[0]</code> 算横向位移；超过 40px 且横向位移大于纵向位移才切换，
+      切换后 300ms 冷却，避免快速连滑一次跳两张。容器加了
+      <code>touch-action: pan-y</code>，纵向仍可正常滚动页面。
+    </p>
+  </main>
+
+  <script>
+    (function () {
+      var cby_swipe = document.getElementById('cbySwipe');
+      var cby_track = document.getElementById('cbyTrack');
+      var cby_count = document.getElementById('cbyCount');
+      var cby_hint = document.getElementById('cbyHint');
+      var cby_total = cby_track.children.length;
+      var cby_index = 0;
+      var cby_startX = 0;
+      var cby_startY = 0;
+      var cby_hasStart = false;
+      var cby_cooling = false;
+      var cby_coolTimer = null;
+      var cby_hintTimer = null;
+      var cby_THRESHOLD = 40;
+
+      // 功能：把卡片轨道移动到指定索引，并刷新“第 x/n 张”计数
+      function cby_goTo(cby_next) {
+        cby_index = cby_next;
+        cby_track.style.transform = 'translateX(' + (-cby_index * 100) + '%)';
+        cby_count.textContent = '第 ' + (cby_index + 1) + '/' + cby_total + ' 张';
+      }
+
+      // 功能：在卡片顶部短暂显示一行提示文字
+      function cby_showHint(cby_text) {
+        cby_hint.textContent = cby_text;
+        cby_hint.classList.add('cby_hint_show');
+        clearTimeout(cby_hintTimer);
+        cby_hintTimer = setTimeout(function () {
+          cby_hint.classList.remove('cby_hint_show');
+        }, 1200);
+      }
+
+      // 功能：播放一次左右抖动的边界反馈动画
+      function cby_shake() {
+        cby_swipe.classList.remove('cby_shake');
+        void cby_swipe.offsetWidth;
+        cby_swipe.classList.add('cby_shake');
+      }
+
+      // 功能：开启 300ms 冷却，防止快速连滑一次跳两张
+      function cby_lock() {
+        cby_cooling = true;
+        clearTimeout(cby_coolTimer);
+        cby_coolTimer = setTimeout(function () {
+          cby_cooling = false;
+        }, 300);
+      }
+
+      // 功能：处理一次有效滑动，负责边界提示与切换卡片
+      function cby_handleSwipe(cby_dx) {
+        var cby_next = cby_index + (cby_dx < 0 ? 1 : -1);
+
+        if (cby_next < 0) {
+          cby_showHint('已经是第一张');
+          cby_shake();
+          return;
+        }
+        if (cby_next > cby_total - 1) {
+          cby_showHint('已经是最后一张');
+          cby_shake();
+          return;
+        }
+
+        cby_goTo(cby_next);
+        cby_lock();
+      }
+
+      // 功能：记录手指按下的起点坐标
+      cby_swipe.addEventListener('touchstart', function (cby_e) {
+        if (cby_e.touches.length !== 1) {
+          cby_hasStart = false;
+          return;
+        }
+        cby_startX = cby_e.touches[0].clientX;
+        cby_startY = cby_e.touches[0].clientY;
+        cby_hasStart = true;
+      }, { passive: true });
+
+      // 功能：抬手时计算位移，判断方向并触发切换
+      cby_swipe.addEventListener('touchend', function (cby_e) {
+        if (!cby_hasStart) {
+          return;
+        }
+        cby_hasStart = false;
+
+        var cby_touch = cby_e.changedTouches[0];
+        var cby_dx = cby_touch.clientX - cby_startX;
+        var cby_dy = cby_touch.clientY - cby_startY;
+
+        if (cby_cooling) {
+          return;
+        }
+        if (Math.abs(cby_dx) < cby_THRESHOLD || Math.abs(cby_dx) <= Math.abs(cby_dy)) {
+          return;
+        }
+
+        cby_handleSwipe(cby_dx);
+      }, { passive: true });
+
+      // 功能：触摸被系统打断时清理起点状态，避免页面“卡住”
+      cby_swipe.addEventListener('touchcancel', function () {
+        cby_hasStart = false;
+      });
+
+      // 功能：初始化计数显示
+      cby_goTo(0);
+    })();
+  </script>
+</body>
+</html>

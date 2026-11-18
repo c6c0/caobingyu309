@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<!--
+  作者：曹炳宇　学号：24002120309
+  建立时间：2026-11-18 13:56
+  使用大模型：DeepSeek-V4.1-Flash
+  功能名称：移动端摇一摇——摇动手机随机抽取今日菜谱，含权限申请与降级方案
+-->
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>摇一摇 · 今日菜谱</title>
+  <style>
+    :root {
+      --cby_bg: #0d0913;
+      --cby_panel: #191225;
+      --cby_text: #f6f1ff;
+      --cby_muted: #a294b8;
+      --cby_accent: #ffb04d;
+      --cby_purple: #9b7bff;
+      --cby_line: rgba(255, 255, 255, 0.1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    [hidden] {
+      display: none !important;
+    }
+
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(120% 60% at 50% 0%, #2a1a3e 0%, transparent 62%),
+        var(--cby_bg);
+      color: var(--cby_text);
+      font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", sans-serif;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .cby_page {
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 20px 18px 48px;
+    }
+
+    .cby_topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 28px;
+    }
+
+    .cby_back {
+      color: var(--cby_muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      letter-spacing: 0.04em;
+      padding: 6px 0;
+      transition: color 0.2s ease;
+    }
+
+    .cby_back:active {
+      color: var(--cby_accent);
+    }
+
+    .cby_step {
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      color: var(--cby_accent);
+      border: 1px solid rgba(255, 176, 77, 0.35);
+      border-radius: 999px;
+      padding: 4px 10px;
+    }
+
+    .cby_title {
+      font-size: 1.75rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      margin-bottom: 6px;
+    }
+
+    .cby_sub {
+      font-size: 0.82rem;
+      color: var(--cby_muted);
+      margin-bottom: 22px;
+    }
+
+    .cby_hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      padding: 30px 20px 26px;
+      border-radius: 26px;
+      border: 1px solid var(--cby_line);
+      background:
+        radial-gradient(80% 90% at 50% 0%, rgba(155, 123, 255, 0.22) 0%, transparent 70%),
+        var(--cby_panel);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+    }
+
+    .cby_phone {
+      font-size: 4.4rem;
+      line-height: 1;
+      animation: cby_float 3s ease-in-out infinite;
+      transform-origin: 50% 80%;
+    }
+
+    .cby_phone.cby_shaking {
+      animation: cby_shakePhone 0.5s ease;
+    }
+
+    @keyframes cby_float {
+      0%, 100% { transform: translateY(0) rotate(-3deg); }
+      50% { transform: translateY(-10px) rotate(3deg); }
+    }
+
+    @keyframes cby_shakePhone {
+      0%, 100% { transform: translateX(0) rotate(0); }
+      20% { transform: translateX(-12px) rotate(-12deg); }
+      40% { transform: translateX(10px) rotate(10deg); }
+      60% { transform: translateX(-8px) rotate(-8deg); }
+      80% { transform: translateX(6px) rotate(6deg); }
+    }
+
+    .cby_status {
+      margin-top: 10px;
+      font-size: 0.92rem;
+      text-align: center;
+      letter-spacing: 0.02em;
+      color: var(--cby_text);
+    }
+
+    .cby_status.cby_status_warn {
+      color: #ff9e8a;
+    }
+
+    .cby_meter {
+      margin-top: 10px;
+      font-size: 0.74rem;
+      color: var(--cby_muted);
+      letter-spacing: 0.05em;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .cby_meter_value {
+      color: var(--cby_accent);
+      font-weight: 600;
+      transition: color 0.15s ease;
+    }
+
+    .cby_meter_value.cby_meter_hot {
+      color: #ff6b6b;
+    }
+
+    .cby_actions {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .cby_btn {
+      padding: 14px 18px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 176, 77, 0.4);
+      background: rgba(255, 176, 77, 0.12);
+      color: var(--cby_accent);
+      font-size: 0.88rem;
+      letter-spacing: 0.05em;
+      font-family: inherit;
+      cursor: pointer;
+      touch-action: manipulation;
+      transition: transform 0.15s ease, background 0.2s ease;
+    }
+
+    .cby_btn:active {
+      transform: scale(0.98);
+      background: rgba(255, 176, 77, 0.22);
+    }
+
+    .cby_btn_primary {
+      border-color: rgba(155, 123, 255, 0.5);
+      background: rgba(155, 123, 255, 0.16);
+      color: #cbbcff;
+    }
+
+    .cby_btn_primary:active {
+      background: rgba(155, 123, 255, 0.28);
+    }
+
+    .cby_result {
+      position: relative;
+      margin-top: 22px;
+      padding: 26px 22px;
+      border-radius: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      overflow: hidden;
+      color: #fff;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+    }
+
+    .cby_result.cby_pop {
+      animation: cby_pop 0.45s cubic-bezier(0.2, 0.9, 0.3, 1.4);
+    }
+
+    @keyframes cby_pop {
+      0% { transform: scale(0.82) translateY(14px); opacity: 0; }
+      100% { transform: scale(1) translateY(0); opacity: 1; }
+    }
+
+    .cby_result_emoji {
+      position: absolute;
+      right: 10px;
+      top: 6px;
+      font-size: 6rem;
+      line-height: 1;
+      opacity: 0.28;
+      transform: rotate(-8deg);
+    }
+
+    .cby_result_label {
+      position: relative;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      opacity: 0.8;
+      margin-bottom: 8px;
+    }
+
+    .cby_result_name {
+      position: relative;
+      font-size: 1.8rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      line-height: 1.25;
+      margin-bottom: 8px;
+    }
+
+    .cby_result_desc {
+      position: relative;
+      font-size: 0.88rem;
+      line-height: 1.8;
+      opacity: 0.94;
+      max-width: 16em;
+    }
+
+    .cby_tip {
+      margin-top: 22px;
+      padding: 16px 18px;
+      border-radius: 16px;
+      background: var(--cby_panel);
+      border: 1px solid var(--cby_line);
+      font-size: 0.8rem;
+      color: var(--cby_muted);
+      line-height: 1.85;
+    }
+
+    .cby_tip h2 {
+      font-size: 0.84rem;
+      color: var(--cby_text);
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      margin-bottom: 6px;
+    }
+
+    .cby_tip + .cby_tip {
+      margin-top: 12px;
+    }
+
+    .cby_tip code {
+      font-size: 0.78rem;
+      color: #e2d8ff;
+    }
+  </style>
+</head>
+<body>
+  <main class="cby_page">
+    <header class="cby_topbar">
+      <a class="cby_back" href="index.html">← 返回首页</a>
+      <span class="cby_step">任务 ⭐⭐⭐⭐</span>
+    </header>
+
+    <h1 class="cby_title">摇一摇 · 今日菜谱</h1>
+    <p class="cby_sub">摇一摇手机，抽一道今日菜谱</p>
+
+    <section class="cby_hero">
+      <div class="cby_phone" id="cbyPhone">📱</div>
+      <p class="cby_status" id="cbyStatus">摇一摇手机，抽一道今日菜谱</p>
+      <p class="cby_meter">当前加速度 <span class="cby_meter_value" id="cbyMeterValue">--</span> m/s² · 阈值 18</p>
+    </section>
+
+    <div class="cby_actions">
+      <button class="cby_btn cby_btn_primary" id="cbyPermit" type="button" hidden>
+        启用运动传感器（iOS 需手动授权）
+      </button>
+      <button class="cby_btn" id="cbyFallback" type="button" hidden>
+        点我抽一次（降级方案）
+      </button>
+    </div>
+
+    <section class="cby_result" id="cbyResult" hidden>
+      <span class="cby_result_emoji" id="cbyResultEmoji">🍜</span>
+      <p class="cby_result_label">TODAY'S PICK</p>
+      <h2 class="cby_result_name" id="cbyResultName">重庆小面</h2>
+      <p class="cby_result_desc" id="cbyResultDesc">麻辣鲜香，一碗唤醒味蕾。</p>
+    </section>
+
+    <div class="cby_tip">
+      <h2>为什么必须做降级？</h2>
+      传感器事件只在真机上可靠：电脑浏览器往往收不到数据，部分安卓机、隐私模式或用户拒绝授权时同样拿不到。
+      如果不做判断，页面会一直停在“等待摇动”，看上去像坏了。所以这里检测
+      <code>DeviceMotionEvent</code>、监听超时和权限结果，任何一步失败都会给出明确提示，
+      并露出“点我抽一次”按钮，保证功能在什么设备上都能走通。
+    </div>
+
+    <div class="cby_tip">
+      <h2>accelerationIncludingGravity 与 acceleration</h2>
+      <code>accelerationIncludingGravity</code> 包含重力（静止时约 9.8 m/s²），
+      摇动时的峰值很容易超过 18，适合做“摇一摇”。
+      而 <code>acceleration</code> 已经去掉了重力，静止时接近 0，只反映用户施加的加速度，
+      阈值需要另设。两者松手后的数据变化曲线也不同，不能混用同一个阈值。
+    </div>
+  </main>
+
+  <script>
+    (function () {
+      var cby_status = document.getElementById('cbyStatus');
+      var cby_meterValue = document.getElementById('cbyMeterValue');
+      var cby_phone = document.getElementById('cbyPhone');
+      var cby_permit = document.getElementById('cbyPermit');
+      var cby_fallback = document.getElementById('cbyFallback');
+      var cby_result = document.getElementById('cbyResult');
+      var cby_resultEmoji = document.getElementById('cbyResultEmoji');
+      var cby_resultName = document.getElementById('cbyResultName');
+      var cby_resultDesc = document.getElementById('cbyResultDesc');
+
+      var cby_THRESHOLD = 18;
+      var cby_COOLDOWN = 1500;
+      var cby_lastShake = 0;
+      var cby_lastIndex = -1;
+      var cby_gotData = false;
+      var cby_unsupported = false;
+      var cby_dataTimer = null;
+      var cby_shakeTimer = null;
+
+      var cby_dishes = [
+        {
+          emoji: '🍜',
+          name: '重庆小面',
+          desc: '红油香而不燥，豌豆软糯，面条筋道，一碗下去额头微微冒汗。',
+          bg: 'linear-gradient(145deg, #ff6b3d 0%, #c81d25 60%, #6d0f18 100%)'
+        },
+        {
+          emoji: '🥟',
+          name: '三鲜锅贴',
+          desc: '底面煎到金黄焦脆，咬开是滚烫的汤汁，配一碟香醋刚好。',
+          bg: 'linear-gradient(145deg, #f0b24a 0%, #b26a1c 60%, #5a2f0c 100%)'
+        },
+        {
+          emoji: '🍲',
+          name: '番茄牛腩',
+          desc: '牛腩炖到软烂，番茄的酸甜融进汤里，汤汁拌饭是一绝。',
+          bg: 'linear-gradient(145deg, #ff7a59 0%, #c93b2f 60%, #6b1416 100%)'
+        },
+        {
+          emoji: '🍚',
+          name: '扬州炒饭',
+          desc: '米粒粒粒分明，虾仁、火腿、青豆点缀其间，镬气十足。',
+          bg: 'linear-gradient(145deg, #f2c14e 0%, #c08a1e 60%, #63400b 100%)'
+        },
+        {
+          emoji: '🍢',
+          name: '关东煮',
+          desc: '萝卜吸饱汤汁，鱼丸弹牙，深夜来一碗最治愈。',
+          bg: 'linear-gradient(145deg, #6fc3a8 0%, #2c8a72 60%, #0d4438 100%)'
+        },
+        {
+          emoji: '🥘',
+          name: '麻辣香锅',
+          desc: '自选食材一锅炒出干香，麻辣过瘾，越吃越上头。',
+          bg: 'linear-gradient(145deg, #ff5b5b 0%, #a80f3a 60%, #520722 100%)'
+        }
+      ];
+
+      // 功能：更新顶部状态文字，second 参数为 true 时使用警示色
+      function cby_setStatus(cby_text, cby_warn) {
+        cby_status.textContent = cby_text;
+        cby_status.classList.toggle('cby_status_warn', !!cby_warn);
+      }
+
+      // 功能：标记设备不支持或授权失败，并露出降级按钮
+      function cby_markUnsupported(cby_text) {
+        cby_unsupported = true;
+        cby_setStatus(cby_text, true);
+        cby_fallback.hidden = false;
+        cby_meterValue.textContent = '--';
+        cby_meterValue.classList.remove('cby_meter_hot');
+      }
+
+      // 功能：开始监听 devicemotion，并设置“收不到数据”的超时兜底
+      function cby_startListen() {
+        cby_permit.hidden = true;
+        cby_setStatus('传感器已开启，摇一摇试试');
+        window.addEventListener('devicemotion', cby_onMotion);
+        clearTimeout(cby_dataTimer);
+        cby_dataTimer = setTimeout(function () {
+          if (!cby_gotData) {
+            cby_markUnsupported('没有收到传感器数据，请用手机打开');
+          }
+        }, 3000);
+      }
+
+      // 功能：随机抽取一道菜并播放弹出动画
+      function cby_draw(cby_source) {
+        var cby_i = Math.floor(Math.random() * cby_dishes.length);
+        if (cby_i === cby_lastIndex && cby_dishes.length > 1) {
+          cby_i = (cby_i + 1) % cby_dishes.length;
+        }
+        cby_lastIndex = cby_i;
+
+        var cby_dish = cby_dishes[cby_i];
+        cby_resultEmoji.textContent = cby_dish.emoji;
+        cby_resultName.textContent = cby_dish.name;
+        cby_resultDesc.textContent = cby_dish.desc;
+        cby_result.style.background = cby_dish.bg;
+        cby_result.hidden = false;
+
+        cby_result.classList.remove('cby_pop');
+        void cby_result.offsetWidth;
+        cby_result.classList.add('cby_pop');
+
+        cby_phone.classList.remove('cby_shaking');
+        void cby_phone.offsetWidth;
+        cby_phone.classList.add('cby_shaking');
+        clearTimeout(cby_shakeTimer);
+        cby_shakeTimer = setTimeout(function () {
+          cby_phone.classList.remove('cby_shaking');
+        }, 600);
+
+        if (!cby_unsupported) {
+          cby_setStatus(cby_source === 'shake' ? '摇动成功，今日推荐已更新' : '已为你抽好今日菜谱');
+        }
+      }
+
+      // 功能：读取加速度、刷新数值显示，并在超过阈值时触发抽取（带冷却）
+      function cby_onMotion(cby_e) {
+        var cby_acc = cby_e.accelerationIncludingGravity;
+        if (
+          !cby_acc ||
+          typeof cby_acc.x !== 'number' ||
+          typeof cby_acc.y !== 'number' ||
+          typeof cby_acc.z !== 'number'
+        ) {
+          return;
+        }
+
+        if (!cby_gotData) {
+          cby_gotData = true;
+          cby_unsupported = false;
+          clearTimeout(cby_dataTimer);
+          cby_fallback.hidden = true;
+          cby_setStatus('传感器已就绪，摇一摇试试');
+        }
+
+        var cby_mag = Math.hypot(cby_acc.x, cby_acc.y, cby_acc.z);
+        cby_meterValue.textContent = cby_mag.toFixed(1);
+        cby_meterValue.classList.toggle('cby_meter_hot', cby_mag > cby_THRESHOLD);
+
+        var cby_now = Date.now();
+        if (cby_mag > cby_THRESHOLD && cby_now - cby_lastShake > cby_COOLDOWN) {
+          cby_lastShake = cby_now;
+          cby_draw('shake');
+        }
+      }
+
+      // 功能：申请 iOS 13+ 的运动传感器权限
+      function cby_askPermission() {
+        DeviceMotionEvent.requestPermission()
+          .then(function (cby_state) {
+            if (cby_state === 'granted') {
+              cby_startListen();
+            } else {
+              cby_markUnsupported('未获得运动传感器权限，可手动抽取');
+            }
+          })
+          .catch(function () {
+            cby_markUnsupported('权限申请失败，可手动抽取');
+          });
+      }
+
+      // 功能：初始化设备能力检测，决定直接监听还是等待授权
+      function cby_init() {
+        if (!window.DeviceMotionEvent) {
+          cby_markUnsupported('当前设备不支持摇一摇，请用手机打开');
+          return;
+        }
+
+        if (typeof DeviceMotionEvent.requestPermission === 'function') {
+          cby_permit.hidden = false;
+          cby_setStatus('iOS 需要先授权运动与方向权限');
+          cby_fallback.hidden = false;
+          return;
+        }
+
+        cby_startListen();
+      }
+
+      cby_permit.addEventListener('click', cby_askPermission);
+
+      // 功能：降级按钮——没有传感器时手动抽一次
+      cby_fallback.addEventListener('click', function () {
+        cby_draw('manual');
+      });
+
+      cby_init();
+    })();
+  </script>
+</body>
+</html>

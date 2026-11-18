@@ -2,12 +2,12 @@
 
 本工作区内所有前端代码必须遵守以下命名约定：
 
-- **CSS 类名**：以 `wy_` 开头，例如 `wy_container`、`wy_btn_primary`
-- **CSS id**：以 `wy_` 开头，例如 `wy_header`、`wy_main_content`
-- **JavaScript 变量、函数、常量**：以 `wy_` 开头，例如 `wy_userName`、`wy_fetchData()`、`wy_MAX_COUNT`
+- **CSS 类名**：以 `cby_` 开头，例如 `cby_container`、`cby_btn_primary`
+- **CSS id**：以 `cby_` 开头，例如 `cby_header`、`cby_main_content`
+- **JavaScript 变量、函数、常量**：以 `cby_` 开头，例如 `cby_userName`、`cby_fetchData()`、`cby_MAX_COUNT`
 - HTML 标签内引用的 class/id 同样遵守此规则
 
-例外情况：第三方库自动生成的类名（如 Bootstrap、Tailwind）不受此约束，但自定义覆盖样式仍需 `wy_` 前缀。
+例外情况：第三方库自动生成的类名（如 Bootstrap、Tailwind）不受此约束，但自定义覆盖样式仍需 `cby_` 前缀。
 
 ## 提示词日志规则 <MUST_ALWAYS_FOLLOW>
 
@@ -46,5 +46,5 @@
 
 - 使用 `<a href="...">` 标签
 - 链接文字使用清晰的中文页面名
-- class/id 同样遵守 `wy_` 前缀规则，例如 `wy_nav_link`、`wy_back_home`
+- class/id 同样遵守 `cby_` 前缀规则，例如 `cby_nav_link`、`cby_back_home`
 - 如果首页尚不存在，先创建最小化的 `index.html` 骨架（含导航列表）再继续

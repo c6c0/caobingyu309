@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<!--
+  作者：曹炳宇
+  建立时间：2026-11-13 14:08
+  使用大模型：Trae-CN-Proprietary
+  功能名称：诗词图文卡片页（上图下文），数据来自 db/server.js 提供的 /api/poems 接口
+-->
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>诗词图文 · 上图下文</title>
+  <style>
+    :root {
+      --cby_bg: #f6f2ea;
+      --cby_card: #ffffff;
+      --cby_ink: #22201c;
+      --cby_ink_light: #6f6a61;
+      --cby_accent: #b0894f;
+      --cby_line: #e6dfd2;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Songti SC", "SimSun", "Georgia", serif;
+      background: var(--cby_bg);
+      color: var(--cby_ink);
+      min-height: 100vh;
+      line-height: 1.75;
+    }
+
+    .cby_page {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 56px 32px 80px;
+    }
+
+    .cby_topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 20px;
+      margin-bottom: 56px;
+      border-bottom: 1px solid var(--cby_line);
+    }
+
+    .cby_back_home {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--cby_ink_light);
+      transition: color 0.25s ease;
+    }
+
+    .cby_back_home:hover { color: var(--cby_accent); }
+
+    .cby_endpoint {
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      color: var(--cby_ink_light);
+    }
+
+    .cby_title_box {
+      text-align: center;
+      margin-bottom: 56px;
+    }
+
+    .cby_title_box h1 {
+      font-size: clamp(1.9rem, 4vw, 2.8rem);
+      font-weight: 400;
+      letter-spacing: 0.16em;
+    }
+
+    .cby_title_box p {
+      margin-top: 12px;
+      font-size: 0.95rem;
+      color: var(--cby_ink_light);
+      letter-spacing: 0.06em;
+    }
+
+    .cby_status {
+      text-align: center;
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-size: 0.9rem;
+      color: var(--cby_ink_light);
+      padding: 32px 0;
+    }
+
+    .cby_status.is_error { color: #b14d3f; }
+
+    .cby_retry_btn {
+      display: inline-block;
+      margin-left: 12px;
+      padding: 6px 18px;
+      border: 1px solid var(--cby_accent);
+      background: transparent;
+      color: var(--cby_accent);
+      font-family: inherit;
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      transition: background-color 0.25s ease, color 0.25s ease;
+    }
+
+    .cby_retry_btn:hover {
+      background: var(--cby_accent);
+      color: #fff;
+    }
+
+    .cby_grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 32px;
+    }
+
+    .cby_card {
+      background: var(--cby_card);
+      border: 1px solid var(--cby_line);
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    }
+
+    .cby_card:hover {
+      transform: translateY(-4px);
+      border-color: var(--cby_accent);
+      box-shadow: 0 14px 34px rgba(120, 96, 56, 0.16);
+    }
+
+    .cby_card_pic {
+      display: block;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      background: #ece6da;
+    }
+
+    .cby_card_body {
+      padding: 22px 22px 26px;
+    }
+
+    .cby_card_title {
+      font-size: 1.22rem;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      margin-bottom: 10px;
+    }
+
+    .cby_card_rule {
+      width: 32px;
+      height: 1px;
+      background: var(--cby_accent);
+      margin-bottom: 12px;
+    }
+
+    .cby_card_content {
+      font-size: 0.95rem;
+      color: var(--cby_ink_light);
+      letter-spacing: 0.03em;
+    }
+
+    @media (max-width: 560px) {
+      .cby_page { padding: 32px 18px 56px; }
+      .cby_topbar { margin-bottom: 36px; }
+      .cby_endpoint { display: none; }
+      .cby_grid { gap: 22px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="cby_page">
+    <div class="cby_topbar">
+      <a class="cby_back_home" href="index.html">← 返回首页</a>
+      <span class="cby_endpoint">数据来源：http://localhost:3004/api/poems</span>
+    </div>
+
+    <header class="cby_title_box">
+      <h1>诗 词 图 文</h1>
+      <p>上图下文 · 数据由本地 Express 服务器提供</p>
+    </header>
+
+    <p class="cby_status" id="cby_status">正在加载数据…</p>
+    <main class="cby_grid" id="cby_poem_grid"></main>
+  </div>
+
+  <script>
+    const cby_API_URL = 'http://localhost:3004/api/poems';
+
+    // 功能：显示加载中或错误提示，出错时附带重新加载按钮
+    function cby_showStatus(cby_text, cby_isError) {
+      const cby_status = document.getElementById('cby_status');
+      cby_status.textContent = cby_text;
+      cby_status.className = cby_isError ? 'cby_status is_error' : 'cby_status';
+
+      if (cby_isError) {
+        const cby_btn = document.createElement('button');
+        cby_btn.className = 'cby_retry_btn';
+        cby_btn.textContent = '重新加载';
+        cby_btn.addEventListener('click', cby_fetchPoems);
+        cby_status.appendChild(cby_btn);
+      }
+    }
+
+    // 功能：生成单张卡片的 DOM 结构（上面图片，下面标题与正文）
+    function cby_createCard(cby_poem) {
+      const cby_card = document.createElement('article');
+      cby_card.className = 'cby_card';
+
+      const cby_img = document.createElement('img');
+      cby_img.className = 'cby_card_pic';
+      cby_img.alt = cby_poem.title;
+      cby_img.loading = 'lazy';
+      cby_img.referrerPolicy = 'no-referrer';
+      cby_img.src = cby_poem.pic;
+
+      const cby_body = document.createElement('div');
+      cby_body.className = 'cby_card_body';
+
+      const cby_title = document.createElement('h2');
+      cby_title.className = 'cby_card_title';
+      cby_title.textContent = cby_poem.title;
+
+      const cby_rule = document.createElement('div');
+      cby_rule.className = 'cby_card_rule';
+
+      const cby_content = document.createElement('p');
+      cby_content.className = 'cby_card_content';
+      cby_content.textContent = cby_poem.content;
+
+      cby_body.appendChild(cby_title);
+      cby_body.appendChild(cby_rule);
+      cby_body.appendChild(cby_content);
+      cby_card.appendChild(cby_img);
+      cby_card.appendChild(cby_body);
+      return cby_card;
+    }
+
+    // 功能：把接口返回的诗词数组渲染成卡片列表
+    function cby_renderPoems(cby_poems) {
+      const cby_grid = document.getElementById('cby_poem_grid');
+      cby_grid.textContent = '';
+
+      if (!cby_poems.length) {
+        cby_showStatus('db.json 中的 poems 数组为空。', true);
+        return;
+      }
+
+      cby_showStatus('共 ' + cby_poems.length + ' 条数据', false);
+      cby_poems.forEach(function (cby_poem) {
+        cby_grid.appendChild(cby_createCard(cby_poem));
+      });
+    }
+
+    // 功能：向本地服务器请求 /api/poems 数据，并交给渲染函数处理
+    function cby_fetchPoems() {
+      cby_showStatus('正在加载数据…', false);
+
+      fetch(cby_API_URL)
+        .then(function (cby_res) {
+          if (!cby_res.ok) {
+            throw new Error('接口返回状态码 ' + cby_res.status);
+          }
+          return cby_res.json();
+        })
+        .then(function (cby_poems) {
+          console.log('接口返回的诗词数据：', cby_poems);
+          cby_renderPoems(cby_poems);
+        })
+        .catch(function (cby_err) {
+          console.error(cby_err);
+          cby_showStatus('加载失败：请先在 db 文件夹运行 node server.js（' + cby_err.message + '）', true);
+        });
+    }
+
+    cby_fetchPoems();
+  </script>
+</body>
+</html>

@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<!--
+  作者：曹炳宇　学号：24002120309
+  建立时间：2026-11-18 13:56
+  使用大模型：DeepSeek-V4.1-Flash
+  功能名称：移动端图片查看器——双指缩放、双击放大、放大后拖动
+-->
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>图片查看器 · 双指缩放</title>
+  <style>
+    :root {
+      --cby_bg: #080b10;
+      --cby_panel: #11161f;
+      --cby_text: #eaf2f6;
+      --cby_muted: #8d9aa8;
+      --cby_accent: #46d8c8;
+      --cby_line: rgba(255, 255, 255, 0.1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(120% 60% at 50% 0%, #0d2430 0%, transparent 60%),
+        var(--cby_bg);
+      color: var(--cby_text);
+      font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", sans-serif;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .cby_page {
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 20px 18px 48px;
+    }
+
+    .cby_topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 28px;
+    }
+
+    .cby_back {
+      color: var(--cby_muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      letter-spacing: 0.04em;
+      padding: 6px 0;
+      transition: color 0.2s ease;
+    }
+
+    .cby_back:active {
+      color: var(--cby_accent);
+    }
+
+    .cby_step {
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      color: var(--cby_accent);
+      border: 1px solid rgba(70, 216, 200, 0.35);
+      border-radius: 999px;
+      padding: 4px 10px;
+    }
+
+    .cby_title {
+      font-size: 1.75rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      margin-bottom: 6px;
+    }
+
+    .cby_sub {
+      font-size: 0.82rem;
+      color: var(--cby_muted);
+      margin-bottom: 22px;
+    }
+
+    .cby_stage {
+      position: relative;
+      height: 62vh;
+      min-height: 320px;
+      max-height: 560px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 22px;
+      border: 1px solid var(--cby_line);
+      background:
+        radial-gradient(80% 60% at 50% 40%, #15222c 0%, #05070a 100%);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+      touch-action: none;
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-touch-callout: none;
+      cursor: grab;
+    }
+
+    .cby_photo {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      transform-origin: 50% 50%;
+      will-change: transform;
+      pointer-events: none;
+      -webkit-user-drag: none;
+    }
+
+    .cby_notice {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      padding: 5px 11px;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(8px);
+      font-size: 0.7rem;
+      letter-spacing: 0.04em;
+      color: rgba(255, 255, 255, 0.78);
+      pointer-events: none;
+    }
+
+    .cby_badge {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      min-width: 52px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.45);
+      border: 1px solid rgba(70, 216, 200, 0.35);
+      -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(8px);
+      color: var(--cby_accent);
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      text-align: center;
+      font-variant-numeric: tabular-nums;
+      pointer-events: none;
+    }
+
+    .cby_actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .cby_btn {
+      flex: 1;
+      padding: 13px 16px;
+      border-radius: 14px;
+      border: 1px solid rgba(70, 216, 200, 0.35);
+      background: rgba(70, 216, 200, 0.1);
+      color: var(--cby_accent);
+      font-size: 0.86rem;
+      letter-spacing: 0.06em;
+      font-family: inherit;
+      cursor: pointer;
+      touch-action: manipulation;
+      transition: transform 0.15s ease, background 0.2s ease;
+    }
+
+    .cby_btn:active {
+      transform: scale(0.97);
+      background: rgba(70, 216, 200, 0.2);
+    }
+
+    .cby_tip {
+      margin-top: 24px;
+      padding: 16px 18px;
+      border-radius: 16px;
+      background: var(--cby_panel);
+      border: 1px solid var(--cby_line);
+      font-size: 0.8rem;
+      color: var(--cby_muted);
+      line-height: 1.85;
+    }
+
+    .cby_tip strong {
+      color: var(--cby_accent);
+      font-weight: 600;
+    }
+
+    .cby_tip code {
+      font-size: 0.78rem;
+      color: #cfe9e5;
+    }
+
+    .cby_gesture_list {
+      list-style: none;
+      margin: 10px 0 0;
+      display: grid;
+      gap: 6px;
+    }
+
+    .cby_gesture_list li {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .cby_gesture_list b {
+      color: var(--cby_text);
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+  <main class="cby_page">
+    <header class="cby_topbar">
+      <a class="cby_back" href="index.html">← 返回首页</a>
+      <span class="cby_step">任务 ⭐⭐⭐</span>
+    </header>
+
+    <h1 class="cby_title">图片查看器</h1>
+    <p class="cby_sub">双指缩放 1×–4× · 双击 1×/2× · 放大后拖动</p>
+
+    <section class="cby_stage" id="cbyStage">
+      <img
+        class="cby_photo"
+        id="cbyPhoto"
+        src="img/cby_beach_sunset.jpg"
+        alt="海边日落"
+        draggable="false"
+      >
+      <span class="cby_notice">双指缩放请用手机打开</span>
+      <span class="cby_badge" id="cbyBadge">1.0×</span>
+    </section>
+
+    <div class="cby_actions">
+      <button class="cby_btn" id="cbyReset" type="button">重置视图（回到 1×）</button>
+    </div>
+
+    <div class="cby_tip">
+      <strong>为什么缩放时图片不会“跳”：</strong>
+      缩放前先取两指中点，把它换算成相对容器中心的坐标；再按比例反推
+      <code>translate</code>，使中点下方的那块图像坐标在缩放前后保持不变。
+      所有位移都会夹紧在图片边界内，缩回 1× 时归零居中。
+      <ul class="cby_gesture_list">
+        <li><b>双指</b><span>按两指间距比例缩放，以两指中点为基准</span></li>
+        <li><b>单指</b><span>仅在放大后拖动，松手收回边界内</span></li>
+        <li><b>双击</b><span>在 1× 与 2× 之间切换，过渡 0.25s</span></li>
+      </ul>
+    </div>
+  </main>
+
+  <script>
+    (function () {
+      var cby_stage = document.getElementById('cbyStage');
+      var cby_photo = document.getElementById('cbyPhoto');
+      var cby_badge = document.getElementById('cbyBadge');
+      var cby_resetBtn = document.getElementById('cbyReset');
+
+      var cby_scale = 1;
+      var cby_tx = 0;
+      var cby_ty = 0;
+
+      var cby_mode = 'none';
+      var cby_lastDist = 0;
+      var cby_panStartX = 0;
+      var cby_panStartY = 0;
+      var cby_txStart = 0;
+      var cby_tyStart = 0;
+      var cby_tapStartX = 0;
+      var cby_tapStartY = 0;
+      var cby_tapMoved = 0;
+      var cby_lastTapTime = 0;
+
+      // 功能：计算两根手指之间的直线距离
+      function cby_distance(cby_t1, cby_t2) {
+        return Math.hypot(cby_t2.clientX - cby_t1.clientX, cby_t2.clientY - cby_t1.clientY);
+      }
+
+      // 功能：把数值限制在最小值和最大值之间
+      function cby_clamp(cby_value, cby_min, cby_max) {
+        return Math.max(cby_min, Math.min(cby_max, cby_value));
+      }
+
+      // 功能：按当前缩放倍数计算横向、纵向可拖动的最大位移
+      function cby_bounds() {
+        var cby_sw = cby_stage.clientWidth;
+        var cby_sh = cby_stage.clientHeight;
+        var cby_nw = cby_photo.naturalWidth || cby_sw;
+        var cby_nh = cby_photo.naturalHeight || cby_sh;
+        var cby_base = Math.min(cby_sw / cby_nw, cby_sh / cby_nh);
+        var cby_imgW = cby_nw * cby_base * cby_scale;
+        var cby_imgH = cby_nh * cby_base * cby_scale;
+        return {
+          x: Math.max(0, (cby_imgW - cby_sw) / 2),
+          y: Math.max(0, (cby_imgH - cby_sh) / 2)
+        };
+      }
+
+      // 功能：把图片位移夹紧在边界内，避免拖出空白区域
+      function cby_clampPan() {
+        var cby_limit = cby_bounds();
+        cby_tx = cby_clamp(cby_tx, -cby_limit.x, cby_limit.x);
+        cby_ty = cby_clamp(cby_ty, -cby_limit.y, cby_limit.y);
+      }
+
+      // 功能：应用当前的缩放与位移，并刷新右上角倍数指示器
+      function cby_apply(cby_animate) {
+        cby_photo.style.transition = cby_animate ? 'transform 0.25s ease' : 'none';
+        cby_photo.style.transform =
+          'translate3d(' + cby_tx + 'px, ' + cby_ty + 'px, 0) scale(' + cby_scale + ')';
+        cby_badge.textContent = cby_scale.toFixed(1) + '×';
+      }
+
+      // 功能：以某个屏幕坐标为中心缩放到目标倍数，保证中心点下的图像不移动
+      function cby_zoomAt(cby_clientX, cby_clientY, cby_target) {
+        var cby_rect = cby_stage.getBoundingClientRect();
+        var cby_px = cby_clientX - cby_rect.left - cby_rect.width / 2;
+        var cby_py = cby_clientY - cby_rect.top - cby_rect.height / 2;
+        var cby_ratio = cby_target / cby_scale;
+
+        cby_tx = cby_px - (cby_px - cby_tx) * cby_ratio;
+        cby_ty = cby_py - (cby_py - cby_ty) * cby_ratio;
+        cby_scale = cby_target;
+
+        if (cby_scale <= 1) {
+          cby_scale = 1;
+          cby_tx = 0;
+          cby_ty = 0;
+        }
+        cby_clampPan();
+        cby_apply(true);
+      }
+
+      // 功能：回到 1 倍并居中显示
+      function cby_resetView() {
+        cby_scale = 1;
+        cby_tx = 0;
+        cby_ty = 0;
+        cby_apply(true);
+      }
+
+      // 功能：处理单击与双击，两次点击间隔小于 300ms 判定为双击
+      function cby_handleTap(cby_x, cby_y) {
+        var cby_now = Date.now();
+        if (cby_now - cby_lastTapTime < 300) {
+          cby_lastTapTime = 0;
+          cby_zoomAt(cby_x, cby_y, cby_scale > 1 ? 1 : 2);
+        } else {
+          cby_lastTapTime = cby_now;
+        }
+      }
+
+      // 功能：手指按下时记录单指起点或双指初始距离
+      function cby_onTouchStart(cby_e) {
+        cby_tapMoved = 0;
+
+        if (cby_e.touches.length >= 2) {
+          cby_mode = 'pinch';
+          cby_lastDist = cby_distance(cby_e.touches[0], cby_e.touches[1]);
+          cby_photo.style.transition = 'none';
+          return;
+        }
+
+        cby_mode = 'pan';
+        cby_panStartX = cby_e.touches[0].clientX;
+        cby_panStartY = cby_e.touches[0].clientY;
+        cby_txStart = cby_tx;
+        cby_tyStart = cby_ty;
+        cby_tapStartX = cby_panStartX;
+        cby_tapStartY = cby_panStartY;
+      }
+
+      // 功能：双指时按间距比例缩放，单指时在放大状态下拖动图片
+      function cby_onTouchMove(cby_e) {
+        if (cby_e.touches.length >= 2) {
+          cby_e.preventDefault();
+
+          if (cby_mode !== 'pinch') {
+            cby_mode = 'pinch';
+            cby_lastDist = cby_distance(cby_e.touches[0], cby_e.touches[1]);
+            return;
+          }
+
+          var cby_dist = cby_distance(cby_e.touches[0], cby_e.touches[1]);
+          if (!cby_lastDist) {
+            cby_lastDist = cby_dist;
+            return;
+          }
+
+          var cby_midX = (cby_e.touches[0].clientX + cby_e.touches[1].clientX) / 2;
+          var cby_midY = (cby_e.touches[0].clientY + cby_e.touches[1].clientY) / 2;
+          var cby_rect = cby_stage.getBoundingClientRect();
+          var cby_px = cby_midX - cby_rect.left - cby_rect.width / 2;
+          var cby_py = cby_midY - cby_rect.top - cby_rect.height / 2;
+          var cby_target = cby_clamp(cby_scale * (cby_dist / cby_lastDist), 1, 4);
+          var cby_ratio = cby_target / cby_scale;
+
+          cby_tx = cby_px - (cby_px - cby_tx) * cby_ratio;
+          cby_ty = cby_py - (cby_py - cby_ty) * cby_ratio;
+          cby_scale = cby_target;
+          cby_lastDist = cby_dist;
+
+          cby_clampPan();
+          cby_apply(false);
+          return;
+        }
+
+        if (cby_mode !== 'pan') {
+          return;
+        }
+
+        var cby_touch = cby_e.touches[0];
+        var cby_dx = cby_touch.clientX - cby_panStartX;
+        var cby_dy = cby_touch.clientY - cby_panStartY;
+        cby_tapMoved = Math.max(cby_tapMoved, Math.hypot(cby_dx, cby_dy));
+
+        if (cby_scale > 1) {
+          cby_e.preventDefault();
+          cby_tx = cby_txStart + cby_dx;
+          cby_ty = cby_tyStart + cby_dy;
+          cby_clampPan();
+          cby_apply(false);
+        }
+      }
+
+      // 功能：手指抬起时收尾——判定双击、回弹边界、双指转单指
+      function cby_onTouchEnd(cby_e) {
+        if (cby_e.touches.length > 0) {
+          if (cby_mode === 'pinch') {
+            cby_mode = 'pan';
+            cby_lastDist = 0;
+            cby_panStartX = cby_e.touches[0].clientX;
+            cby_panStartY = cby_e.touches[0].clientY;
+            cby_txStart = cby_tx;
+            cby_tyStart = cby_ty;
+          }
+          return;
+        }
+
+        if (cby_mode === 'pinch') {
+          if (cby_scale < 1.05) {
+            cby_resetView();
+          } else {
+            cby_clampPan();
+            cby_apply(true);
+          }
+          cby_mode = 'none';
+          cby_lastDist = 0;
+          return;
+        }
+
+        if (cby_mode === 'pan') {
+          if (cby_tapMoved < 12) {
+            cby_handleTap(
+              cby_e.changedTouches[0].clientX,
+              cby_e.changedTouches[0].clientY
+            );
+          }
+          if (cby_scale > 1) {
+            cby_clampPan();
+            cby_apply(true);
+          }
+          cby_mode = 'none';
+        }
+      }
+
+      // 功能：触摸被系统打断时清理手势状态并收回边界
+      function cby_onTouchCancel() {
+        cby_mode = 'none';
+        cby_lastDist = 0;
+        cby_clampPan();
+        cby_apply(true);
+      }
+
+      // 功能：窗口尺寸或横竖屏变化后重新夹紧位移，保留当前缩放状态
+      function cby_onResize() {
+        cby_clampPan();
+        cby_apply(true);
+      }
+
+      cby_stage.addEventListener('touchstart', cby_onTouchStart, { passive: true });
+      cby_stage.addEventListener('touchmove', cby_onTouchMove, { passive: false });
+      cby_stage.addEventListener('touchend', cby_onTouchEnd, { passive: true });
+      cby_stage.addEventListener('touchcancel', cby_onTouchCancel, { passive: true });
+
+      // 功能：阻止 iOS Safari 的整页 pinch 手势
+      cby_stage.addEventListener('gesturestart', function (cby_e) {
+        cby_e.preventDefault();
+      });
+
+      cby_resetBtn.addEventListener('click', cby_resetView);
+      cby_photo.addEventListener('load', cby_onResize);
+      window.addEventListener('resize', cby_onResize);
+      window.addEventListener('orientationchange', function () {
+        setTimeout(cby_onResize, 200);
+      });
+
+      cby_apply(false);
+    })();
+  </script>
+</body>
+</html>

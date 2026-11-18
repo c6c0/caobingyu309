@@ -1,10 +1,10 @@
-# AGENTS.md
+﻿# AGENTS.md
 
 Coursework workspace for 高级网页设计: plain HTML/CSS/JS, no build system and no framework. The workspace root is **not** a git repo. `web-c/` is a separate clone of Gitee `neusoft_wangyao_jsj/web-c` (`web-c.git`); coursework submissions go to `neusoft_wangyao_jsj/cby.git` via `skills/提交项目/SKILL.md`.
 
 ## Must-follow project rules
-Authoritative source: `.trae/rules/wy_naming_and_prompt_log.md` (overrides stale subproject READMEs).
-- Prefix every custom CSS class/id and JS variable/function/constant with `wy_` (`wy_container`, `wy_fetchData`). Third-party generated classes are exempt.
+Authoritative source: `.trae/rules/cby_naming_and_prompt_log.md` (overrides stale subproject READMEs).
+- Prefix every custom CSS class/id and JS variable/function/constant with `cby_` (`cby_container`, `cby_fetchData`). Third-party generated classes are exempt.
 - Before writing or generating code, **append** the user prompt to `cby_prompt.md` (never overwrite) using its existing time / model / prompt block format.
 - When adding an HTML page: link back to the root `index.html` from the new page, and add an entry to the root `index.html` (currently `iconfont-1..4`).
 - When creating a new HTML file, put a header comment right after `<!DOCTYPE html>` containing the author, creation time, model used, and the page's function name:
@@ -22,10 +22,10 @@ Authoritative source: `.trae/rules/wy_naming_and_prompt_log.md` (overrides stale
 
   ```js
   // 功能：简要说明该函数主要实现什么
-  function wy_doSomething() { ... }
+  function cby_doSomething() { ... }
   ```
 
-- `hanglv_app/README.md` says prefix `cao_`; that conflicts with the workspace rule — use `wy_`.
+- `hanglv_app/README.md` says prefix `cao_`; that conflicts with the workspace rule — use `cby_`.
 - Coursework code is vanilla HTML/CSS/JS. Download CDN assets into `cdn/` instead of hotlinking (see `cby_prompt.md`).
 
 ## Layout
