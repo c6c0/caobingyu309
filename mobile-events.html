@@ -1,0 +1,1786 @@
+<!DOCTYPE html>
+<!--
+  作者：曹炳宇　学号：24002120309
+  建立时间：2026-11-18 14:34
+  使用大模型：DeepSeek-V4.1-Flash
+  功能名称：移动端触摸交互四关合辑——事件观察、滑动手势、双指缩放、摇一摇，并嵌入实机演示视频
+-->
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>移动端触摸交互 · 四关合辑</title>
+  <style>
+    :root {
+      --cby_bg: #08070d;
+      --cby_panel: #14111d;
+      --cby_panel_2: #1b1726;
+      --cby_text: #f4f0ff;
+      --cby_muted: #a79eb8;
+      --cby_line: rgba(255, 255, 255, 0.1);
+      --cby_gold: #ffbd5c;
+      --cby_red: #ff7a4d;
+      --cby_teal: #46d8c8;
+      --cby_purple: #a78bfa;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    [hidden] {
+      display: none !important;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(120% 50% at 50% 0%, #241a34 0%, transparent 55%),
+        var(--cby_bg);
+      color: var(--cby_text);
+      font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", sans-serif;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    code {
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+    }
+
+    .cby_topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 18px;
+      background: rgba(8, 7, 13, 0.84);
+      border-bottom: 1px solid var(--cby_line);
+      -webkit-backdrop-filter: blur(14px);
+      backdrop-filter: blur(14px);
+    }
+
+    .cby_back {
+      color: var(--cby_muted);
+      text-decoration: none;
+      font-size: 0.8rem;
+      letter-spacing: 0.03em;
+      white-space: nowrap;
+      transition: color 0.2s ease;
+    }
+
+    .cby_back:active {
+      color: var(--cby_gold);
+    }
+
+    .cby_topbar_title {
+      font-size: 0.86rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+
+    .cby_student {
+      margin-left: auto;
+      font-size: 0.64rem;
+      color: var(--cby_muted);
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+
+    .cby_jump {
+      position: sticky;
+      top: 52px;
+      z-index: 49;
+      display: flex;
+      gap: 8px;
+      padding: 9px 18px;
+      overflow-x: auto;
+      background: rgba(8, 7, 13, 0.78);
+      border-bottom: 1px solid var(--cby_line);
+      -webkit-backdrop-filter: blur(14px);
+      backdrop-filter: blur(14px);
+      scrollbar-width: none;
+    }
+
+    .cby_jump::-webkit-scrollbar {
+      display: none;
+    }
+
+    .cby_jump a {
+      flex: 0 0 auto;
+      padding: 5px 11px;
+      border-radius: 999px;
+      border: 1px solid var(--cby_line);
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--cby_muted);
+      text-decoration: none;
+      font-size: 0.7rem;
+      letter-spacing: 0.04em;
+      transition: color 0.2s ease, background 0.2s ease;
+    }
+
+    .cby_jump a:active {
+      color: #0b0a12;
+      background: var(--cby_gold);
+    }
+
+    .cby_wrap {
+      max-width: 520px;
+      margin: 0 auto;
+      padding: 26px 18px 20px;
+    }
+
+    .cby_intro {
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--cby_line);
+    }
+
+    .cby_eyebrow {
+      font-size: 0.66rem;
+      letter-spacing: 0.22em;
+      color: var(--cby_gold);
+      margin-bottom: 10px;
+    }
+
+    .cby_intro h1 {
+      font-size: 2rem;
+      line-height: 1.28;
+      letter-spacing: 0.02em;
+      font-weight: 700;
+    }
+
+    .cby_intro > p {
+      margin-top: 12px;
+      font-size: 0.82rem;
+      color: var(--cby_muted);
+      line-height: 1.85;
+    }
+
+    .cby_badge_row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 15px;
+    }
+
+    .cby_badge_row span {
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 189, 92, 0.25);
+      background: rgba(255, 189, 92, 0.06);
+      color: #e8d7b8;
+      font-size: 0.66rem;
+      letter-spacing: 0.05em;
+    }
+
+    .cby_section {
+      padding-top: 30px;
+      scroll-margin-top: 118px;
+    }
+
+    .cby_section + .cby_section {
+      margin-top: 30px;
+      border-top: 1px solid var(--cby_line);
+    }
+
+    .cby_section_head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .cby_section_no {
+      display: inline-block;
+      padding: 6px 9px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 189, 92, 0.38);
+      background: rgba(255, 189, 92, 0.08);
+      color: var(--cby_gold);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      line-height: 1;
+    }
+
+    .cby_section_2 .cby_section_no {
+      color: var(--cby_red);
+      border-color: rgba(255, 122, 77, 0.38);
+      background: rgba(255, 122, 77, 0.08);
+    }
+
+    .cby_section_3 .cby_section_no {
+      color: var(--cby_teal);
+      border-color: rgba(70, 216, 200, 0.38);
+      background: rgba(70, 216, 200, 0.08);
+    }
+
+    .cby_section_4 .cby_section_no {
+      color: var(--cby_purple);
+      border-color: rgba(167, 139, 250, 0.38);
+      background: rgba(167, 139, 250, 0.08);
+    }
+
+    .cby_section_head_text {
+      flex: 1 1 210px;
+      min-width: 0;
+    }
+
+    .cby_section_head_text h2 {
+      font-size: 1.22rem;
+      font-weight: 650;
+      letter-spacing: 0.03em;
+      line-height: 1.35;
+    }
+
+    .cby_section_head_text p {
+      margin-top: 3px;
+      font-size: 0.74rem;
+      color: var(--cby_muted);
+      line-height: 1.65;
+    }
+
+    .cby_section_link {
+      margin-left: auto;
+      align-self: center;
+      color: var(--cby_muted);
+      text-decoration: none;
+      font-size: 0.68rem;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+      border-bottom: 1px solid transparent;
+      transition: color 0.2s ease;
+    }
+
+    .cby_section_link:active {
+      color: var(--cby_gold);
+    }
+
+    .cby_note {
+      margin-top: 14px;
+      padding: 14px 16px;
+      border-radius: 14px;
+      border: 1px solid var(--cby_line);
+      background: rgba(255, 255, 255, 0.035);
+      color: var(--cby_muted);
+      font-size: 0.77rem;
+      line-height: 1.85;
+    }
+
+    .cby_note + .cby_note {
+      margin-top: 10px;
+    }
+
+    .cby_note b {
+      color: var(--cby_text);
+      font-weight: 600;
+    }
+
+    .cby_note code,
+    .cby_pitfall code {
+      font-size: 0.72rem;
+      padding: 1px 5px;
+      border-radius: 5px;
+      background: rgba(255, 255, 255, 0.06);
+      color: #ffe0b0;
+    }
+
+    .cby_btn {
+      width: 100%;
+      padding: 13px 16px;
+      border-radius: 14px;
+      border: 1px solid var(--cby_line);
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--cby_text);
+      font-family: inherit;
+      font-size: 0.85rem;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      touch-action: manipulation;
+      transition: transform 0.15s ease, background 0.2s ease;
+    }
+
+    .cby_btn:active {
+      transform: scale(0.97);
+    }
+
+    .cby_btn_teal {
+      border-color: rgba(70, 216, 200, 0.4);
+      background: rgba(70, 216, 200, 0.1);
+      color: var(--cby_teal);
+    }
+
+    .cby_btn_primary {
+      border-color: rgba(167, 139, 250, 0.5);
+      background: rgba(167, 139, 250, 0.16);
+      color: #d5c9ff;
+    }
+
+    .cby_btn_primary:active {
+      background: rgba(167, 139, 250, 0.28);
+    }
+
+    .cby_actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    /* ---------- 任务一 ---------- */
+
+    .cby_pitfall_list {
+      display: grid;
+      gap: 9px;
+    }
+
+    .cby_pitfall {
+      padding: 14px 16px;
+      border-radius: 16px;
+      border: 1px solid var(--cby_line);
+      background: var(--cby_panel);
+    }
+
+    .cby_pitfall h3 {
+      font-size: 0.84rem;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      margin-bottom: 7px;
+    }
+
+    .cby_pitfall p {
+      font-size: 0.76rem;
+      color: var(--cby_muted);
+      line-height: 1.75;
+    }
+
+    .cby_pitfall b {
+      display: inline-block;
+      min-width: 2.4em;
+      color: var(--cby_gold);
+      font-weight: 600;
+    }
+
+    .cby_subblock {
+      margin-top: 22px;
+    }
+
+    .cby_subblock_title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      margin-bottom: 10px;
+    }
+
+    .cby_subblock_title::before {
+      content: "";
+      width: 4px;
+      height: 14px;
+      border-radius: 2px;
+      background: var(--cby_gold);
+    }
+
+    .cby_obs_list,
+    .cby_qa_list {
+      display: grid;
+      gap: 9px;
+    }
+
+    .cby_obs {
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid var(--cby_line);
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .cby_obs_top {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 7px;
+    }
+
+    .cby_obs_top b {
+      font-size: 0.79rem;
+      font-weight: 600;
+    }
+
+    .cby_obs_top span {
+      font-size: 0.66rem;
+      color: var(--cby_muted);
+      white-space: nowrap;
+    }
+
+    .cby_flow {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.68rem;
+    }
+
+    .cby_flow code {
+      padding: 3px 7px;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 189, 92, 0.18);
+      background: rgba(255, 189, 92, 0.08);
+      color: #ffe0b0;
+      font-size: 0.68rem;
+    }
+
+    .cby_flow i {
+      font-style: normal;
+      color: var(--cby_muted);
+    }
+
+    .cby_qa {
+      padding: 14px 16px;
+      border-radius: 14px;
+      border: 1px solid var(--cby_line);
+      background: var(--cby_panel);
+    }
+
+    .cby_qa h4 {
+      font-size: 0.79rem;
+      font-weight: 600;
+      color: var(--cby_teal);
+      margin-bottom: 5px;
+    }
+
+    .cby_qa p {
+      font-size: 0.76rem;
+      color: var(--cby_muted);
+      line-height: 1.78;
+    }
+
+    /* ---------- 任务二：滑动卡片 ---------- */
+
+    .cby_swipe {
+      position: relative;
+      overflow: hidden;
+      border-radius: 24px;
+      border: 1px solid var(--cby_line);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+      touch-action: pan-y;
+    }
+
+    .cby_swipe.cby_shake {
+      animation: cby_shake 0.3s ease;
+    }
+
+    @keyframes cby_shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-7px); }
+      75% { transform: translateX(7px); }
+    }
+
+    .cby_track {
+      display: flex;
+      transition: transform 0.3s cubic-bezier(0.22, 0.61, 0.36, 1);
+      will-change: transform;
+    }
+
+    .cby_card {
+      position: relative;
+      flex: 0 0 100%;
+      min-height: 400px;
+      padding: 24px 22px 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+      color: #fff;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    .cby_card::before {
+      content: "";
+      position: absolute;
+      width: 250px;
+      height: 250px;
+      right: -90px;
+      top: -90px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.12);
+      filter: blur(2px);
+    }
+
+    .cby_card::after {
+      content: "";
+      position: absolute;
+      width: 190px;
+      height: 190px;
+      left: -80px;
+      bottom: -90px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.16);
+    }
+
+    .cby_card_1 { background: linear-gradient(150deg, #ff7a3d 0%, #d0202b 58%, #6d0d18 100%); }
+    .cby_card_2 { background: linear-gradient(150deg, #f2543d 0%, #b5122f 58%, #5a0a1c 100%); }
+    .cby_card_3 { background: linear-gradient(150deg, #38cbb8 0%, #0f8a7c 58%, #064440 100%); }
+    .cby_card_4 { background: linear-gradient(150deg, #f0ad4e 0%, #b05f1d 58%, #4a2410 100%); }
+
+    .cby_card_head {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      font-size: 0.68rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      opacity: 0.85;
+    }
+
+    .cby_card_emoji {
+      position: absolute;
+      right: 6px;
+      top: 42px;
+      z-index: 0;
+      font-size: 6.5rem;
+      line-height: 1;
+      opacity: 0.28;
+      transform: rotate(-8deg);
+      filter: saturate(0.85);
+    }
+
+    .cby_card_body {
+      position: relative;
+      z-index: 1;
+    }
+
+    .cby_card_name {
+      font-size: 1.9rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      line-height: 1.2;
+      margin-bottom: 7px;
+    }
+
+    .cby_card_tag {
+      font-size: 0.76rem;
+      letter-spacing: 0.06em;
+      opacity: 0.88;
+      margin-bottom: 14px;
+    }
+
+    .cby_card_desc {
+      font-size: 0.86rem;
+      line-height: 1.8;
+      opacity: 0.94;
+      max-width: 15em;
+    }
+
+    .cby_card_tags {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 22px;
+    }
+
+    .cby_card_tags span {
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      background: rgba(0, 0, 0, 0.18);
+      font-size: 0.68rem;
+      letter-spacing: 0.05em;
+    }
+
+    .cby_hint {
+      position: absolute;
+      z-index: 3;
+      top: 14px;
+      left: 50%;
+      transform: translate(-50%, -6px);
+      padding: 6px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      background: rgba(0, 0, 0, 0.62);
+      -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(8px);
+      font-size: 0.74rem;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+
+    .cby_hint.cby_hint_show {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+
+    .cby_meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-top: 14px;
+      font-size: 0.76rem;
+      color: var(--cby_muted);
+    }
+
+    .cby_count {
+      color: var(--cby_text);
+      letter-spacing: 0.05em;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .cby_meta_tip {
+      text-align: right;
+      letter-spacing: 0.03em;
+    }
+
+    /* ---------- 任务三：图片缩放 ---------- */
+
+    .cby_stage {
+      position: relative;
+      height: clamp(300px, 55vh, 440px);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 22px;
+      border: 1px solid var(--cby_line);
+      background: radial-gradient(80% 60% at 50% 40%, #15222c 0%, #05070a 100%);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+      touch-action: none;
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-touch-callout: none;
+      cursor: grab;
+    }
+
+    .cby_photo {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      transform-origin: 50% 50%;
+      will-change: transform;
+      pointer-events: none;
+      -webkit-user-drag: none;
+    }
+
+    .cby_notice {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      padding: 5px 11px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: rgba(0, 0, 0, 0.45);
+      -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(8px);
+      color: rgba(255, 255, 255, 0.78);
+      font-size: 0.66rem;
+      letter-spacing: 0.04em;
+      pointer-events: none;
+    }
+
+    .cby_badge {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      min-width: 52px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(70, 216, 200, 0.35);
+      background: rgba(0, 0, 0, 0.45);
+      -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(8px);
+      color: var(--cby_teal);
+      font-size: 0.7rem;
+      letter-spacing: 0.06em;
+      text-align: center;
+      font-variant-numeric: tabular-nums;
+      pointer-events: none;
+    }
+
+    /* ---------- 任务四：摇一摇 ---------- */
+
+    .cby_hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      padding: 28px 20px 24px;
+      border-radius: 26px;
+      border: 1px solid var(--cby_line);
+      background:
+        radial-gradient(80% 90% at 50% 0%, rgba(167, 139, 250, 0.22) 0%, transparent 70%),
+        var(--cby_panel);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+    }
+
+    .cby_phone {
+      font-size: 4rem;
+      line-height: 1;
+      animation: cby_float 3s ease-in-out infinite;
+      transform-origin: 50% 80%;
+    }
+
+    .cby_phone.cby_shaking {
+      animation: cby_shakePhone 0.5s ease;
+    }
+
+    @keyframes cby_float {
+      0%, 100% { transform: translateY(0) rotate(-3deg); }
+      50% { transform: translateY(-10px) rotate(3deg); }
+    }
+
+    @keyframes cby_shakePhone {
+      0%, 100% { transform: translateX(0) rotate(0); }
+      20% { transform: translateX(-12px) rotate(-12deg); }
+      40% { transform: translateX(10px) rotate(10deg); }
+      60% { transform: translateX(-8px) rotate(-8deg); }
+      80% { transform: translateX(6px) rotate(6deg); }
+    }
+
+    .cby_status {
+      margin-top: 10px;
+      font-size: 0.9rem;
+      text-align: center;
+      letter-spacing: 0.02em;
+      color: var(--cby_text);
+    }
+
+    .cby_status.cby_status_warn {
+      color: #ff9e8a;
+    }
+
+    .cby_meter {
+      margin-top: 9px;
+      font-size: 0.7rem;
+      color: var(--cby_muted);
+      letter-spacing: 0.04em;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .cby_meter_value {
+      color: var(--cby_gold);
+      font-weight: 600;
+      transition: color 0.15s ease;
+    }
+
+    .cby_meter_value.cby_meter_hot {
+      color: #ff6b6b;
+    }
+
+    .cby_result {
+      position: relative;
+      margin-top: 18px;
+      padding: 24px 20px;
+      overflow: hidden;
+      border-radius: 22px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      color: #fff;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+    }
+
+    .cby_result.cby_pop {
+      animation: cby_pop 0.45s cubic-bezier(0.2, 0.9, 0.3, 1.4);
+    }
+
+    @keyframes cby_pop {
+      0% { transform: scale(0.82) translateY(14px); opacity: 0; }
+      100% { transform: scale(1) translateY(0); opacity: 1; }
+    }
+
+    .cby_result_emoji {
+      position: absolute;
+      right: 10px;
+      top: 6px;
+      font-size: 5.6rem;
+      line-height: 1;
+      opacity: 0.28;
+      transform: rotate(-8deg);
+    }
+
+    .cby_result_label {
+      position: relative;
+      font-size: 0.66rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      opacity: 0.8;
+      margin-bottom: 7px;
+    }
+
+    .cby_result_name {
+      position: relative;
+      font-size: 1.7rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      line-height: 1.25;
+      margin-bottom: 7px;
+    }
+
+    .cby_result_desc {
+      position: relative;
+      max-width: 16em;
+      font-size: 0.84rem;
+      line-height: 1.8;
+      opacity: 0.94;
+    }
+
+    /* ---------- 演示视频 ---------- */
+
+    .cby_video {
+      margin-top: 20px;
+      overflow: hidden;
+      border-radius: 18px;
+      border: 1px solid var(--cby_line);
+      background: var(--cby_panel);
+    }
+
+    .cby_video video {
+      display: block;
+      width: 100%;
+      max-height: 70vh;
+      background: #000;
+      object-fit: contain;
+    }
+
+    .cby_video figcaption {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      font-size: 0.7rem;
+      color: var(--cby_muted);
+    }
+
+    .cby_video figcaption b {
+      color: var(--cby_text);
+      font-weight: 600;
+      letter-spacing: 0.03em;
+    }
+
+    .cby_video figcaption span {
+      text-align: right;
+    }
+
+    .cby_footer {
+      max-width: 520px;
+      margin: 0 auto;
+      padding: 10px 18px 48px;
+      text-align: center;
+      font-size: 0.7rem;
+      color: var(--cby_muted);
+      line-height: 1.9;
+    }
+
+    .cby_footer a {
+      color: var(--cby_gold);
+      text-decoration: none;
+    }
+
+    @media (max-width: 380px) {
+      .cby_student {
+        display: none;
+      }
+
+      .cby_intro h1 {
+        font-size: 1.72rem;
+      }
+
+      .cby_card {
+        min-height: 380px;
+      }
+
+      .cby_card_name {
+        font-size: 1.68rem;
+      }
+
+      .cby_card_desc {
+        font-size: 0.82rem;
+      }
+
+      .cby_meta_tip {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="cby_topbar">
+    <a class="cby_back" href="index.html">← 首页</a>
+    <span class="cby_topbar_title">移动端触摸交互</span>
+    <span class="cby_student">曹炳宇 · 24002120309</span>
+  </header>
+
+  <nav class="cby_jump">
+    <a href="#cby_task1">01 事件观察</a>
+    <a href="#cby_task2">02 滑动卡片</a>
+    <a href="#cby_task3">03 图片缩放</a>
+    <a href="#cby_task4">04 摇一摇</a>
+  </nav>
+
+  <main class="cby_wrap">
+    <section class="cby_intro">
+      <p class="cby_eyebrow">MOBILE TOUCH · 4 TASKS</p>
+      <h1>按下 · 滑动 · 缩放 · 摇一摇</h1>
+      <p>四个任务放在同一页：先看触摸事件的触发顺序，再依次体验滑动手势、双指缩放和摇一摇。任务三、任务四的模块下方附有实机演示视频。</p>
+      <div class="cby_badge_row">
+        <span>touch 事件</span>
+        <span>TouchList</span>
+        <span>devicemotion</span>
+        <span>手机体验</span>
+      </div>
+    </section>
+
+    <section class="cby_section cby_section_1" id="cby_task1">
+      <div class="cby_section_head">
+        <span class="cby_section_no">01</span>
+        <div class="cby_section_head_text">
+          <h2>事件侦探</h2>
+          <p>先观察，再动手：一次手势到底触发了哪些事件</p>
+        </div>
+      </div>
+
+      <div class="cby_pitfall_list">
+        <article class="cby_pitfall">
+          <h3>按钮点一下变色，之后一直是那个颜色</h3>
+          <p><b>原因</b>用了 <code>:hover</code>。手指没有“悬停”，触摸后状态不会自动撤销。</p>
+          <p><b>做法</b>改用 <code>:active</code>，或只在 <code>@media (hover:hover)</code> 里写 hover。</p>
+        </article>
+        <article class="cby_pitfall">
+          <h3>点击按钮反应慢半拍</h3>
+          <p><b>原因</b>浏览器在等“是不是双击”，历史上会等 300ms。</p>
+          <p><b>做法</b>加 <code>touch-action: manipulation</code>，或直接用 touch 事件自己处理。</p>
+        </article>
+        <article class="cby_pitfall">
+          <h3>拖动卡片时整个页面跟着上下滚</h3>
+          <p><b>原因</b>浏览器把手势优先给了页面滚动。</p>
+          <p><b>做法</b>容器加 <code>touch-action: none</code>（要接管手势）或 <code>pan-y</code>（只接管横向）。</p>
+        </article>
+        <article class="cby_pitfall">
+          <h3>想判断“往哪滑、几根手指”，完全拿不到</h3>
+          <p><b>原因</b>只监听了 <code>click</code>，它只告诉你“点完了”。</p>
+          <p><b>做法</b>监听 <code>touchstart / touchmove / touchend</code>，从 <code>touches</code> 里取坐标与数量。</p>
+        </article>
+      </div>
+
+      <div class="cby_subblock">
+        <h3 class="cby_subblock_title">操作与事件触发顺序</h3>
+        <div class="cby_obs_list">
+          <article class="cby_obs">
+            <div class="cby_obs_top"><b>单击</b><span>手指几乎不动</span></div>
+            <div class="cby_flow">
+              <code>touchstart</code><i>→</i><code>touchend</code><i>→</i><code>click</code>
+            </div>
+          </article>
+          <article class="cby_obs">
+            <div class="cby_obs_top"><b>向上拖动</b><span>touchmove 连续触发</span></div>
+            <div class="cby_flow">
+              <code>touchstart</code><i>→</i><code>touchmove ×N</code><i>→</i><code>touchend</code><i>→</i><code>click（可能不补发）</code>
+            </div>
+          </article>
+          <article class="cby_obs">
+            <div class="cby_obs_top"><b>向左快速滑</b><span>位移大、时间短</span></div>
+            <div class="cby_flow">
+              <code>touchstart</code><i>→</i><code>touchmove ×少量</code><i>→</i><code>touchend</code>
+            </div>
+          </article>
+          <article class="cby_obs">
+            <div class="cby_obs_top"><b>双指触摸</b><span>touches.length 变化</span></div>
+            <div class="cby_flow">
+              <code>touchstart(2)</code><i>→</i><code>touchmove ×N</code><i>→</i><code>touchend(1)</code><i>→</i><code>touchend(0)</code>
+            </div>
+          </article>
+          <article class="cby_obs">
+            <div class="cby_obs_top"><b>长按后抬起</b><span>600ms 到点不是 DOM 事件</span></div>
+            <div class="cby_flow">
+              <code>touchstart</code><i>→</i><code>touchend</code><i>→</i><code>click</code><i>（系统菜单介入时为 touchcancel）</i>
+            </div>
+          </article>
+        </div>
+        <p class="cby_note">touchmove 的次数与设备刷新率有关：60Hz 约每秒 60 次，120Hz 会更多。上表是典型顺序，真机数量会略有差异。</p>
+      </div>
+
+      <div class="cby_subblock">
+        <h3 class="cby_subblock_title">三个验收问题</h3>
+        <div class="cby_qa_list">
+          <article class="cby_qa">
+            <h4>Q1：一次拖动大概触发多少次 touchmove？和什么有关？</h4>
+            <p>次数 ≈ 拖动时长 × 屏幕刷新率。60Hz 设备约每秒 60 次，120Hz 会更多；距离越长、时间越久，触发次数越多。它反映的是采样帧数，不是像素数。</p>
+          </article>
+          <article class="cby_qa">
+            <h4>Q2：click 出现在什么时候？</h4>
+            <p>click 在 touchend 之后。只有手势被浏览器判定为“点击”时才会补发；大幅拖动或快速滑动通常不会补发 click。</p>
+          </article>
+          <article class="cby_qa">
+            <h4>Q3：如果把 touchend 换成 touchcancel 会怎样？</h4>
+            <p>正常抬手根本不会触发 touchcancel，收尾逻辑就不会执行：长按定时器不清、拖动状态不复位、滑动结果永远算不出来。touchcancel 只在来电、通知、返回手势等系统打断时触发，所以两者都要监听并共用同一套清理逻辑。</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="cby_section cby_section_2" id="cby_task2">
+      <div class="cby_section_head">
+        <span class="cby_section_no">02</span>
+        <div class="cby_section_head_text">
+          <h2>中华美食 · 滑动手势</h2>
+          <p>左右滑动切换 4 道菜 · 阈值 40px · 300ms 冷却</p>
+        </div>
+        <a class="cby_section_link" href="mobile-gesture.html">单页打开 →</a>
+      </div>
+
+      <div class="cby_swipe" id="cby_swipe_stage">
+        <div class="cby_track" id="cby_cards_track">
+          <article class="cby_card cby_card_1">
+            <div class="cby_card_head">
+              <span>川菜</span>
+              <span>SWIPE →</span>
+            </div>
+            <span class="cby_card_emoji">🍗</span>
+            <div class="cby_card_body">
+              <h2 class="cby_card_name">宫保鸡丁</h2>
+              <p class="cby_card_tag">糊辣荔枝味 · 咸甜微酸</p>
+              <p class="cby_card_desc">鸡丁滑嫩、花生酥脆，一勺糊辣香里带着若有若无的回甜，是川菜里最讨喜的那一口。</p>
+            </div>
+            <div class="cby_card_tags">
+              <span>鸡腿肉</span><span>花生米</span><span>干辣椒</span>
+            </div>
+          </article>
+
+          <article class="cby_card cby_card_2">
+            <div class="cby_card_head">
+              <span>川菜</span>
+              <span>SWIPE →</span>
+            </div>
+            <span class="cby_card_emoji">🌶️</span>
+            <div class="cby_card_body">
+              <h2 class="cby_card_name">麻婆豆腐</h2>
+              <p class="cby_card_tag">麻辣鲜香 · 烫嫩酥麻</p>
+              <p class="cby_card_desc">嫩豆腐裹着牛肉臊子，红油亮而不燥。花椒的麻在舌尖慢慢炸开，配一碗白米饭刚刚好。</p>
+            </div>
+            <div class="cby_card_tags">
+              <span>嫩豆腐</span><span>牛肉臊子</span><span>花椒</span>
+            </div>
+          </article>
+
+          <article class="cby_card cby_card_3">
+            <div class="cby_card_head">
+              <span>浙菜</span>
+              <span>SWIPE →</span>
+            </div>
+            <span class="cby_card_emoji">🐟</span>
+            <div class="cby_card_body">
+              <h2 class="cby_card_name">西湖醋鱼</h2>
+              <p class="cby_card_tag">酸甜清鲜 · 蟹味回甘</p>
+              <p class="cby_card_desc">草鱼现杀现烹，糖醋汁薄而亮。鱼肉细嫩不带腥，入口先酸后甜，收口干净。</p>
+            </div>
+            <div class="cby_card_tags">
+              <span>草鱼</span><span>香醋</span><span>姜末</span>
+            </div>
+          </article>
+
+          <article class="cby_card cby_card_4">
+            <div class="cby_card_head">
+              <span>京菜</span>
+              <span>SWIPE →</span>
+            </div>
+            <span class="cby_card_emoji">🦆</span>
+            <div class="cby_card_body">
+              <h2 class="cby_card_name">北京烤鸭</h2>
+              <p class="cby_card_tag">果木挂炉 · 皮酥肉嫩</p>
+              <p class="cby_card_desc">果木挂炉烤制，鸭皮油亮酥脆。片好的鸭皮蘸白糖，鸭肉卷进荷叶饼，配葱丝与甜面酱。</p>
+            </div>
+            <div class="cby_card_tags">
+              <span>填鸭</span><span>荷叶饼</span><span>甜面酱</span>
+            </div>
+          </article>
+        </div>
+
+        <div class="cby_hint" id="cby_hint_tip">已经是第一张</div>
+      </div>
+
+      <div class="cby_meta">
+        <span class="cby_count" id="cby_card_counter">第 1/4 张</span>
+        <span class="cby_meta_tip">← 左滑下一道 · 右滑上一道 →</span>
+      </div>
+
+      <p class="cby_note">
+        <b>实现要点：</b>监听 <code>touchstart / touchend</code>，用 <code>changedTouches[0]</code> 算横向位移；
+        超过 40px 且横向位移大于纵向位移才切换，切换后 300ms 冷却，避免快速连滑一次跳两张。
+        容器加了 <code>touch-action: pan-y</code>，纵向仍可正常滚动页面。
+      </p>
+    </section>
+
+    <section class="cby_section cby_section_3" id="cby_task3">
+      <div class="cby_section_head">
+        <span class="cby_section_no">03</span>
+        <div class="cby_section_head_text">
+          <h2>图片查看器 · 双指缩放</h2>
+          <p>1×–4× 缩放 · 双击 1×/2× · 放大后拖动</p>
+        </div>
+        <a class="cby_section_link" href="mobile-zoom.html">单页打开 →</a>
+      </div>
+
+      <section class="cby_stage" id="cby_zoom_stage">
+        <img
+          class="cby_photo"
+          id="cby_zoom_photo"
+          src="img/cby_beach_sunset.jpg"
+          alt="海边日落"
+          draggable="false"
+        >
+        <span class="cby_notice">双指缩放请用手机打开</span>
+        <span class="cby_badge" id="cby_zoom_badge">1.0×</span>
+      </section>
+
+      <div class="cby_actions">
+        <button class="cby_btn cby_btn_teal" id="cby_zoom_reset" type="button">重置视图（回到 1×）</button>
+      </div>
+
+      <p class="cby_note">
+        <b>为什么缩放时图片不会“跳”：</b>缩放前先取两指中点，把它换算成相对容器中心的坐标；
+        再按比例反推 <code>translate</code>，使中点下方的那块图像坐标在缩放前后保持不变。
+        所有位移都会夹紧在图片边界内，缩回 1× 时归零居中。
+      </p>
+
+      <figure class="cby_video">
+        <video controls playsinline preload="metadata">
+          <source src="video/cby_image_viewer_demo.mp4" type="video/mp4">
+          当前浏览器不支持 video 播放。
+        </video>
+        <figcaption>
+          <b>任务三实机演示</b>
+          <span>双指缩放 · 双击放大 · 拖动</span>
+        </figcaption>
+      </figure>
+    </section>
+
+    <section class="cby_section cby_section_4" id="cby_task4">
+      <div class="cby_section_head">
+        <span class="cby_section_no">04</span>
+        <div class="cby_section_head_text">
+          <h2>摇一摇 · 今日菜谱</h2>
+          <p>devicemotion · 阈值 18 · 1.5s 冷却 · 降级方案</p>
+        </div>
+        <a class="cby_section_link" href="mobile-sensor.html">单页打开 →</a>
+      </div>
+
+      <section class="cby_hero">
+        <div class="cby_phone" id="cby_shake_phone">📱</div>
+        <p class="cby_status" id="cby_shake_status">摇一摇手机，抽一道今日菜谱</p>
+        <p class="cby_meter">当前加速度 <span class="cby_meter_value" id="cby_shake_meter">--</span> m/s² · 阈值 18</p>
+      </section>
+
+      <div class="cby_actions">
+        <button class="cby_btn cby_btn_primary" id="cby_shake_permit" type="button" hidden>
+          启用运动传感器（iOS 需手动授权）
+        </button>
+        <button class="cby_btn" id="cby_shake_fallback" type="button" hidden>
+          点我抽一次（降级方案）
+        </button>
+      </div>
+
+      <section class="cby_result" id="cby_recipe_panel" hidden>
+        <span class="cby_result_emoji" id="cby_recipe_emoji">🍜</span>
+        <p class="cby_result_label">TODAY'S PICK</p>
+        <h2 class="cby_result_name" id="cby_recipe_name">重庆小面</h2>
+        <p class="cby_result_desc" id="cby_recipe_desc">麻辣鲜香，一碗唤醒味蕾。</p>
+      </section>
+
+      <figure class="cby_video">
+        <video controls playsinline preload="metadata">
+          <source src="video/cby_shake_demo.mp4" type="video/mp4">
+          当前浏览器不支持 video 播放。
+        </video>
+        <figcaption>
+          <b>任务四实机演示</b>
+          <span>摇一摇抽取 · 结果弹出</span>
+        </figcaption>
+      </figure>
+
+      <p class="cby_note">
+        <b>为什么必须做降级？</b>传感器事件只在真机上可靠：电脑浏览器往往收不到数据，部分安卓机、隐私模式或用户拒绝授权时同样拿不到。
+        如果不做判断，页面会一直停在“等待摇动”，看上去像坏了。所以这里检测 <code>DeviceMotionEvent</code>、监听超时和权限结果，
+        任何一步失败都会给出明确提示，并露出“点我抽一次”按钮，保证功能在什么设备上都能走通。
+      </p>
+      <p class="cby_note">
+        <b>accelerationIncludingGravity 与 acceleration：</b><code>accelerationIncludingGravity</code> 包含重力（静止时约 9.8 m/s²），
+        摇动时的峰值很容易超过 18，适合做“摇一摇”；而 <code>acceleration</code> 已经去掉重力，静止时接近 0，只反映用户施加的加速度，
+        阈值需要另设，不能混用同一个阈值。
+      </p>
+    </section>
+  </main>
+
+  <footer class="cby_footer">
+    <p>高级网页设计 · 移动端触摸交互课程任务</p>
+    <p><a href="index.html">← 返回首页</a></p>
+  </footer>
+
+  <script>
+    (function () {
+      var cby_swipe = document.getElementById('cby_swipe_stage');
+      var cby_track = document.getElementById('cby_cards_track');
+      var cby_count = document.getElementById('cby_card_counter');
+      var cby_hint = document.getElementById('cby_hint_tip');
+      var cby_total = cby_track.children.length;
+      var cby_index = 0;
+      var cby_startX = 0;
+      var cby_startY = 0;
+      var cby_hasStart = false;
+      var cby_cooling = false;
+      var cby_coolTimer = null;
+      var cby_hintTimer = null;
+      var cby_THRESHOLD = 40;
+
+      // 功能：把卡片轨道移动到指定索引，并刷新“第 x/n 张”计数
+      function cby_goTo(cby_next) {
+        cby_index = cby_next;
+        cby_track.style.transform = 'translateX(' + (-cby_index * 100) + '%)';
+        cby_count.textContent = '第 ' + (cby_index + 1) + '/' + cby_total + ' 张';
+      }
+
+      // 功能：在卡片顶部短暂显示一行提示文字
+      function cby_showHint(cby_text) {
+        cby_hint.textContent = cby_text;
+        cby_hint.classList.add('cby_hint_show');
+        clearTimeout(cby_hintTimer);
+        cby_hintTimer = setTimeout(function () {
+          cby_hint.classList.remove('cby_hint_show');
+        }, 1200);
+      }
+
+      // 功能：播放一次左右抖动的边界反馈动画
+      function cby_shake() {
+        cby_swipe.classList.remove('cby_shake');
+        void cby_swipe.offsetWidth;
+        cby_swipe.classList.add('cby_shake');
+      }
+
+      // 功能：开启 300ms 冷却，防止快速连滑一次跳两张
+      function cby_lock() {
+        cby_cooling = true;
+        clearTimeout(cby_coolTimer);
+        cby_coolTimer = setTimeout(function () {
+          cby_cooling = false;
+        }, 300);
+      }
+
+      // 功能：处理一次有效滑动，负责边界提示与切换卡片
+      function cby_handleSwipe(cby_dx) {
+        var cby_next = cby_index + (cby_dx < 0 ? 1 : -1);
+
+        if (cby_next < 0) {
+          cby_showHint('已经是第一张');
+          cby_shake();
+          return;
+        }
+        if (cby_next > cby_total - 1) {
+          cby_showHint('已经是最后一张');
+          cby_shake();
+          return;
+        }
+
+        cby_goTo(cby_next);
+        cby_lock();
+      }
+
+      // 功能：记录手指按下的起点坐标
+      cby_swipe.addEventListener('touchstart', function (cby_e) {
+        if (cby_e.touches.length !== 1) {
+          cby_hasStart = false;
+          return;
+        }
+        cby_startX = cby_e.touches[0].clientX;
+        cby_startY = cby_e.touches[0].clientY;
+        cby_hasStart = true;
+      }, { passive: true });
+
+      // 功能：抬手时计算位移，判断方向并触发切换
+      cby_swipe.addEventListener('touchend', function (cby_e) {
+        if (!cby_hasStart) {
+          return;
+        }
+        cby_hasStart = false;
+
+        var cby_touch = cby_e.changedTouches[0];
+        var cby_dx = cby_touch.clientX - cby_startX;
+        var cby_dy = cby_touch.clientY - cby_startY;
+
+        if (cby_cooling) {
+          return;
+        }
+        if (Math.abs(cby_dx) < cby_THRESHOLD || Math.abs(cby_dx) <= Math.abs(cby_dy)) {
+          return;
+        }
+
+        cby_handleSwipe(cby_dx);
+      }, { passive: true });
+
+      // 功能：触摸被系统打断时清理起点状态，避免页面“卡住”
+      cby_swipe.addEventListener('touchcancel', function () {
+        cby_hasStart = false;
+      });
+
+      // 功能：初始化计数显示
+      cby_goTo(0);
+    })();
+
+    (function () {
+      var cby_stage = document.getElementById('cby_zoom_stage');
+      var cby_photo = document.getElementById('cby_zoom_photo');
+      var cby_badge = document.getElementById('cby_zoom_badge');
+      var cby_resetBtn = document.getElementById('cby_zoom_reset');
+
+      var cby_scale = 1;
+      var cby_tx = 0;
+      var cby_ty = 0;
+
+      var cby_mode = 'none';
+      var cby_lastDist = 0;
+      var cby_panStartX = 0;
+      var cby_panStartY = 0;
+      var cby_txStart = 0;
+      var cby_tyStart = 0;
+      var cby_tapStartX = 0;
+      var cby_tapStartY = 0;
+      var cby_tapMoved = 0;
+      var cby_lastTapTime = 0;
+
+      // 功能：计算两根手指之间的直线距离
+      function cby_distance(cby_t1, cby_t2) {
+        return Math.hypot(cby_t2.clientX - cby_t1.clientX, cby_t2.clientY - cby_t1.clientY);
+      }
+
+      // 功能：把数值限制在最小值和最大值之间
+      function cby_clamp(cby_value, cby_min, cby_max) {
+        return Math.max(cby_min, Math.min(cby_max, cby_value));
+      }
+
+      // 功能：按当前缩放倍数计算横向、纵向可拖动的最大位移
+      function cby_bounds() {
+        var cby_sw = cby_stage.clientWidth;
+        var cby_sh = cby_stage.clientHeight;
+        var cby_nw = cby_photo.naturalWidth || cby_sw;
+        var cby_nh = cby_photo.naturalHeight || cby_sh;
+        var cby_base = Math.min(cby_sw / cby_nw, cby_sh / cby_nh);
+        var cby_imgW = cby_nw * cby_base * cby_scale;
+        var cby_imgH = cby_nh * cby_base * cby_scale;
+        return {
+          x: Math.max(0, (cby_imgW - cby_sw) / 2),
+          y: Math.max(0, (cby_imgH - cby_sh) / 2)
+        };
+      }
+
+      // 功能：把图片位移夹紧在边界内，避免拖出空白区域
+      function cby_clampPan() {
+        var cby_limit = cby_bounds();
+        cby_tx = cby_clamp(cby_tx, -cby_limit.x, cby_limit.x);
+        cby_ty = cby_clamp(cby_ty, -cby_limit.y, cby_limit.y);
+      }
+
+      // 功能：应用当前的缩放与位移，并刷新右上角倍数指示器
+      function cby_apply(cby_animate) {
+        cby_photo.style.transition = cby_animate ? 'transform 0.25s ease' : 'none';
+        cby_photo.style.transform =
+          'translate3d(' + cby_tx + 'px, ' + cby_ty + 'px, 0) scale(' + cby_scale + ')';
+        cby_badge.textContent = cby_scale.toFixed(1) + '×';
+      }
+
+      // 功能：以某个屏幕坐标为中心缩放到目标倍数，保证中心点下的图像不移动
+      function cby_zoomAt(cby_clientX, cby_clientY, cby_target) {
+        var cby_rect = cby_stage.getBoundingClientRect();
+        var cby_px = cby_clientX - cby_rect.left - cby_rect.width / 2;
+        var cby_py = cby_clientY - cby_rect.top - cby_rect.height / 2;
+        var cby_ratio = cby_target / cby_scale;
+
+        cby_tx = cby_px - (cby_px - cby_tx) * cby_ratio;
+        cby_ty = cby_py - (cby_py - cby_ty) * cby_ratio;
+        cby_scale = cby_target;
+
+        if (cby_scale <= 1) {
+          cby_scale = 1;
+          cby_tx = 0;
+          cby_ty = 0;
+        }
+        cby_clampPan();
+        cby_apply(true);
+      }
+
+      // 功能：回到 1 倍并居中显示
+      function cby_resetView() {
+        cby_scale = 1;
+        cby_tx = 0;
+        cby_ty = 0;
+        cby_apply(true);
+      }
+
+      // 功能：处理单击与双击，两次点击间隔小于 300ms 判定为双击
+      function cby_handleTap(cby_x, cby_y) {
+        var cby_now = Date.now();
+        if (cby_now - cby_lastTapTime < 300) {
+          cby_lastTapTime = 0;
+          cby_zoomAt(cby_x, cby_y, cby_scale > 1 ? 1 : 2);
+        } else {
+          cby_lastTapTime = cby_now;
+        }
+      }
+
+      // 功能：手指按下时记录单指起点或双指初始距离
+      function cby_onTouchStart(cby_e) {
+        cby_tapMoved = 0;
+
+        if (cby_e.touches.length >= 2) {
+          cby_mode = 'pinch';
+          cby_lastDist = cby_distance(cby_e.touches[0], cby_e.touches[1]);
+          cby_photo.style.transition = 'none';
+          return;
+        }
+
+        cby_mode = 'pan';
+        cby_panStartX = cby_e.touches[0].clientX;
+        cby_panStartY = cby_e.touches[0].clientY;
+        cby_txStart = cby_tx;
+        cby_tyStart = cby_ty;
+        cby_tapStartX = cby_panStartX;
+        cby_tapStartY = cby_panStartY;
+      }
+
+      // 功能：双指时按间距比例缩放，单指时在放大状态下拖动图片
+      function cby_onTouchMove(cby_e) {
+        if (cby_e.touches.length >= 2) {
+          cby_e.preventDefault();
+
+          if (cby_mode !== 'pinch') {
+            cby_mode = 'pinch';
+            cby_lastDist = cby_distance(cby_e.touches[0], cby_e.touches[1]);
+            return;
+          }
+
+          var cby_dist = cby_distance(cby_e.touches[0], cby_e.touches[1]);
+          if (!cby_lastDist) {
+            cby_lastDist = cby_dist;
+            return;
+          }
+
+          var cby_midX = (cby_e.touches[0].clientX + cby_e.touches[1].clientX) / 2;
+          var cby_midY = (cby_e.touches[0].clientY + cby_e.touches[1].clientY) / 2;
+          var cby_rect = cby_stage.getBoundingClientRect();
+          var cby_px = cby_midX - cby_rect.left - cby_rect.width / 2;
+          var cby_py = cby_midY - cby_rect.top - cby_rect.height / 2;
+          var cby_target = cby_clamp(cby_scale * (cby_dist / cby_lastDist), 1, 4);
+          var cby_ratio = cby_target / cby_scale;
+
+          cby_tx = cby_px - (cby_px - cby_tx) * cby_ratio;
+          cby_ty = cby_py - (cby_py - cby_ty) * cby_ratio;
+          cby_scale = cby_target;
+          cby_lastDist = cby_dist;
+
+          cby_clampPan();
+          cby_apply(false);
+          return;
+        }
+
+        if (cby_mode !== 'pan') {
+          return;
+        }
+
+        var cby_touch = cby_e.touches[0];
+        var cby_dx = cby_touch.clientX - cby_panStartX;
+        var cby_dy = cby_touch.clientY - cby_panStartY;
+        cby_tapMoved = Math.max(cby_tapMoved, Math.hypot(cby_dx, cby_dy));
+
+        if (cby_scale > 1) {
+          cby_e.preventDefault();
+          cby_tx = cby_txStart + cby_dx;
+          cby_ty = cby_tyStart + cby_dy;
+          cby_clampPan();
+          cby_apply(false);
+        }
+      }
+
+      // 功能：手指抬起时收尾——判定双击、回弹边界、双指转单指
+      function cby_onTouchEnd(cby_e) {
+        if (cby_e.touches.length > 0) {
+          if (cby_mode === 'pinch') {
+            cby_mode = 'pan';
+            cby_lastDist = 0;
+            cby_panStartX = cby_e.touches[0].clientX;
+            cby_panStartY = cby_e.touches[0].clientY;
+            cby_txStart = cby_tx;
+            cby_tyStart = cby_ty;
+          }
+          return;
+        }
+
+        if (cby_mode === 'pinch') {
+          if (cby_scale < 1.05) {
+            cby_resetView();
+          } else {
+            cby_clampPan();
+            cby_apply(true);
+          }
+          cby_mode = 'none';
+          cby_lastDist = 0;
+          return;
+        }
+
+        if (cby_mode === 'pan') {
+          if (cby_tapMoved < 12) {
+            cby_handleTap(
+              cby_e.changedTouches[0].clientX,
+              cby_e.changedTouches[0].clientY
+            );
+          }
+          if (cby_scale > 1) {
+            cby_clampPan();
+            cby_apply(true);
+          }
+          cby_mode = 'none';
+        }
+      }
+
+      // 功能：触摸被系统打断时清理手势状态并收回边界
+      function cby_onTouchCancel() {
+        cby_mode = 'none';
+        cby_lastDist = 0;
+        cby_clampPan();
+        cby_apply(true);
+      }
+
+      // 功能：窗口尺寸或横竖屏变化后重新夹紧位移，保留当前缩放状态
+      function cby_onResize() {
+        cby_clampPan();
+        cby_apply(true);
+      }
+
+      cby_stage.addEventListener('touchstart', cby_onTouchStart, { passive: true });
+      cby_stage.addEventListener('touchmove', cby_onTouchMove, { passive: false });
+      cby_stage.addEventListener('touchend', cby_onTouchEnd, { passive: true });
+      cby_stage.addEventListener('touchcancel', cby_onTouchCancel, { passive: true });
+
+      // 功能：阻止 iOS Safari 的整页 pinch 手势
+      cby_stage.addEventListener('gesturestart', function (cby_e) {
+        cby_e.preventDefault();
+      });
+
+      cby_resetBtn.addEventListener('click', cby_resetView);
+      cby_photo.addEventListener('load', cby_onResize);
+      window.addEventListener('resize', cby_onResize);
+      window.addEventListener('orientationchange', function () {
+        setTimeout(cby_onResize, 200);
+      });
+
+      cby_apply(false);
+    })();
+
+    (function () {
+      var cby_status = document.getElementById('cby_shake_status');
+      var cby_meterValue = document.getElementById('cby_shake_meter');
+      var cby_phone = document.getElementById('cby_shake_phone');
+      var cby_permit = document.getElementById('cby_shake_permit');
+      var cby_fallback = document.getElementById('cby_shake_fallback');
+      var cby_result = document.getElementById('cby_recipe_panel');
+      var cby_resultEmoji = document.getElementById('cby_recipe_emoji');
+      var cby_resultName = document.getElementById('cby_recipe_name');
+      var cby_resultDesc = document.getElementById('cby_recipe_desc');
+
+      var cby_THRESHOLD = 18;
+      var cby_COOLDOWN = 1500;
+      var cby_lastShake = 0;
+      var cby_lastIndex = -1;
+      var cby_gotData = false;
+      var cby_unsupported = false;
+      var cby_dataTimer = null;
+      var cby_shakeTimer = null;
+
+      var cby_dishes = [
+        {
+          emoji: '🍜',
+          name: '重庆小面',
+          desc: '红油香而不燥，豌豆软糯，面条筋道，一碗下去额头微微冒汗。',
+          bg: 'linear-gradient(145deg, #ff6b3d 0%, #c81d25 60%, #6d0f18 100%)'
+        },
+        {
+          emoji: '🥟',
+          name: '三鲜锅贴',
+          desc: '底面煎到金黄焦脆，咬开是滚烫的汤汁，配一碟香醋刚好。',
+          bg: 'linear-gradient(145deg, #f0b24a 0%, #b26a1c 60%, #5a2f0c 100%)'
+        },
+        {
+          emoji: '🍲',
+          name: '番茄牛腩',
+          desc: '牛腩炖到软烂，番茄的酸甜融进汤里，汤汁拌饭是一绝。',
+          bg: 'linear-gradient(145deg, #ff7a59 0%, #c93b2f 60%, #6b1416 100%)'
+        },
+        {
+          emoji: '🍚',
+          name: '扬州炒饭',
+          desc: '米粒粒粒分明，虾仁、火腿、青豆点缀其间，镬气十足。',
+          bg: 'linear-gradient(145deg, #f2c14e 0%, #c08a1e 60%, #63400b 100%)'
+        },
+        {
+          emoji: '🍢',
+          name: '关东煮',
+          desc: '萝卜吸饱汤汁，鱼丸弹牙，深夜来一碗最治愈。',
+          bg: 'linear-gradient(145deg, #6fc3a8 0%, #2c8a72 60%, #0d4438 100%)'
+        },
+        {
+          emoji: '🥘',
+          name: '麻辣香锅',
+          desc: '自选食材一锅炒出干香，麻辣过瘾，越吃越上头。',
+          bg: 'linear-gradient(145deg, #ff5b5b 0%, #a80f3a 60%, #520722 100%)'
+        }
+      ];
+
+      // 功能：更新顶部状态文字，第二个参数为 true 时使用警示色
+      function cby_setStatus(cby_text, cby_warn) {
+        cby_status.textContent = cby_text;
+        cby_status.classList.toggle('cby_status_warn', !!cby_warn);
+      }
+
+      // 功能：标记设备不支持或授权失败，并露出降级按钮
+      function cby_markUnsupported(cby_text) {
+        cby_unsupported = true;
+        cby_setStatus(cby_text, true);
+        cby_fallback.hidden = false;
+        cby_meterValue.textContent = '--';
+        cby_meterValue.classList.remove('cby_meter_hot');
+      }
+
+      // 功能：开始监听 devicemotion，并设置“收不到数据”的超时兜底
+      function cby_startListen() {
+        cby_permit.hidden = true;
+        cby_setStatus('传感器已开启，摇一摇试试');
+        window.addEventListener('devicemotion', cby_onMotion);
+        clearTimeout(cby_dataTimer);
+        cby_dataTimer = setTimeout(function () {
+          if (!cby_gotData) {
+            cby_markUnsupported('没有收到传感器数据，请用手机打开');
+          }
+        }, 3000);
+      }
+
+      // 功能：随机抽取一道菜并播放弹出动画
+      function cby_draw(cby_source) {
+        var cby_i = Math.floor(Math.random() * cby_dishes.length);
+        if (cby_i === cby_lastIndex && cby_dishes.length > 1) {
+          cby_i = (cby_i + 1) % cby_dishes.length;
+        }
+        cby_lastIndex = cby_i;
+
+        var cby_dish = cby_dishes[cby_i];
+        cby_resultEmoji.textContent = cby_dish.emoji;
+        cby_resultName.textContent = cby_dish.name;
+        cby_resultDesc.textContent = cby_dish.desc;
+        cby_result.style.background = cby_dish.bg;
+        cby_result.hidden = false;
+
+        cby_result.classList.remove('cby_pop');
+        void cby_result.offsetWidth;
+        cby_result.classList.add('cby_pop');
+
+        cby_phone.classList.remove('cby_shaking');
+        void cby_phone.offsetWidth;
+        cby_phone.classList.add('cby_shaking');
+        clearTimeout(cby_shakeTimer);
+        cby_shakeTimer = setTimeout(function () {
+          cby_phone.classList.remove('cby_shaking');
+        }, 600);
+
+        if (!cby_unsupported) {
+          cby_setStatus(cby_source === 'shake' ? '摇动成功，今日推荐已更新' : '已为你抽好今日菜谱');
+        }
+      }
+
+      // 功能：读取加速度、刷新数值显示，并在超过阈值时触发抽取（带冷却）
+      function cby_onMotion(cby_e) {
+        var cby_acc = cby_e.accelerationIncludingGravity;
+        if (
+          !cby_acc ||
+          typeof cby_acc.x !== 'number' ||
+          typeof cby_acc.y !== 'number' ||
+          typeof cby_acc.z !== 'number'
+        ) {
+          return;
+        }
+
+        if (!cby_gotData) {
+          cby_gotData = true;
+          cby_unsupported = false;
+          clearTimeout(cby_dataTimer);
+          cby_fallback.hidden = true;
+          cby_setStatus('传感器已就绪，摇一摇试试');
+        }
+
+        var cby_mag = Math.hypot(cby_acc.x, cby_acc.y, cby_acc.z);
+        cby_meterValue.textContent = cby_mag.toFixed(1);
+        cby_meterValue.classList.toggle('cby_meter_hot', cby_mag > cby_THRESHOLD);
+
+        var cby_now = Date.now();
+        if (cby_mag > cby_THRESHOLD && cby_now - cby_lastShake > cby_COOLDOWN) {
+          cby_lastShake = cby_now;
+          cby_draw('shake');
+        }
+      }
+
+      // 功能：申请 iOS 13+ 的运动传感器权限
+      function cby_askPermission() {
+        DeviceMotionEvent.requestPermission()
+          .then(function (cby_state) {
+            if (cby_state === 'granted') {
+              cby_startListen();
+            } else {
+              cby_markUnsupported('未获得运动传感器权限，可手动抽取');
+            }
+          })
+          .catch(function () {
+            cby_markUnsupported('权限申请失败，可手动抽取');
+          });
+      }
+
+      // 功能：初始化设备能力检测，决定直接监听还是等待授权
+      function cby_init() {
+        if (!window.DeviceMotionEvent) {
+          cby_markUnsupported('当前设备不支持摇一摇，请用手机打开');
+          return;
+        }
+
+        if (typeof DeviceMotionEvent.requestPermission === 'function') {
+          cby_permit.hidden = false;
+          cby_setStatus('iOS 需要先授权运动与方向权限');
+          cby_fallback.hidden = false;
+          return;
+        }
+
+        cby_startListen();
+      }
+
+      cby_permit.addEventListener('click', cby_askPermission);
+
+      // 功能：降级按钮——没有传感器时手动抽一次
+      cby_fallback.addEventListener('click', function () {
+        cby_draw('manual');
+      });
+
+      cby_init();
+    })();
+  </script>
+</body>
+</html>
