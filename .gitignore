@@ -1,0 +1,16 @@
+# 姓名：曹炳宇 | 学号：24002120309 |
+# 时间：2026-11-20 | 大模型：Claude Opus 6（claude-opus-6）
+
+# 依赖目录
+node_modules/
+
+# 环境变量与数据库凭据
+.env
+backend/.env
+
+# 日志与系统产物
+npm-debug.log*
+.DS_Store
+
+# 本地编辑器 / 助手工作数据（非项目交付物）
+.workbuddy/

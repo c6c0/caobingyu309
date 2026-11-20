@@ -1,0 +1,111 @@
+<!--
+姓名：曹炳宇 | 学号：24002120309 |
+时间：2026-11-20 | 大模型：Claude Opus 6（claude-opus-6）
+-->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>曹炳宇 · Web 前端课程设计作品集</title>
+  <meta name="description" content="曹炳宇（24002120309）Web 前端设计课程作业首页，汇总全部已完成页面入口。">
+  <link rel="stylesheet" href="css/cby_style.css">
+</head>
+<body>
+  <canvas class="cby_bg_canvas" id="cby_bgCanvas" aria-hidden="true"></canvas>
+
+  <div class="cby_page">
+    <header class="cby_header">
+      <a class="cby_brand" href="index.html">
+        <span class="cby_brand_mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+            <rect x="3" y="3" width="18" height="18" rx="5"></rect>
+            <path d="M8 12h8M12 8v8"></path>
+          </svg>
+        </span>
+        <span class="cby_brand_text">COURSE PROJECT <span class="cby_brand_dot">·</span> 2026</span>
+      </a>
+
+      <div class="cby_category">
+        <span class="cby_category_label">项目类别</span>
+        <div class="cby_category_switch" id="cby_categorySwitch" role="group" aria-label="项目类别">
+          <button class="cby_category_btn cby_is_active" type="button" data-cby-type="自选" aria-pressed="true">自选</button>
+          <button class="cby_category_btn" type="button" data-cby-type="模仿" aria-pressed="false">模仿</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="cby_main">
+      <section class="cby_hero">
+        <p class="cby_eyebrow">WEB 前端设计 · 课程作业</p>
+        <h1 class="cby_title">Web 前端课程设计作品集</h1>
+        <p class="cby_subtitle">原生 HTML / CSS / JavaScript · Node.js + Express · MySQL</p>
+        <div class="cby_meta">
+          <span class="cby_meta_chip">姓名 · 曹炳宇</span>
+          <span class="cby_meta_chip">学号 · 24002120309</span>
+          <span class="cby_meta_chip">项目名称 · Web 前端课程设计作品集</span>
+        </div>
+      </section>
+
+      <section class="cby_stats" aria-label="项目概览">
+        <div class="cby_stat">
+          <span class="cby_stat_num" id="cby_pageCount">1</span>
+          <span class="cby_stat_label">已完成页面</span>
+        </div>
+        <div class="cby_stat">
+          <span class="cby_stat_num">8309</span>
+          <span class="cby_stat_label">服务端口</span>
+        </div>
+        <div class="cby_stat">
+          <span class="cby_stat_num cby_stat_text">/api/</span>
+          <span class="cby_stat_label">接口前缀</span>
+        </div>
+        <div class="cby_stat">
+          <span class="cby_stat_num cby_stat_text" id="cby_serverStatus">检测中</span>
+          <span class="cby_stat_label">后端状态</span>
+        </div>
+      </section>
+
+      <section class="cby_nav_section">
+        <div class="cby_section_head">
+          <div>
+            <h2 class="cby_section_title">页面导航</h2>
+            <p class="cby_section_hint">已完成的全部 HTML 页面入口，新页面完成后按规则在此追加超链接</p>
+          </div>
+          <span class="cby_section_badge">NAVIGATION</span>
+        </div>
+
+        <nav class="cby_nav_grid" id="cby_navGrid" aria-label="页面链接导航">
+          <a class="cby_nav_card" href="index.html">
+            <span class="cby_card_icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round">
+                <path d="M3 10.6 12 3l9 7.6V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"></path>
+              </svg>
+            </span>
+            <span class="cby_card_body">
+              <strong class="cby_card_title">首页 · 项目总览</strong>
+              <span class="cby_card_desc">姓名、学号、项目信息、后端状态与全部页面入口</span>
+            </span>
+            <span class="cby_card_arrow" aria-hidden="true">→</span>
+          </a>
+
+          <div class="cby_nav_card cby_nav_empty">
+            <span class="cby_empty_icon" aria-hidden="true">＋</span>
+            <span class="cby_card_body">
+              <strong class="cby_card_title">更多页面</strong>
+              <span class="cby_card_desc">后续完成的页面会追加到这里</span>
+            </span>
+          </div>
+        </nav>
+      </section>
+    </main>
+
+    <footer class="cby_footer">
+      <span>曹炳宇 · 24002120309 · 2026-11-20</span>
+      <span>服务器数据与错误信息已输出到浏览器控制台</span>
+    </footer>
+  </div>
+
+  <script src="js/cby_main.js"></script>
+</body>
+</html>

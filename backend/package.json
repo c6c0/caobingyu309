@@ -1,0 +1,18 @@
+{
+  "//": "姓名：曹炳宇 | 学号：24002120309 | 时间：2026-11-20 | 大模型：Claude Opus 6（claude-opus-6）",
+  "name": "cby_ccerwe_backend",
+  "version": "1.0.0",
+  "private": true,
+  "description": "课程作业后端：Node.js + Express，RESTful + MVC",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "node --watch app.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^18.0.10",
+    "express": "^5.3.0",
+    "mysql2": "^3.24.6"
+  }
+}
