@@ -32,3 +32,10 @@ _backup/
 
 # 异常空文件
 swiper-task(1
+
+# 数据库凭据
+backend/.env
+.env
+
+# 知识库上传的原文件（运行时生成）
+ccerwe/backend/cby_uploads/
