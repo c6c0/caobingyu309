@@ -27,4 +27,24 @@ const cby_testConnection = async () => {
   }
 };
 
-module.exports = { cby_pool, cby_testConnection };
+/* 按调用方传入的凭据建立一次性连接，读取数据库版本后关闭连接 */
+/* 凭据由控制器从 backend/.env 与请求参数中取得，本文件不硬编码任何账号密码 */
+const cby_connectTest = async (cby_options) => {
+  /* mysql2/promise 的 createConnection 返回 Promise，await 后才是 PromiseConnection */
+  const cby_conn = await cby_mysql.createConnection({
+    host: cby_options.cby_host,
+    port: cby_options.cby_port,
+    user: cby_options.cby_user,
+    password: cby_options.cby_password,
+    connectTimeout: 5000
+  });
+
+  try {
+    const [cby_rows] = await cby_conn.query('SELECT VERSION() AS cby_version');
+    return cby_rows[0].cby_version;
+  } finally {
+    await cby_conn.end().catch(() => {});
+  }
+};
+
+module.exports = { cby_pool, cby_testConnection, cby_connectTest };

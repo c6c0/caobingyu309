@@ -1,0 +1,196 @@
+<!--
+姓名：曹炳宇 | 学号：24002120309 |
+时间：2026-11-25 | 大模型：DeepSeek-V4.1-Flash
+-->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI 五模块案例展示 | 曹炳宇</title>
+  <meta name="description" content="曹炳宇（24002120309）课程作业：把在线客服、知识库上传管理、知识库问答、图像识别、语音识别五个模块合并到一个页面，Tab 内嵌使用并附案例展示。">
+  <link rel="stylesheet" href="css/cby_style.css">
+  <link rel="stylesheet" href="css/cby_showcase.css">
+</head>
+<body>
+  <canvas class="cby_bg_canvas" id="cby_bgCanvas" aria-hidden="true"></canvas>
+
+  <div class="cby_page cby_showcase_page">
+    <header class="cby_header">
+      <a class="cby_brand" href="index.html">
+        <span class="cby_brand_mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+            <rect x="3" y="3" width="18" height="18" rx="5"></rect>
+            <path d="M8 12h8M12 8v8"></path>
+          </svg>
+        </span>
+        <span class="cby_brand_text">COURSE PROJECT <span class="cby_brand_dot">·</span> 2026</span>
+      </a>
+      <div class="cby_show_tag">AI SHOWCASE <span class="cby_brand_dot">/</span> 五模块合并</div>
+    </header>
+
+    <main class="cby_show_main">
+      <section class="cby_show_hero">
+        <p class="cby_eyebrow">高级网页设计 · AI 应用案例</p>
+        <h1 class="cby_show_title">五个 AI 模块，一个页面</h1>
+        <p class="cby_show_subtitle">在线客服、知识库上传管理、知识库问答、图像识别、语音识别已合并到本页：上方 Tab 可直接使用真实页面，下方是每个模块的运行案例与技术说明。</p>
+        <div class="cby_show_stats">
+          <div class="cby_show_stat"><strong>5</strong><span>功能模块</span></div>
+          <div class="cby_show_stat"><strong>4</strong><span>原页面</span></div>
+          <div class="cby_show_stat"><strong>2</strong><span>大模型平台</span></div>
+          <div class="cby_show_stat"><strong>8309</strong><span>后端端口</span></div>
+        </div>
+      </section>
+
+      <section class="cby_show_section">
+        <div class="cby_show_section_head">
+          <h2 class="cby_show_h2">模块合并 · 直接体验</h2>
+          <span class="cby_show_hint">Tab 内嵌的是原页面，需后端 8309 运行；点击下方案例卡可单独打开</span>
+        </div>
+
+        <div class="cby_show_tabs" role="tablist" aria-label="五个功能模块">
+          <button type="button" class="cby_show_tab cby_is_active" role="tab" aria-selected="true" data-cby-view="service">01 在线客服</button>
+          <button type="button" class="cby_show_tab" role="tab" aria-selected="false" data-cby-view="kb-upload">02 知识库上传</button>
+          <button type="button" class="cby_show_tab" role="tab" aria-selected="false" data-cby-view="kb-ask">03 知识库问答</button>
+          <button type="button" class="cby_show_tab" role="tab" aria-selected="false" data-cby-view="vision">04 图像识别</button>
+          <button type="button" class="cby_show_tab" role="tab" aria-selected="false" data-cby-view="asr">05 语音识别</button>
+        </div>
+
+        <div class="cby_show_stage">
+          <div class="cby_show_frame cby_is_active" data-cby-frame="service" data-cby-src="service.html">
+            <iframe class="cby_show_iframe" title="在线客服模块" loading="lazy"></iframe>
+          </div>
+          <div class="cby_show_frame" data-cby-frame="kb" data-cby-src="kb.html">
+            <iframe class="cby_show_iframe" title="知识库模块" loading="lazy"></iframe>
+          </div>
+          <div class="cby_show_frame" data-cby-frame="vision" data-cby-src="vision.html">
+            <iframe class="cby_show_iframe" title="图像识别模块" loading="lazy"></iframe>
+          </div>
+          <div class="cby_show_frame" data-cby-frame="asr" data-cby-src="asr.html">
+            <iframe class="cby_show_iframe" title="语音识别模块" loading="lazy"></iframe>
+          </div>
+        </div>
+      </section>
+
+      <section class="cby_show_section" id="cby_cases">
+        <div class="cby_show_section_head">
+          <h2 class="cby_show_h2">五个模块 · 案例展示</h2>
+          <span class="cby_show_hint">截图来自本机实际运行页面；问答卡为真实测试记录</span>
+        </div>
+
+        <div class="cby_case_grid">
+          <article class="cby_case_card">
+            <a class="cby_case_media" href="service.html" target="_blank" rel="noopener">
+              <img class="cby_case_img" src="images/cby_show_service.png" alt="中华美食街在线客服对话案例">
+              <span class="cby_case_badge">01</span>
+            </a>
+            <div class="cby_case_body">
+              <h3 class="cby_case_title">在线客服 · 中华美食街</h3>
+              <p class="cby_case_desc">只回答营业时间、招牌菜、配送范围三类问题，越界时礼貌引导留言；支持硅基流动与七牛下拉热切换，历史对话保留。</p>
+              <div class="cby_case_tags">
+                <span class="cby_case_tag">POST /api/chat</span>
+                <span class="cby_case_tag">多轮历史</span>
+                <span class="cby_case_tag">平台切换</span>
+              </div>
+              <a class="cby_case_link" href="service.html" target="_blank" rel="noopener">单独打开 →</a>
+            </div>
+          </article>
+
+          <article class="cby_case_card">
+            <a class="cby_case_media" href="kb.html" target="_blank" rel="noopener">
+              <img class="cby_case_img" src="images/cby_show_kb_upload.png" alt="知识库文件上传与管理案例">
+              <span class="cby_case_badge">02</span>
+            </a>
+            <div class="cby_case_body">
+              <h3 class="cby_case_title">知识库上传管理</h3>
+              <p class="cby_case_desc">支持 txt、md、pdf、doc、docx、ppt、pptx，单文件不超过 20 MB；上传后自动解析、分块并写入 MySQL，列表中可查看与删除。</p>
+              <div class="cby_case_tags">
+                <span class="cby_case_tag">POST /api/kb/upload</span>
+                <span class="cby_case_tag">7 种格式</span>
+                <span class="cby_case_tag">20 MB</span>
+              </div>
+              <a class="cby_case_link" href="kb.html" target="_blank" rel="noopener">单独打开 →</a>
+            </div>
+          </article>
+
+          <article class="cby_case_card">
+            <div class="cby_case_media">
+              <div class="cby_case_demo">
+                <div class="cby_demo_msg cby_demo_user">支持哪些知识库文件格式？</div>
+                <div class="cby_demo_msg cby_demo_bot">支持 txt、md、pdf、doc、docx、ppt、pptx，单个文件不超过 20 MB。[3]</div>
+                <div class="cby_demo_sources">
+                  <span class="cby_demo_source">[1] 客服知识库 0.6212</span>
+                  <span class="cby_demo_source">[2] 客服知识库 0.5943</span>
+                  <span class="cby_demo_source">[3] 项目介绍 0.5468</span>
+                </div>
+              </div>
+              <span class="cby_case_badge">03</span>
+            </div>
+            <div class="cby_case_body">
+              <h3 class="cby_case_title">知识库问答 · RAG</h3>
+              <p class="cby_case_desc">问题经 bge-m3 向量化后取余弦相似度前 4 段，交给大模型基于片段作答并标注来源编号，答不出时明确说“未找到”，不编造。</p>
+              <div class="cby_case_tags">
+                <span class="cby_case_tag">POST /api/kb/ask</span>
+                <span class="cby_case_tag">bge-m3</span>
+                <span class="cby_case_tag">Top 4 召回</span>
+              </div>
+              <a class="cby_case_link" href="kb.html" target="_blank" rel="noopener">单独打开 →</a>
+            </div>
+          </article>
+
+          <article class="cby_case_card">
+            <a class="cby_case_media" href="vision.html" target="_blank" rel="noopener">
+              <img class="cby_case_img" src="images/cby_show_vision.png" alt="图像识别模块案例">
+              <span class="cby_case_badge">04</span>
+            </a>
+            <div class="cby_case_body">
+              <h3 class="cby_case_title">图像识别 · 图片描述</h3>
+              <p class="cby_case_desc">上传图片后转为 data URL 交给视觉模型，返回主体、场景、颜色光线与画面文字的描述，并显示 token 用量。</p>
+              <div class="cby_case_tags">
+                <span class="cby_case_tag">POST /api/vision</span>
+                <span class="cby_case_tag">Qwen3-VL-8B</span>
+                <span class="cby_case_tag">base64</span>
+              </div>
+              <a class="cby_case_link" href="vision.html" target="_blank" rel="noopener">单独打开 →</a>
+            </div>
+          </article>
+
+          <article class="cby_case_card">
+            <a class="cby_case_media" href="asr.html" target="_blank" rel="noopener">
+              <img class="cby_case_img" src="images/cby_show_asr.png" alt="语音识别模块案例">
+              <span class="cby_case_badge">05</span>
+            </a>
+            <div class="cby_case_body">
+              <h3 class="cby_case_title">语音识别 · 语音转文字</h3>
+              <p class="cby_case_desc">支持上传音频或浏览器录音，后端转发到七牛音频转写接口，返回文字、时长与模型名，可一键复制识别结果。</p>
+              <div class="cby_case_tags">
+                <span class="cby_case_tag">POST /api/asr</span>
+                <span class="cby_case_tag">七牛</span>
+                <span class="cby_case_tag">录音上传</span>
+              </div>
+              <a class="cby_case_link" href="asr.html" target="_blank" rel="noopener">单独打开 →</a>
+            </div>
+          </article>
+        </div>
+
+        <div class="cby_show_note">
+          <h3 class="cby_show_note_title">运行说明</h3>
+          <ul class="cby_show_note_list">
+            <li>本机启动后端后访问 <code>http://localhost:8309/showcase.html</code>，Tab 内的页面才能正常调用接口。</li>
+            <li>大模型密钥只保存在 <code>backend/.env</code>，浏览器只访问本站接口，不接触任何 Key。</li>
+            <li>知识库需先上传文件并等待解析完成，再提问；删除文件会同时清理向量片段与原文件。</li>
+          </ul>
+        </div>
+      </section>
+    </main>
+
+    <footer class="cby_footer">
+      <span>曹炳宇 · 24002120309 · 2026-11-25</span>
+      <span><a class="cby_show_back" href="index.html">返回首页</a></span>
+    </footer>
+  </div>
+
+  <script src="js/cby_main.js"></script>
+  <script src="js/cby_showcase.js"></script>
+</body>
+</html>

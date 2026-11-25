@@ -1,0 +1,21 @@
+<!--
+姓名：曹炳宇 | 学号：24002120309 |
+时间：2026-11-20 | 大模型：Claude Opus 6（claude-opus-6）
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 180" width="320" height="180" role="img" aria-label="GINKGO AVENUE">
+  <defs>
+    <linearGradient id="cby_grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#e09b3e"/>
+      <stop offset="1" stop-color="#f2c669"/>
+    </linearGradient>
+  </defs>
+  <rect width="320" height="180" rx="16" fill="url(#cby_grad)"/>
+  <path d="M0 150 Q80 118 160 140 T320 124" fill="none" stroke="#ffffff" stroke-opacity="0.35" stroke-width="3"/>
+  <path d="M56 24 V150 M264 24 V150" stroke="#ffffff" stroke-opacity="0.32" stroke-width="4"/>
+  <circle cx="56" cy="42" r="30" fill="#ffffff" fill-opacity="0.18"/>
+  <circle cx="264" cy="56" r="38" fill="#ffffff" fill-opacity="0.16"/>
+  <circle cx="160" cy="30" r="22" fill="#ffffff" fill-opacity="0.12"/>
+  <path d="M120 158 l10 -18 l10 18 z M186 160 l10 -18 l10 18 z" fill="#ffffff" fill-opacity="0.24"/>
+  <text x="22" y="34" font-family="Segoe UI, Arial, sans-serif" font-size="10" letter-spacing="2" fill="#ffffff" fill-opacity="0.82">NATURE / 04</text>
+  <text x="22" y="168" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="700" letter-spacing="2" fill="#ffffff">GINKGO AVENUE</text>
+</svg>

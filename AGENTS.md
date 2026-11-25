@@ -20,6 +20,12 @@
 - 数据库凭据写入 backend/.env（变量名：DB_USER、DB_PASSWORD、DB_HOST、DB_NAME），不得出现在代码或 AGENTS.md 中；.env 同时加入 .gitignore
 - 根据后端的要求自行建立和修改数据库表，每张表建立后，插入至少 8 条有真实业务意义的测试数据
 
+## AI 服务配置（密钥只存 backend/.env）
+
+- 硅基流动：`SILICONFLOW_API_KEY`、`SILICONFLOW_BASE_URL`、`SILICONFLOW_MODEL`、`SILICONFLOW_EMBEDDING_MODEL`、`SILICONFLOW_VISION_MODEL`
+- 七牛云：`QINIU_API_KEY`、`QINIU_ASR_BASE_URL`、`QINIU_ASR_MODEL`、`QINIU_CHAT_BASE_URL`、`QINIU_CHAT_MODEL`
+- 以上密钥只允许写入 `backend/.env`（已加入 `.gitignore`），禁止写入本文件、代码、日志、作业文档与截图
+
 ## 命名与注释
 
 - CSS 类名、JS 变量名、JS 函数名、数据库表名（及字段相关命名）一律以 cby_ 开头

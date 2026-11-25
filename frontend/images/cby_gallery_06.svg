@@ -1,0 +1,20 @@
+<!--
+姓名：曹炳宇 | 学号：24002120309 |
+时间：2026-11-20 | 大模型：Claude Opus 6（claude-opus-6）
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 180" width="320" height="180" role="img" aria-label="CERAMIC STUDIO">
+  <defs>
+    <linearGradient id="cby_grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#a4643f"/>
+      <stop offset="1" stop-color="#d39b6a"/>
+    </linearGradient>
+  </defs>
+  <rect width="320" height="180" rx="16" fill="url(#cby_grad)"/>
+  <ellipse cx="160" cy="140" rx="76" ry="18" fill="#ffffff" fill-opacity="0.16"/>
+  <path d="M118 140 Q112 92 138 84 Q164 76 170 96 Q174 118 202 140 Z" fill="#ffffff" fill-opacity="0.22"/>
+  <path d="M138 84 Q160 78 170 96" fill="none" stroke="#ffffff" stroke-opacity="0.42" stroke-width="2"/>
+  <path d="M226 52 L264 116 M234 48 L272 112" stroke="#ffffff" stroke-opacity="0.30" stroke-width="3"/>
+  <circle cx="66" cy="52" r="22" fill="#ffffff" fill-opacity="0.14"/>
+  <text x="22" y="34" font-family="Segoe UI, Arial, sans-serif" font-size="10" letter-spacing="2" fill="#ffffff" fill-opacity="0.82">CRAFT / 06</text>
+  <text x="22" y="168" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="700" letter-spacing="2" fill="#ffffff">CERAMIC STUDIO</text>
+</svg>

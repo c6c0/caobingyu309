@@ -1,0 +1,20 @@
+<!--
+姓名：曹炳宇 | 学号：24002120309 |
+时间：2026-11-20 | 大模型：Claude Opus 6（claude-opus-6）
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 180" width="320" height="180" role="img" aria-label="MORNING RAIL">
+  <defs>
+    <linearGradient id="cby_grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#3a5f8a"/>
+      <stop offset="1" stop-color="#7b9bc4"/>
+    </linearGradient>
+  </defs>
+  <rect width="320" height="180" rx="16" fill="url(#cby_grad)"/>
+  <path d="M20 152 L128 76 M300 152 L188 76" stroke="#ffffff" stroke-opacity="0.42" stroke-width="3"/>
+  <path d="M20 168 L128 92 M300 168 L188 92" stroke="#ffffff" stroke-opacity="0.28" stroke-width="2"/>
+  <rect x="146" y="70" width="28" height="74" rx="4" fill="#ffffff" fill-opacity="0.16"/>
+  <circle cx="160" cy="52" r="9" fill="#ffffff" fill-opacity="0.44"/>
+  <path d="M0 40 H320 M0 56 H320" stroke="#ffffff" stroke-opacity="0.10" stroke-width="2"/>
+  <text x="22" y="34" font-family="Segoe UI, Arial, sans-serif" font-size="10" letter-spacing="2" fill="#ffffff" fill-opacity="0.82">TRANSIT / 05</text>
+  <text x="22" y="168" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="700" letter-spacing="2" fill="#ffffff">MORNING RAIL</text>
+</svg>

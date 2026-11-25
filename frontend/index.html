@@ -89,6 +89,123 @@
             <span class="cby_card_arrow" aria-hidden="true">→</span>
           </a>
 
+          <a class="cby_nav_card" href="database.html">
+            <span class="cby_card_icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                <ellipse cx="12" cy="5" rx="8" ry="3"></ellipse>
+                <path d="M4 5v7c0 1.66 3.58 3 8 3s8-1.34 8-3V5"></path>
+                <path d="M4 12v7c0 1.66 3.58 3 8 3s8-1.34 8-3v-7"></path>
+              </svg>
+            </span>
+            <span class="cby_card_body">
+              <strong class="cby_card_title">数据库连接测试</strong>
+              <span class="cby_card_desc">输入用户名与密码，调用 /api/db-test 检测 MySQL 并查看数据库版本</span>
+            </span>
+            <span class="cby_card_arrow" aria-hidden="true">→</span>
+          </a>
+
+          <a class="cby_nav_card" href="news.html">
+            <span class="cby_card_icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 5h13a2 2 0 0 1 2 2v12a2 2 0 0 0-2-2H4z"></path>
+                <path d="M4 5v12a2 2 0 0 0 2 2h13"></path>
+                <path d="M8 9h8M8 13h6"></path>
+              </svg>
+            </span>
+            <span class="cby_card_body">
+              <strong class="cby_card_title">科技新闻列表</strong>
+              <span class="cby_card_desc">GET /api/news 读取 MySQL 表 cby_news，按发布时间倒序展示标题、摘要、来源与时间</span>
+            </span>
+            <span class="cby_card_arrow" aria-hidden="true">→</span>
+          </a>
+
+          <a class="cby_nav_card" href="gallery.html">
+            <span class="cby_card_icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="18" height="18" rx="3"></rect>
+                <circle cx="8.5" cy="8.5" r="1.6"></circle>
+                <path d="M3 16l5-4.5 4 3 3.5-2.5L21 17"></path>
+              </svg>
+            </span>
+            <span class="cby_card_body">
+              <strong class="cby_card_title">图文列表</strong>
+              <span class="cby_card_desc">GET /api/gallery 读取 MySQL 表 cby_gallery，响应式网格展示上图下文卡片</span>
+            </span>
+            <span class="cby_card_arrow" aria-hidden="true">→</span>
+          </a>
+
+          <a class="cby_nav_card" href="service.html">
+            <span class="cby_card_icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 12a8 8 0 0 1-8 8H7l-4 3V12a8 8 0 0 1 8-8h2a8 8 0 0 1 8 8z"></path>
+                <path d="M9 11h6M9 14h4"></path>
+              </svg>
+            </span>
+            <span class="cby_card_body">
+              <strong class="cby_card_title">中华美食街 · 在线客服</strong>
+              <span class="cby_card_desc">POST /api/chat 由后端调用大模型，支持硅基流动 / 七牛热切换，只回答营业时间、招牌菜、配送范围</span>
+            </span>
+            <span class="cby_card_arrow" aria-hidden="true">→</span>
+          </a>
+
+          <a class="cby_nav_card" href="kb.html">
+            <span class="cby_card_icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v18H6.5A2.5 2.5 0 0 1 4 18.5z"></path>
+                <path d="M8 7h8M8 11h6"></path>
+              </svg>
+            </span>
+            <span class="cby_card_body">
+              <strong class="cby_card_title">知识库问答 · RAG</strong>
+              <span class="cby_card_desc">上传 doc / docx / ppt / pptx / pdf / txt，解析向量化后检索作答，支持知识库管理</span>
+            </span>
+            <span class="cby_card_arrow" aria-hidden="true">→</span>
+          </a>
+
+          <a class="cby_nav_card" href="vision.html">
+            <span class="cby_card_icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M2 12s3.6-6 10-6 10 6 10 6-3.6 6-10 6-10-6-10-6z"></path>
+                <circle cx="12" cy="12" r="2.6"></circle>
+              </svg>
+            </span>
+            <span class="cby_card_body">
+              <strong class="cby_card_title">图像识别 · Qwen3-VL</strong>
+              <span class="cby_card_desc">POST /api/vision 上传图片，由视觉大模型返回主体、场景与文字描述</span>
+            </span>
+            <span class="cby_card_arrow" aria-hidden="true">→</span>
+          </a>
+
+          <a class="cby_nav_card" href="asr.html">
+            <span class="cby_card_icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="9" y="3" width="6" height="11" rx="3"></rect>
+                <path d="M5 11a7 7 0 0 0 14 0M12 18v3"></path>
+              </svg>
+            </span>
+            <span class="cby_card_body">
+              <strong class="cby_card_title">语音识别 · Qwen-Audio</strong>
+              <span class="cby_card_desc">POST /api/asr 上传或录制语音，调用七牛 Qwen-Audio-3.0-ASR-Flash 转写文字</span>
+            </span>
+            <span class="cby_card_arrow" aria-hidden="true">→</span>
+          </a>
+
+          <a class="cby_nav_card" href="showcase.html">
+            <span class="cby_card_icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="7" height="7" rx="1.6"></rect>
+                <rect x="14" y="3" width="7" height="7" rx="1.6"></rect>
+                <rect x="3" y="14" width="7" height="7" rx="1.6"></rect>
+                <rect x="14" y="14" width="7" height="7" rx="1.6"></rect>
+              </svg>
+            </span>
+            <span class="cby_card_body">
+              <strong class="cby_card_title">AI 五模块 · 案例展示</strong>
+              <span class="cby_card_desc">Tab 合并在线客服、知识库上传与问答、图像识别、语音识别五个模块，并附案例截图与技术说明</span>
+            </span>
+            <span class="cby_card_arrow" aria-hidden="true">→</span>
+          </a>
+
           <div class="cby_nav_card cby_nav_empty">
             <span class="cby_empty_icon" aria-hidden="true">＋</span>
             <span class="cby_card_body">

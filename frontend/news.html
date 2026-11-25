@@ -1,0 +1,70 @@
+<!--
+姓名：曹炳宇 | 学号：24002120309 |
+时间：2026-11-20 | 大模型：Claude Opus 6（claude-opus-6）
+-->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>科技新闻列表 · 曹炳宇</title>
+  <meta name="description" content="曹炳宇（24002120309）课程作业：通过 GET /api/news 读取 MySQL 表 cby_news，按发布时间倒序展示科技新闻。">
+  <link rel="stylesheet" href="css/cby_style.css">
+  <link rel="stylesheet" href="css/cby_news.css">
+</head>
+<body>
+  <canvas class="cby_bg_canvas" id="cby_bgCanvas" aria-hidden="true"></canvas>
+
+  <div class="cby_page cby_news_page">
+    <header class="cby_header">
+      <a class="cby_brand" href="index.html">
+        <span class="cby_brand_mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+            <rect x="3" y="3" width="18" height="18" rx="5"></rect>
+            <path d="M8 12h8M12 8v8"></path>
+          </svg>
+        </span>
+        <span class="cby_brand_text">COURSE PROJECT <span class="cby_brand_dot">·</span> 2026</span>
+      </a>
+      <div class="cby_db_tag">NEWS <span class="cby_brand_dot">/</span> cby_news</div>
+    </header>
+
+    <main class="cby_news_main">
+      <section class="cby_news_hero">
+        <p class="cby_eyebrow">WEB 前端设计 · 课程作业</p>
+        <h1 class="cby_news_title">科技新闻列表</h1>
+        <p class="cby_news_subtitle">数据取自 MySQL 表 cby_news，由后端接口按发布时间倒序返回</p>
+
+        <!-- 顶部接口地址条：由 cby_news.js 写入当前实际调用的完整地址 -->
+        <div class="cby_api_box">
+          <span class="cby_api_method">GET</span>
+          <code class="cby_api_url" id="cby_apiUrl">/api/news</code>
+          <span class="cby_api_hint" id="cby_apiStatus">等待请求</span>
+        </div>
+      </section>
+
+      <section class="cby_news_section" aria-labelledby="cby_newsSectionTitle">
+        <div class="cby_section_head">
+          <div>
+            <h2 class="cby_section_title" id="cby_newsSectionTitle">新闻列表</h2>
+            <p class="cby_section_hint">共 <strong class="cby_news_count" id="cby_newsCount">0</strong> 条 · 标题、摘要、来源、发布时间</p>
+          </div>
+          <span class="cby_section_badge">NEWS LIST</span>
+        </div>
+
+        <div class="cby_news_list" id="cby_newsList" aria-live="polite">
+          <p class="cby_news_placeholder">正在加载新闻数据…</p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="cby_footer">
+      <span>曹炳宇 · 24002120309 · 2026-11-20</span>
+      <span>服务器返回的数据与错误信息已输出到浏览器控制台</span>
+    </footer>
+  </div>
+
+  <script src="js/cby_main.js"></script>
+  <script src="js/cby_news.js"></script>
+</body>
+</html>
