@@ -1,0 +1,83 @@
+<!--
+姓名：曹炳宇 | 学号：24002120309 |
+时间：2026-11-20 | 大模型：Claude Opus 6（claude-opus-6）
+-->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>数据库连接测试 · 曹炳宇</title>
+  <meta name="description" content="曹炳宇（24002120309）课程作业：输入用户名与密码，调用 /api/db-test 测试 MySQL 连接并查看数据库版本。">
+  <link rel="stylesheet" href="css/cby_style.css">
+  <link rel="stylesheet" href="css/cby_database.css">
+</head>
+<body>
+  <canvas class="cby_bg_canvas" id="cby_bgCanvas" aria-hidden="true"></canvas>
+
+  <div class="cby_page cby_db_page">
+    <header class="cby_header">
+      <a class="cby_brand" href="index.html">
+        <span class="cby_brand_mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+            <rect x="3" y="3" width="18" height="18" rx="5"></rect>
+            <path d="M8 12h8M12 8v8"></path>
+          </svg>
+        </span>
+        <span class="cby_brand_text">COURSE PROJECT <span class="cby_brand_dot">·</span> 2026</span>
+      </a>
+      <div class="cby_db_tag">DATABASE <span class="cby_brand_dot">/</span> MySQL</div>
+    </header>
+
+    <main class="cby_db_main">
+      <section class="cby_db_hero">
+        <p class="cby_eyebrow">WEB 前端设计 · 课程作业</p>
+        <h1 class="cby_db_title">数据库连接测试</h1>
+        <p class="cby_db_subtitle">提交用户名与密码，由后端通过 mysql2 尝试连接 MySQL 并返回数据库版本</p>
+      </section>
+
+      <section class="cby_db_card" aria-labelledby="cby_dbFormTitle">
+        <div class="cby_db_card_head">
+          <h2 class="cby_db_card_title" id="cby_dbFormTitle">连接参数</h2>
+          <span class="cby_db_badge">POST /api/db-test</span>
+        </div>
+
+        <!-- 输入框中的值只是页面默认填充值；后端建立连接的凭据一律从 backend/.env 与本次请求中取得，代码内不硬编码 -->
+        <form class="cby_db_form" id="cby_dbForm" autocomplete="off" novalidate>
+          <label class="cby_field" for="cby_dbUser">
+            <span class="cby_field_label">用户名</span>
+            <input class="cby_input" id="cby_dbUser" name="cby_username" type="text" value="root" placeholder="请输入数据库用户名" spellcheck="false">
+          </label>
+
+          <label class="cby_field" for="cby_dbPassword">
+            <span class="cby_field_label">密码</span>
+            <input class="cby_input" id="cby_dbPassword" name="cby_password" type="password" value="680601" placeholder="请输入数据库密码">
+          </label>
+
+          <div class="cby_db_actions">
+            <button class="cby_test_btn" id="cby_dbTestBtn" type="submit">测试连接</button>
+            <a class="cby_back_link" href="index.html">返回首页</a>
+          </div>
+        </form>
+
+        <div class="cby_result" id="cby_dbResult" role="status" aria-live="polite">
+          <p class="cby_result_placeholder">尚未测试，填写凭据后点击「测试连接」查看结果</p>
+        </div>
+      </section>
+
+      <section class="cby_db_note" aria-label="凭据说明">
+        <strong class="cby_note_title">凭据说明</strong>
+        <p class="cby_note_text">主机地址、端口与数据库名由 <code>backend/.env</code> 的 DB_HOST、DB_PORT、DB_NAME 提供；本次提交的用户名与密码用于建立连接测试，留空时后端回退到 .env 中的 DB_USER / DB_PASSWORD。后端源码与 AGENTS.md 中不含任何明文密码。</p>
+      </section>
+    </main>
+
+    <footer class="cby_footer">
+      <span>曹炳宇 · 24002120309 · 2026-11-20</span>
+      <span>服务器返回的数据与错误信息已输出到浏览器控制台</span>
+    </footer>
+  </div>
+
+  <script src="js/cby_main.js"></script>
+  <script src="js/cby_database.js"></script>
+</body>
+</html>

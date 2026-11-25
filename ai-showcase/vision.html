@@ -1,0 +1,93 @@
+<!--
+姓名：曹炳宇 | 学号：24002120309 |
+时间：2026-11-25 | 大模型：DeepSeek-V4.1-Flash
+-->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>图像识别 · 曹炳宇</title>
+  <meta name="description" content="曹炳宇（24002120309）课程作业：上传图片，调用硅基流动视觉大模型返回图片描述。">
+  <link rel="stylesheet" href="css/cby_style.css">
+  <link rel="stylesheet" href="css/cby_ai.css">
+</head>
+<body>
+  <canvas class="cby_bg_canvas" id="cby_bgCanvas" aria-hidden="true"></canvas>
+
+  <div class="cby_page cby_ai_page">
+    <header class="cby_header">
+      <a class="cby_brand" href="index.html">
+        <span class="cby_brand_mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+            <rect x="3" y="3" width="18" height="18" rx="5"></rect>
+            <path d="M8 12h8M12 8v8"></path>
+          </svg>
+        </span>
+        <span class="cby_brand_text">COURSE PROJECT <span class="cby_brand_dot">·</span> 2026</span>
+      </a>
+      <div class="cby_ai_tag">VISION <span class="cby_brand_dot">/</span> Qwen3-VL</div>
+    </header>
+
+    <main class="cby_ai_main">
+      <section class="cby_ai_hero">
+        <p class="cby_eyebrow">多模态 · 图像理解</p>
+        <h1 class="cby_ai_title">图像识别</h1>
+        <p class="cby_ai_subtitle">上传图片后由后端调用硅基流动视觉大模型，返回图片的主体、场景、颜色、文字与氛围描述；密钥保存在服务器 .env 中</p>
+
+        <div class="cby_ai_api">
+          <span class="cby_ai_api_method">POST</span>
+          <code class="cby_ai_api_url" id="cby_visionApiUrl">/api/vision</code>
+          <span class="cby_ai_api_hint" id="cby_visionStatus">等待上传</span>
+        </div>
+      </section>
+
+      <section class="cby_ai_grid cby_ai_grid_wide">
+        <div class="cby_panel">
+          <div class="cby_panel_head">
+            <strong class="cby_panel_title">上传图片</strong>
+            <span class="cby_panel_hint">jpg / png / webp / gif / bmp，≤ 20MB</span>
+          </div>
+
+          <label class="cby_drop" id="cby_imageDrop">
+            <input type="file" id="cby_imageInput" accept=".jpg,.jpeg,.png,.webp,.gif,.bmp" hidden>
+            <span class="cby_drop_icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="4" width="18" height="16" rx="3"></rect>
+                <circle cx="8.5" cy="9.5" r="1.6"></circle>
+                <path d="M21 15l-4.5-4.5L6 21"></path>
+              </svg>
+            </span>
+            <span class="cby_drop_text">点击或拖拽上传图片</span>
+            <span class="cby_drop_hint">上传后点击下方按钮开始识别</span>
+          </label>
+
+          <div class="cby_preview" id="cby_imagePreview">
+            <span class="cby_preview_empty">图片预览区<br>尚未选择图片</span>
+          </div>
+
+          <button type="button" class="cby_btn_primary cby_btn_block" id="cby_recognizeBtn" disabled>开始识别</button>
+          <p class="cby_status_line" id="cby_visionHint">请选择一张图片</p>
+        </div>
+
+        <div class="cby_panel">
+          <div class="cby_panel_head">
+            <strong class="cby_panel_title">识别结果</strong>
+            <span class="cby_panel_hint" id="cby_visionModel">模型：Qwen/Qwen3-VL-8B-Instruct</span>
+          </div>
+          <div class="cby_result" id="cby_visionResult">图片描述会显示在这里。识别过程与返回数据同时输出到浏览器控制台，后端控制台可查看发送给大模型的完整数据。</div>
+          <div class="cby_meta_row" id="cby_visionMeta"></div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="cby_footer">
+      <span>曹炳宇 · 24002120309 · 2026-11-25</span>
+      <span>服务器返回的数据与错误信息已输出到浏览器控制台</span>
+    </footer>
+  </div>
+
+  <script src="js/cby_main.js"></script>
+  <script src="js/cby_vision.js"></script>
+</body>
+</html>

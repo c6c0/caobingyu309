@@ -1,0 +1,260 @@
+/*
+姓名：曹炳宇 | 学号：24002120309 |
+时间：2026-11-20 | 大模型：Claude Opus 6（claude-opus-6）
+*/
+
+.cby_db_page { max-width: 820px; }
+
+.cby_db_tag {
+  padding: 7px 15px;
+  border: 1px solid var(--cby_border);
+  border-radius: 999px;
+  color: var(--cby_primary);
+  background: rgba(255, 255, 255, 0.62);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  white-space: nowrap;
+}
+
+.cby_db_main { padding-top: 54px; }
+
+.cby_db_hero {
+  text-align: center;
+  animation: cby_fade_up 0.8s 0.06s ease both;
+}
+
+.cby_db_title {
+  margin: 0;
+  font-size: clamp(30px, 5vw, 46px);
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  background: linear-gradient(100deg, #17213c 8%, var(--cby_primary) 52%, #16b8a6 98%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.cby_db_subtitle {
+  margin: 14px 0 0;
+  color: var(--cby_muted);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.cby_db_card {
+  margin-top: 38px;
+  padding: 30px;
+  border: 1px solid var(--cby_border);
+  border-radius: var(--cby_radius);
+  background: var(--cby_surface);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: var(--cby_shadow);
+  animation: cby_fade_up 0.8s 0.14s ease both;
+}
+
+.cby_db_card_head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--cby_border);
+}
+
+.cby_db_card_title {
+  margin: 0;
+  font-size: 19px;
+  font-weight: 800;
+}
+
+.cby_db_badge {
+  padding: 5px 12px;
+  border-radius: 999px;
+  color: var(--cby_primary);
+  background: rgba(79, 109, 245, 0.10);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.cby_db_form {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+  padding: 24px 0 6px;
+}
+
+.cby_field {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  min-width: 0;
+}
+
+.cby_field_label {
+  color: var(--cby_muted);
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+
+.cby_input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid rgba(79, 109, 245, 0.22);
+  border-radius: 12px;
+  outline: none;
+  background: rgba(255, 255, 255, 0.86);
+  color: var(--cby_ink);
+  font: inherit;
+  font-size: 14px;
+  transition: border-color 0.22s ease, box-shadow 0.22s ease;
+}
+
+.cby_input:focus {
+  border-color: var(--cby_primary);
+  box-shadow: 0 0 0 4px rgba(79, 109, 245, 0.12);
+}
+
+.cby_input::placeholder { color: #9aa7bf; }
+
+.cby_db_actions {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+.cby_test_btn {
+  min-width: 132px;
+  padding: 12px 24px;
+  border: 0;
+  border-radius: 12px;
+  color: #fff;
+  background: linear-gradient(135deg, var(--cby_primary), #6f66f5);
+  box-shadow: 0 10px 22px rgba(79, 109, 245, 0.30);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.22s ease, box-shadow 0.22s ease, opacity 0.22s ease;
+}
+
+.cby_test_btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 28px rgba(79, 109, 245, 0.38);
+}
+
+.cby_test_btn:disabled { opacity: 0.62; cursor: wait; }
+
+.cby_back_link {
+  color: var(--cby_muted);
+  font-size: 13px;
+  text-decoration: none;
+  transition: color 0.22s ease;
+}
+
+.cby_back_link:hover { color: var(--cby_primary); }
+
+.cby_result {
+  margin-top: 24px;
+  padding: 18px 20px;
+  border: 1px dashed rgba(79, 109, 245, 0.24);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.48);
+  font-size: 13.5px;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+
+.cby_result_placeholder {
+  margin: 0;
+  color: var(--cby_muted);
+  font-size: 13px;
+}
+
+/* 成功：绿色；失败：红色 */
+.cby_result_success {
+  border: 1px solid rgba(15, 138, 95, 0.38);
+  background: rgba(22, 163, 113, 0.10);
+  color: #0f8a5f;
+}
+
+.cby_result_error {
+  border: 1px solid rgba(214, 58, 58, 0.38);
+  background: rgba(214, 58, 58, 0.09);
+  color: #d63a3a;
+}
+
+.cby_result_head {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 8px;
+}
+
+.cby_result_dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.55);
+}
+
+.cby_result_title { font-size: 15px; font-weight: 800; }
+
+.cby_result_msg { margin: 0 0 12px; font-size: 13.5px; }
+
+.cby_result_list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 8px 20px;
+  margin: 0;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.7);
+}
+
+.cby_result_row { display: flex; gap: 8px; font-size: 12.5px; }
+
+.cby_result_key { flex: 0 0 auto; opacity: 0.78; }
+.cby_result_value { font-weight: 700; }
+
+.cby_db_note {
+  margin-top: 22px;
+  padding: 18px 22px;
+  border: 1px solid var(--cby_border);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.56);
+  animation: cby_fade_up 0.8s 0.22s ease both;
+}
+
+.cby_note_title { font-size: 13px; color: var(--cby_primary); }
+
+.cby_note_text {
+  margin: 8px 0 0;
+  color: var(--cby_muted);
+  font-size: 12.5px;
+  line-height: 1.85;
+}
+
+.cby_note_text code {
+  padding: 2px 6px;
+  border-radius: 5px;
+  background: rgba(79, 109, 245, 0.10);
+  color: var(--cby_primary);
+  font-size: 12px;
+}
+
+.cby_db_page .cby_footer { margin-top: 40px; }
+
+@media (max-width: 640px) {
+  .cby_db_main { padding-top: 36px; }
+  .cby_db_card { padding: 22px 18px; }
+  .cby_db_form { grid-template-columns: 1fr; }
+  .cby_result_list { grid-template-columns: 1fr; }
+}

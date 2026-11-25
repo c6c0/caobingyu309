@@ -1,0 +1,19 @@
+<!--
+姓名：曹炳宇 | 学号：24002120309 |
+时间：2026-11-20 | 大模型：Claude Opus 6（claude-opus-6）
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 180" width="320" height="180" role="img" aria-label="CHIP LAB">
+  <defs>
+    <linearGradient id="cby_grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0f8a7e"/>
+      <stop offset="1" stop-color="#16b8a6"/>
+    </linearGradient>
+  </defs>
+  <rect width="320" height="180" rx="16" fill="url(#cby_grad)"/>
+  <rect x="96" y="46" width="128" height="98" rx="10" fill="#ffffff" fill-opacity="0.14"/>
+  <rect x="118" y="66" width="88" height="58" rx="4" fill="none" stroke="#ffffff" stroke-opacity="0.55" stroke-width="2"/>
+  <path d="M96 68 H64 M96 94 H64 M96 120 H64 M224 68 H256 M224 94 H256 M224 120 H256" stroke="#ffffff" stroke-opacity="0.42" stroke-width="3"/>
+  <path d="M162 46 V22 M136 144 V166 M188 144 V166" stroke="#ffffff" stroke-opacity="0.30" stroke-width="2"/>
+  <text x="22" y="34" font-family="Segoe UI, Arial, sans-serif" font-size="10" letter-spacing="2" fill="#ffffff" fill-opacity="0.82">TECH / 03</text>
+  <text x="22" y="168" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="700" letter-spacing="2" fill="#ffffff">CHIP LAB</text>
+</svg>

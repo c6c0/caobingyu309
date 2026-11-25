@@ -1,0 +1,19 @@
+<!--
+姓名：曹炳宇 | 学号：24002120309 |
+时间：2026-11-20 | 大模型：Claude Opus 6（claude-opus-6）
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 180" width="320" height="180" role="img" aria-label="WINTER NOODLES">
+  <defs>
+    <linearGradient id="cby_grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#c95f43"/>
+      <stop offset="1" stop-color="#efa06b"/>
+    </linearGradient>
+  </defs>
+  <rect width="320" height="180" rx="16" fill="url(#cby_grad)"/>
+  <ellipse cx="160" cy="118" rx="92" ry="46" fill="#ffffff" fill-opacity="0.14"/>
+  <ellipse cx="160" cy="112" rx="76" ry="34" fill="#ffffff" fill-opacity="0.18"/>
+  <path d="M128 66 Q140 46 132 28 M160 62 Q172 42 164 22 M192 66 Q204 46 196 28" fill="none" stroke="#ffffff" stroke-opacity="0.34" stroke-width="3" stroke-linecap="round"/>
+  <path d="M214 108 L286 92 M214 120 L286 104" stroke="#ffffff" stroke-opacity="0.32" stroke-width="3" stroke-linecap="round"/>
+  <text x="22" y="34" font-family="Segoe UI, Arial, sans-serif" font-size="10" letter-spacing="2" fill="#ffffff" fill-opacity="0.82">FOOD / 07</text>
+  <text x="22" y="168" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="700" letter-spacing="2" fill="#ffffff">WINTER NOODLES</text>
+</svg>

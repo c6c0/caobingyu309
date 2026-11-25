@@ -1,0 +1,21 @@
+<!--
+姓名：曹炳宇 | 学号：24002120309 |
+时间：2026-11-20 | 大模型：Claude Opus 6（claude-opus-6）
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 180" width="320" height="180" role="img" aria-label="AI COMPUTE">
+  <defs>
+    <linearGradient id="cby_grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#4f6df5"/>
+      <stop offset="1" stop-color="#7c6cf6"/>
+    </linearGradient>
+  </defs>
+  <rect width="320" height="180" rx="16" fill="url(#cby_grad)"/>
+  <circle cx="262" cy="34" r="76" fill="#ffffff" fill-opacity="0.10"/>
+  <circle cx="54" cy="168" r="58" fill="#ffffff" fill-opacity="0.08"/>
+  <path d="M0 118 L64 78 L112 104 L176 52 L232 88 L320 40" fill="none" stroke="#ffffff" stroke-opacity="0.42" stroke-width="1.6"/>
+  <path d="M0 138 L64 98 L112 124 L176 72 L232 108 L320 60" fill="none" stroke="#ffffff" stroke-opacity="0.22" stroke-width="1.2"/>
+  <circle cx="176" cy="52" r="4" fill="#ffffff" fill-opacity="0.85"/>
+  <circle cx="232" cy="88" r="4" fill="#ffffff" fill-opacity="0.85"/>
+  <text x="22" y="36" font-family="Segoe UI, Arial, sans-serif" font-size="11" letter-spacing="2" fill="#ffffff" fill-opacity="0.82">TECH NEWS / 01</text>
+  <text x="22" y="156" font-family="Segoe UI, Arial, sans-serif" font-size="17" font-weight="700" letter-spacing="2" fill="#ffffff">AI COMPUTE</text>
+</svg>

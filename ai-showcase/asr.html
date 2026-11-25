@@ -1,0 +1,96 @@
+<!--
+姓名：曹炳宇 | 学号：24002120309 |
+时间：2026-11-25 | 大模型：DeepSeek-V4.1-Flash
+-->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>语音识别 · 曹炳宇</title>
+  <meta name="description" content="曹炳宇（24002120309）课程作业：上传或录制语音，调用七牛 Qwen-Audio-3.0-ASR-Flash 模型转写为文字。">
+  <link rel="stylesheet" href="css/cby_style.css">
+  <link rel="stylesheet" href="css/cby_ai.css">
+</head>
+<body>
+  <canvas class="cby_bg_canvas" id="cby_bgCanvas" aria-hidden="true"></canvas>
+
+  <div class="cby_page cby_ai_page">
+    <header class="cby_header">
+      <a class="cby_brand" href="index.html">
+        <span class="cby_brand_mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+            <rect x="3" y="3" width="18" height="18" rx="5"></rect>
+            <path d="M8 12h8M12 8v8"></path>
+          </svg>
+        </span>
+        <span class="cby_brand_text">COURSE PROJECT <span class="cby_brand_dot">·</span> 2026</span>
+      </a>
+      <div class="cby_ai_tag">SPEECH <span class="cby_brand_dot">/</span> QWEN-AUDIO</div>
+    </header>
+
+    <main class="cby_ai_main">
+      <section class="cby_ai_hero">
+        <p class="cby_eyebrow">语音 · 语音转写</p>
+        <h1 class="cby_ai_title">语音识别</h1>
+        <p class="cby_ai_subtitle">上传语音文件或直接录音，由后端调用七牛云 Qwen-Audio-3.0-ASR-Flash 模型转写为文字，支持 5 分钟以内的音频</p>
+
+        <div class="cby_ai_api">
+          <span class="cby_ai_api_method">POST</span>
+          <code class="cby_ai_api_url" id="cby_asrApiUrl">/api/asr</code>
+          <span class="cby_ai_api_hint" id="cby_asrStatus">等待语音</span>
+        </div>
+      </section>
+
+      <section class="cby_ai_grid cby_ai_grid_wide">
+        <div class="cby_panel">
+          <div class="cby_panel_head">
+            <strong class="cby_panel_title">上传 / 录制语音</strong>
+            <span class="cby_panel_hint">mp3 / wav / m4a / webm / ogg / flac，≤ 20MB</span>
+          </div>
+
+          <label class="cby_drop" id="cby_audioDrop">
+            <input type="file" id="cby_audioInput" accept=".mp3,.wav,.m4a,.webm,.ogg,.flac,.aac,.opus" hidden>
+            <span class="cby_drop_icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="9" y="3" width="6" height="11" rx="3"></rect>
+                <path d="M5 11a7 7 0 0 0 14 0M12 18v3"></path>
+              </svg>
+            </span>
+            <span class="cby_drop_text">点击或拖拽上传语音文件</span>
+            <span class="cby_drop_hint">也可以使用下方"开始录音"直接用麦克风输入</span>
+          </label>
+
+          <p class="cby_status_line" id="cby_audioName">尚未选择音频</p>
+          <audio class="cby_audio" id="cby_audioPlayer" controls hidden></audio>
+
+          <div class="cby_record_row">
+            <button type="button" class="cby_btn_ghost" id="cby_recordBtn">开始录音</button>
+            <span class="cby_status_line" id="cby_recordHint" style="margin: 0;">需要浏览器麦克风权限</span>
+          </div>
+
+          <button type="button" class="cby_btn_primary cby_btn_block" id="cby_transcribeBtn" disabled>开始识别</button>
+          <p class="cby_status_line" id="cby_audioHint">请选择音频文件或录制一段语音</p>
+        </div>
+
+        <div class="cby_panel">
+          <div class="cby_panel_head">
+            <strong class="cby_panel_title">识别结果</strong>
+            <button type="button" class="cby_btn_ghost" id="cby_copyBtn" disabled>复制文字</button>
+          </div>
+          <div class="cby_result" id="cby_asrResult">转写文字会显示在这里。后端控制台会输出发送给七牛模型的数据与返回结果。</div>
+          <div class="cby_meta_row" id="cby_asrMeta"></div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="cby_footer">
+      <span>曹炳宇 · 24002120309 · 2026-11-25</span>
+      <span>服务器返回的数据与错误信息已输出到浏览器控制台</span>
+    </footer>
+  </div>
+
+  <script src="js/cby_main.js"></script>
+  <script src="js/cby_asr.js"></script>
+</body>
+</html>

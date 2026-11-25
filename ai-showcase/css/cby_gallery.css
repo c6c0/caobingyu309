@@ -1,0 +1,264 @@
+/*
+姓名：曹炳宇 | 学号：24002120309 |
+时间：2026-11-20 | 大模型：Claude Opus 6（claude-opus-6）
+*/
+
+/* 图文列表页：顶部接口条 + 响应式「上图下文」网格 */
+.cby_gallery_page { max-width: 1080px; }
+
+.cby_gallery_main { padding-top: 54px; }
+
+.cby_gallery_hero {
+  text-align: center;
+  animation: cby_fade_up 0.8s 0.06s ease both;
+}
+
+.cby_gallery_title {
+  margin: 0;
+  font-size: clamp(30px, 5vw, 48px);
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  background: linear-gradient(100deg, #17213c 8%, var(--cby_primary) 52%, #16b8a6 98%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.cby_gallery_subtitle {
+  margin: 14px 0 0;
+  color: var(--cby_muted);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.cby_api_box {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 26px;
+  padding: 9px 16px 9px 9px;
+  border: 1px solid var(--cby_border);
+  border-radius: 999px;
+  background: var(--cby_surface);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: var(--cby_shadow);
+  font-size: 13px;
+}
+
+.cby_api_method {
+  padding: 5px 12px;
+  border-radius: 999px;
+  color: #fff;
+  background: linear-gradient(135deg, var(--cby_primary), #6f66f5);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+}
+
+.cby_api_url {
+  color: var(--cby_ink);
+  font-family: Consolas, "Courier New", monospace;
+  font-size: 12.5px;
+  overflow-wrap: anywhere;
+}
+
+.cby_api_hint {
+  color: var(--cby_muted);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.cby_api_hint.cby_is_ok { color: #0f8a5f; font-weight: 700; }
+.cby_api_hint.cby_is_error { color: #d63a3a; font-weight: 700; }
+
+.cby_gallery_section {
+  margin-top: 46px;
+  animation: cby_fade_up 0.8s 0.16s ease both;
+}
+
+.cby_gallery_count { color: var(--cby_primary); }
+
+.cby_gallery_tip,
+.cby_gallery_empty,
+.cby_gallery_error {
+  grid-column: 1 / -1;
+  margin: 0;
+  padding: 34px 20px;
+  border: 1px dashed rgba(79, 109, 245, 0.24);
+  border-radius: var(--cby_radius);
+  background: rgba(255, 255, 255, 0.48);
+  color: var(--cby_muted);
+  font-size: 13.5px;
+  text-align: center;
+}
+
+.cby_gallery_error {
+  border: 1px solid rgba(214, 58, 58, 0.35);
+  background: rgba(214, 58, 58, 0.07);
+  color: #d63a3a;
+}
+
+/* 网格：列宽自适应，窄屏自动降为单列 */
+.cby_gallery_grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 20px;
+  align-items: stretch;
+}
+
+.cby_gallery_card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--cby_border);
+  border-radius: var(--cby_radius);
+  background: var(--cby_surface);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: var(--cby_shadow);
+  transition: transform 0.26s ease, box-shadow 0.26s ease, border-color 0.26s ease;
+}
+
+.cby_gallery_card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(79, 109, 245, 0.36);
+  box-shadow: 0 24px 56px rgba(31, 54, 112, 0.17);
+}
+
+/* 图片区固定 16:9，占位色块与图片共用同一容器尺寸 */
+.cby_gallery_media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: linear-gradient(135deg, rgba(79, 109, 245, 0.18), rgba(22, 184, 166, 0.18));
+}
+
+.cby_gallery_img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 图片加载中的中性提示，避免出现空白或破图 */
+.cby_gallery_loading {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  background: linear-gradient(135deg, rgba(79, 109, 245, 0.34), rgba(124, 108, 246, 0.34));
+}
+
+/* 图片加载失败后的占位色块：渐变背景 + 图片框图形 + 文字，无任何破图图标 */
+.cby_gallery_placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: rgba(255, 255, 255, 0.94);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  background:
+    radial-gradient(120px 80px at 18% 20%, rgba(255, 255, 255, 0.18), transparent 70%),
+    linear-gradient(135deg, #6a74d8 0%, #4f6df5 52%, #16b8a6 100%);
+}
+
+.cby_gallery_placeholder_text {
+  position: relative;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.14);
+  font-size: 11.5px;
+}
+
+.cby_gallery_placeholder::before {
+  content: '';
+  position: relative;
+  width: 46px;
+  height: 36px;
+  border: 2px solid rgba(255, 255, 255, 0.85);
+  border-radius: 7px;
+  background:
+    radial-gradient(circle at 32% 30%, rgba(255, 255, 255, 0.9) 0 3px, transparent 4px),
+    linear-gradient(135deg, transparent 52%, rgba(255, 255, 255, 0.55) 53% 68%, transparent 69%);
+}
+
+.cby_gallery_body {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  flex: 1;
+  padding: 16px 18px 18px;
+}
+
+.cby_gallery_card_title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.45;
+}
+
+.cby_gallery_desc {
+  margin: 0;
+  color: var(--cby_muted);
+  font-size: 12.8px;
+  line-height: 1.75;
+}
+
+.cby_gallery_meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: auto;
+  padding-top: 10px;
+  font-size: 11.5px;
+}
+
+.cby_gallery_category {
+  padding: 4px 10px;
+  border-radius: 999px;
+  color: var(--cby_primary);
+  background: rgba(79, 109, 245, 0.10);
+  font-weight: 600;
+}
+
+.cby_gallery_time {
+  color: var(--cby_muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.cby_gallery_page .cby_footer { margin-top: 44px; }
+
+/* 平板与手机适配 */
+@media (max-width: 680px) {
+  .cby_gallery_page { padding-left: 18px; padding-right: 18px; }
+  .cby_gallery_main { padding-top: 36px; }
+  .cby_gallery_section { margin-top: 34px; }
+  .cby_gallery_grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+  .cby_gallery_body { padding: 14px 14px 16px; }
+  .cby_gallery_card_title { font-size: 14.5px; }
+  .cby_gallery_desc { font-size: 12px; }
+  .cby_api_box { margin-top: 20px; }
+}
+
+@media (max-width: 460px) {
+  .cby_gallery_page { padding-left: 14px; padding-right: 14px; }
+  .cby_gallery_grid { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  .cby_header { padding: 10px 14px; }
+  .cby_gallery_subtitle { font-size: 13px; }
+  .cby_api_box { font-size: 12px; gap: 8px; }
+  .cby_api_url { font-size: 11.5px; }
+  .cby_footer { flex-direction: column; gap: 6px; }
+}
